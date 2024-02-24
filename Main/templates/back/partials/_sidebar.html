@@ -1,0 +1,112 @@
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- User Profile-->
+        <div class="user-profile">
+            <div class="user-pro-body">
+                <div><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"></div>
+                <div class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu"
+                       data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave Gection
+                        <span class="caret"></span></a>
+                    <div class="dropdown-menu animated flipInY">
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                        <!-- text-->
+                        <div class="dropdown-divider"></div>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings"></i> Account
+                            Setting</a>
+                        <!-- text-->
+                        <div class="dropdown-divider"></div>
+                        <!-- text-->
+                        <a href="pages-login.html" class="dropdown-item"><i class="fas fa-power-off"></i> Logout</a>
+                        <!-- text-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="nav-small-cap">--- PERSONAL</li>
+                <li>
+                    <a class="waves-effect waves-dark" href="{% url 'panel_index' '' %}" aria-expanded="false">
+                        <i class="icons-Home"></i>
+                        <span class="hide-menu">Home</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">--- Main</li>
+                <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                        class="ti-layout-media-right-alt"></i><span class="hide-menu">Main</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="{% url 'panel_tickets_lists' %}">Tickets List</a></li>
+                        <li><a href="{% url 'panel_add_cat_footer' %}">Add Cat Footer</a></li>
+                        <li><a href="{% url 'panel_add_menu' %}">Menu</a></li>
+                        <li><a href="{% url 'panel_footer' %}">Footer</a></li>
+                        <li><a href="{% url 'panel_main_model' %}">Main Details</a></li>
+                        <li><a href="{% url 'panel_chat' %}">Chat App</a></li>
+                        <li><a href="{% url 'panel_gif' %}">Add Gif</a></li>
+                        <li><a href="{% url 'panel_trend' %}">Add Trend</a></li>
+                        <li><a href="{% url 'panel_add_slider' %}">Add Slider</a></li>
+                    </ul>
+                </li>
+
+                {% if perms.Blog %}
+                    <li class="nav-small-cap">--- Blog</li>
+                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-layout-media-right-alt"></i><span class="hide-menu">Blog</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="{% url 'panel_add_post' %}">New Post</a></li>
+                            <li><a href="{% url 'panel_post_lists' %}">Post Lists</a></li>
+                            <li><a href="{% url 'panel_add_category' %}">Add Category</a></li>
+                            <li><a href="{% url 'panel_add_sub_category' %}">Add Sub Category</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if perms.auth %}
+                    <li class="nav-small-cap">--- Users</li>
+                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-layout-media-right-alt"></i><span class="hide-menu">User</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="{% url 'panel_list_user' %}">User Lists</a></li>
+                            <li><a href="{% url 'panel_add_group_user' %}">Add Group</a></li>
+                        </ul>
+                    </li>{% endif %}
+                {% if perms.Shop %}
+                    <li class="nav-small-cap">--- Product</li>
+                    <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-layout-media-right-alt"></i><span class="hide-menu">Product</span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="{% url 'panel_add_product' %}">Add Product</a></li>
+                            <li><a href="{% url 'panel_list_product' %}">Product Lists</a></li>
+                            <li><a href="{% url 'panel_add_group_product' %}">Add Group</a></li>
+                            <li><a href="{% url 'panel_add_category_product' %}">Add Category</a></li>
+                            <li><a href="{% url 'panel_add_subcategory_product' %}">Add Sub Category</a></li>
+
+
+                        </ul>
+                    </li>{% endif %}
+
+                <li class="nav-small-cap">--- FORMS, TABLE &amp; WIDGETS</li>
+                <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                        class="ti-layout-media-right-alt"></i><span class="hide-menu">Forms</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="form-basic.html">Basic Forms</a></li>
+                        <li><a href="form-layout.html">Form Layouts</a></li>
+                        <li><a href="form-addons.html">Form Addons</a></li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>

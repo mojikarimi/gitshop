@@ -1,0 +1,118 @@
+{% extends 'front/base.html' %}
+{% load custom_tag %}
+{% load widget_tweaks %}
+{% block content %}
+    <main class="main-content dt-sl mt-4 mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-5 col-md-7 col-12 mx-auto">
+                    <div class="logo-area text-center mb-3">
+                        <a href="#"><img src="../../../static/front/assets/img/logo.png" class="img-fluid" alt="logo"></a>
+                    </div>
+                    <div class="auth-wrapper form-ui border pt-4">
+                        <div class="section-title title-wide mb-1 no-after-title-wide">
+                            <h2 class="font-weight-bold">ثبت نام</h2>
+                        </div>
+                        <div class="message-light">
+                            اگر قبلا ثبت‌نام کرده‌اید، نیاز به ثبت‌نام مجدد ندارید
+                        </div>
+                        <form action="{% url 'signup' %}" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <div class="form-row-title">
+                                <h3>نام کاربری</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                                {% render_field form.username class+='input-ui pr-2'  placeholder='نام کاربری خود را وارد کنید' %}
+                                <i class="mdi mdi-account-circle-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>ایمیل</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                                {% render_field form.email class+='input-ui pr-2'  placeholder='ایمیل خود را وارد کنید' %}
+                                <i class="mdi mdi-account-circle-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>شماره تلفن</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                            {% render_field form.phone_number class+='input-ui pr-2'  placeholder='شماره تلفن خود را وارد کنید' %}
+
+                                <i class="mdi mdi-account-circle-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>نام</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                                {% render_field form.first_name class+='input-ui pr-2'  placeholder='نام خود را وارد کنید' %}
+
+                                <i class="mdi mdi-account-question-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>نام خانوادگی</h3>
+                            </div>
+                            <div class="form-row with-icon">
+
+                                {% render_field form.last_name class+='input-ui pr-2'  placeholder='نام خانوادگی خود را وارد کنید' %}
+
+                                <i class="mdi mdi-account-question-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>عکس پروفایل</h3>
+                            </div>
+                            <div class="form-row mt-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        {% render_field form.image class+='custom-file-input' aria-describedby='inputGroupFileAddon04' %}
+
+                                        <label class="custom-file-label"
+                                               for="inputGroupFile04">انتخاب
+                                            عکس</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>رمز عبور</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                                {% render_field form.password class+='input-ui pr-2' minlength='8' placeholder='رمز خود را وارد کنید' %}
+                                <i class="mdi mdi-lock-open-variant-outline"></i>
+                            </div>
+                            <div class="form-row-title">
+                                <h3>تکرار رمز عبور</h3>
+                            </div>
+                            <div class="form-row with-icon">
+                                {% render_field  form.confirm_password type='password' class+='input-ui pr-2'  placeholder='رمز خود را تکرار کنید' %}
+                                <i class="mdi mdi-lock-open-variant-outline"></i>
+                            </div>
+                            <div class="form-row mt-2">
+                                <div class="custom-control custom-checkbox float-right mt-2">
+                                    <input required type="checkbox" class="custom-control-input" id="customCheck3">
+                                    <label class="custom-control-label text-justify" for="customCheck3">
+                                        <a href="#">حریم خصوصی</a> و <a href="#">شرایط و قوانین</a> استفاده از سرویس
+                                        های سایت دیدیکالا را مطالعه نموده و با کلیه موارد آن موافقم.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row mt-3">
+                                <button class="btn-primary-cm btn-with-icon mx-auto w-100">
+                                    <i class="mdi mdi-account-circle-outline"></i>
+                                    ثبت نام در دیدیکالا
+                                </button>
+                            </div>
+
+                        </form>
+
+
+                        <div class="form-footer mt-3">
+                            <div>
+                                <span class="font-weight-bold">قبلا ثبت نام کرده اید؟</span>
+                                <a href="#" class="mr-3 mt-2">وارد شوید</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

@@ -1,0 +1,168 @@
+<!-- chat/templates/chat/room.html -->
+{% extends 'front/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <!-- Start Product -->
+            <div class="dt-sn mb-5 dt-sl">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="form-ui dt-sl">
+                            <section class="rounded" id="message" style="
+                                    background: no-repeat url({% static 'front/assets/img/back-smal.jpg' %});
+                                    width: 100%;
+                                    background-repeat: round;
+                                    height: 500px;
+                                    overflow-y: hidden;
+                                    overflow-x: hidden;
+                                    padding: 20px;">
+                                <div class="ah-tab-wrapper dt-sl">
+                                    <div class="row">
+                                        {% for suppor in supports %}
+                                            <a href="{% url 'room' request.user.username suppor.pk %}"
+                                               class="col-md-12 btn btn-warning text-white ah-tab-item border"
+                                               style="margin-bottom: 5px"> {{ suppor.first_name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        <div class="form-ui dt-sl">
+                            <section class="rounded" id="message" style="
+                                    background:no-repeat url({% static 'front/assets/img/back-big.jpg' %});
+                                    width: 100%;
+                                    height: 500px;
+                                    overflow-y: auto;
+                                    overflow-x: hidden;
+                                    background-repeat: round;
+                                    padding: 20px;
+                                    ">
+                                <div id="mojtaba_karimi" class="ah-tab-content-wrapper dt-sl px-res-0">
+                                    <div id="chat-log" class="ah-tab-content dt-sl"
+                                         data-ah-tab-active="true">
+                                        {% for chat in chats %}
+                                            {% if chat.type == 0 %}
+                                                <div class="row client">
+                                                    <div style="max-width: 11%" class="col-md-4 ">
+                                                        <span style="color: red;font-size: 8px">{{ chat.date | filter_date:10 }}</span>
+                                                        <img style="width: 40px;height: 40px;"
+                                                             class="rounded-circle"
+                                                                {% if request.user.image %}
+                                                             src="{{ request.user.image.url }}"
+                                                                {% else %}
+                                                             src="#" alt="عکس کاربر"
+                                                                {% endif %}>
+
+                                                    </div>
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-primary text-start">
+                                                        <span> {{ chat.text }}</span>
+                                                    </div>
+
+                                                </div>
+                                            {% elif chat.type == 1 %}
+                                                <div class="row admin">
+
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-danger text-start">
+                                                        <span> {{ chat.text |safe }}</span>
+                                                    </div>
+
+                                                    <div style="max-width: 11%" class="col-md-4 ">
+                                                        <img style="width: 40px;height: 40px;"
+                                                             class="rounded-circle"
+                                                                {% if support.image %}
+                                                             src="{{ support.image.url }}"
+                                                                {% else %}
+                                                             src="#" alt="عکس ادمین"
+                                                                {% endif %}
+                                                        >
+                                                        <span style="color: red;font-size: 8px">{{ chat.date | filter_date:10 }}</span>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+
+                            </section>
+
+                            <div class="row">
+                                <div class="col-md-1 col-lg-1">
+                                    <input id="chat-message-submit" value="send" type="button"
+                                           style="padding: 10px 15px"
+                                           class="btn waves-effect waves-light btn-info">
+
+                                </div>
+                                {{ room_name|json_script:"room-name" }}
+                                <div class="col-md-11 col-lg-11">
+                                    <input name="message" id="chat-message-input" class="form-control " type="text">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Product -->
+        </div>
+    </main>
+{% endblock %}
+
+
+
+{% block exscript %}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        console.log(roomName)
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').innerHTML += (data.message_html_front + '\n');
+
+        };
+
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'client': 'user',
+                'page': 'front',
+                'support': '{{ support.username }}',
+                'support_id': '{{ support_id }}',
+                'username': '{{ username }}',
+                'room_name': '{{ room_name }}',
+                "message_html_front": message,
+                "message_html_back": message,
+                'user_client':'{{ request.user.username }}'
+
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+{% endblock %}

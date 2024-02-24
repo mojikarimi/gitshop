@@ -1,0 +1,445 @@
+{% extends 'back/base.html' %}
+{% load static %}
+{% block excss %}
+    <style>
+
+        .draggable-table {
+            top: 25%;
+            left: 20%;
+            border-collapse: collapse;
+        }
+
+        .draggable-table__drag {
+            font-size: .95em;
+            font-weight: lighter;
+            text-transform: capitalize;
+            position: absolute;
+            width: 100%;
+            border: 1px solid #f1f1f1;
+            z-index: 20;
+            cursor: grabbing;
+            opacity: 1;
+        }
+
+
+        thead {
+
+        th {
+            height: 25px;
+            font-weight: bold;
+            text-transform: capitalize;
+            padding: 10px;
+        }
+
+        }
+
+        tbody {
+
+        tr {
+            cursor: grabbing;
+
+        td {
+            font-size: .95em;
+            font-weight: lighter;
+            text-transform: capitalize;
+            padding: 10px;
+            user-select: none;
+            border-top: 1px solid #353c48;
+        }
+
+        }
+
+
+        tr.is-dragging {
+            background: #272c36;
+
+        td {
+            color: #8cb8d6;
+        }
+
+        }
+
+        }
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        {% include 'back/partials/_alert.html' %}
+
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Category</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <form action="{% url 'panel_add_menu' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 ">
+                                            <div class="form-group">
+                                                <label for="menu_name" class="form-label">Title</label>
+                                                <input id="menu_name" required type="text" name="menu_name"
+                                                       class="form-control">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="form-group">
+                                                <label for="menu_link" class="form-label">Link</label>
+                                                <input id="menu_link" required type="text" name="menu_link"
+                                                       class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto mt-3 mt-md-0">
+                                        <button
+                                                class="btn btn-danger text-white">Submit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="card-title">Category Lists</h4>
+                            <h6 class="card-subtitle">Your built-in categories</h6>
+
+                            <div class="table-responsive">
+
+                                <table id="table" class="draggable-table table color-table success-table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th style="text-align: center">Category Title</th>
+                                        <th style="text-align: center">action</th>
+                                        <th>
+                                            <form id="myform" method="post" action="{% url 'panel_sort_menu' %}">
+                                                {% csrf_token %}
+                                                <div class="ms-auto mt-3 mt-md-0">
+                                                    <button
+                                                            class="btn btn-dark text-white">Update
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                    {% for menu in menus %}
+
+                                        <tr data-id="13">
+
+                                            <td style="width: 5%">{{ forloop.counter }}</td>
+
+
+                                            <td style="width: 45%; text-align: center">{{ menu.menu_name }}</td>
+                                            <td style="width: 45%;text-align: center">
+                                                <input type="hidden" value="{{ menu.pk }}" form="myform" name="sort"
+                                                       class="sort">
+
+                                                <a style="padding: 1% 2%;"
+                                                   class="btn btn-info text-white"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#modal-edit-{{ menu.pk }}">
+                                                    <i
+                                                            class="fa fa-edit"></i></a>
+                                                <a style="padding: 1% 2.4%;" class="btn btn-danger text-white"
+                                                   data-bs-toggle="modal" data-bs-target="#modal-delete-{{ menu.pk }}">
+                                                    <i
+                                                            class="fa fa-trash"></i></a>
+                                            </td>
+                                            <td></td>
+                                            <!--########################################################### modal edit ######################################################################-->
+
+                                            <div id="modal-edit-{{ menu.pk }}" class="modal" tabindex="-1" role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true"
+                                                 style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit ({{ menu.menu_name }})</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <form method="post"
+                                                                  action="{% url 'panel_edit_menu' menu.pk %}">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="menu_name"
+                                                                           class="form-label">Title:</label>
+                                                                    <input name="menu_name" type="text"
+                                                                           value="{{ menu.menu_name }}"
+                                                                           class="form-control"
+                                                                           id="menu_name">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="menu_link"
+                                                                           class="form-label">Link:</label>
+                                                                    <input name="menu_link" type="text"
+                                                                           value="{{ menu.menu_link }}"
+                                                                           class="form-control"
+                                                                           id="menu_link">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn waves-effect waves-light btn-dark"
+                                                                            data-bs-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit"
+                                                                            class="btn waves-effect waves-light btn-success">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--########################################################### modal delete ######################################################################-->
+                                            <div id="modal-delete-{{ menu.pk }}" class="modal" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel">Delete
+                                                                Category</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>Are you sure!!!</h4>
+                                                            <p>Are you sure you want to delete the <span
+                                                                    style="color: #e46a76">{{ menu.menu_name }}</span>
+                                                                Menu?</p>
+                                                            <p>Title: {{ menu.menu_name }}</p>
+                                                            <p>Number: {{ forloop.counter }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="btn btn-danger text-white"
+                                                               href="{% url 'panel_delete_menu' menu.pk %}">Delete</a>
+                                                            <button type="button"
+                                                                    class="btn btn-info text-white"
+                                                                    data-bs-dismiss="modal">Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+
+        </div>
+
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script>(function () {
+        "use strict";
+
+        const table = document.getElementById('table');
+        const tbody = table.querySelector('tbody');
+
+        var currRow = null,
+            dragElem = null,
+            mouseDownX = 0,
+            mouseDownY = 0,
+            mouseX = 0,
+            mouseY = 0,
+            mouseDrag = false;
+
+        function init() {
+            bindMouse();
+        }
+
+        function bindMouse() {
+            document.addEventListener('mousedown', (event) => {
+                if (event.button != 0) return true;
+
+                let target = getTargetRow(event.target);
+                if (target) {
+                    currRow = target;
+                    addDraggableRow(target);
+                    currRow.classList.add('is-dragging');
+
+
+                    let coords = getMouseCoords(event);
+                    mouseDownX = coords.x;
+                    mouseDownY = coords.y;
+
+                    mouseDrag = true;
+                }
+            });
+
+            document.addEventListener('mousemove', (event) => {
+                if (!mouseDrag) return;
+
+                let coords = getMouseCoords(event);
+                mouseX = coords.x - mouseDownX;
+                mouseY = coords.y - mouseDownY;
+
+                moveRow(mouseX, mouseY);
+            });
+
+            document.addEventListener('mouseup', (event) => {
+                if (!mouseDrag) return;
+
+                currRow.classList.remove('is-dragging');
+                table.removeChild(dragElem);
+
+                dragElem = null;
+                mouseDrag = false;
+            });
+        }
+
+
+        function swapRow(row, index) {
+            let currIndex = Array.from(tbody.children).indexOf(currRow),
+                row1 = currIndex > index ? currRow : row,
+                row2 = currIndex > index ? row : currRow;
+
+            tbody.insertBefore(row1, row2);
+        }
+
+        function moveRow(x, y) {
+            dragElem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
+
+            let dPos = dragElem.getBoundingClientRect(),
+                currStartY = dPos.y, currEndY = currStartY + dPos.height,
+                rows = getRows();
+
+            for (var i = 0; i < rows.length; i++) {
+                let rowElem = rows[i],
+                    rowSize = rowElem.getBoundingClientRect(),
+                    rowStartY = rowSize.y, rowEndY = rowStartY + rowSize.height;
+
+                if (currRow !== rowElem && isIntersecting(currStartY, currEndY, rowStartY, rowEndY)) {
+                    if (Math.abs(currStartY - rowStartY) < rowSize.height / 2)
+                        swapRow(rowElem, i);
+                }
+            }
+        }
+
+        function addDraggableRow(target) {
+            dragElem = target.cloneNode(true);
+            dragElem.classList.add('draggable-table__drag');
+            dragElem.style.height = getStyle(target, 'height');
+            dragElem.style.background = getStyle(target, 'backgroundColor');
+            for (var i = 0; i < target.children.length; i++) {
+                let oldTD = target.children[i],
+                    newTD = dragElem.children[i];
+                newTD.style.width = getStyle(oldTD, 'width');
+                newTD.style.height = getStyle(oldTD, 'height');
+                newTD.style.padding = getStyle(oldTD, 'padding');
+                newTD.style.margin = getStyle(oldTD, 'margin');
+            }
+
+            table.appendChild(dragElem);
+
+
+            let tPos = target.getBoundingClientRect(),
+                dPos = dragElem.getBoundingClientRect();
+            dragElem.style.bottom = ((dPos.y - tPos.y) - tPos.height) + "px";
+            dragElem.style.left = "-1px";
+
+            document.dispatchEvent(new MouseEvent('mousemove',
+                {view: window, cancelable: true, bubbles: true}
+            ));
+        }
+
+
+        function getRows() {
+            return table.querySelectorAll('tbody tr');
+        }
+
+        function getTargetRow(target) {
+            let elemName = target.tagName.toLowerCase();
+
+            if (elemName == 'tr') return target;
+            if (elemName == 'td') return target.closest('tr');
+        }
+
+        function getMouseCoords(event) {
+            return {
+                x: event.clientX,
+                y: event.clientY
+            };
+        }
+
+        function getStyle(target, styleName) {
+            let compStyle = getComputedStyle(target),
+                style = compStyle[styleName];
+
+            return style ? style : null;
+        }
+
+        function isIntersecting(min0, max0, min1, max1) {
+            return Math.max(min0, max0) >= Math.min(min1, max1) &&
+                Math.min(min0, max0) <= Math.max(min1, max1);
+        }
+
+
+        init();
+
+    })();</script>
+    <script>
+        function sort_menu() {
+            var x = document.getElementsByClassName('#sort')
+            console.log(x)
+        }
+    </script>
+    <script>function updateScroll() {
+        var element = document.getElementById("message");
+        element.scrollTop = element.scrollHeight;
+    }</script>
+{% endblock %}

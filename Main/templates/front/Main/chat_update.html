@@ -1,0 +1,50 @@
+{% load static %}
+{% load custom_tag %}
+{% for support in supports %}
+    <div class="ah-tab-content dt-sl" {% if forloop.counter == f %}
+         data-ah-tab-active="true"
+    {% endif %}  >
+        {% for chat in chats %}
+            {% if chat.manager_id == support.pk %}
+                {% if chat.type == 'پشتیبان' %}
+                    <div class="row messages">
+                        <div style="height: fit-content"
+                             class="col-md-8 rounded bg-danger text-start">
+                            <span> {{ chat.text }}</span>
+                        </div>
+                        <div style="max-width: 15%" class="col-md-4 ">
+                            <img style="width: 40px;height: 40px;"
+                                 class="rounded-circle"
+                                 src="{% static 'front/assets/img/back.jpg' %}">
+                            <span style="color: #ffffff;font-size: 8px">{{ chat.date | filter_date:10 }}</span>
+                        </div>
+
+
+                    </div>
+                {% else %}
+                    <div class="row anwsers ">
+                        <div style="max-width: 15%" class="col-md-4 ">
+                            <img style="width: 40px;height: 40px;"
+                                 class="rounded-circle"
+                                 src="{% static 'front/assets/img/back.jpg' %}">
+                            <span style="color: #ffffff;font-size: 8px">{{ chat.date | filter_date:10 }}</span>
+                        </div>
+                        <div style="height: fit-content"
+                             class="col-md-8 rounded bg-danger text-start">
+                            <span> {{ chat.text }}</span>
+                        </div>
+
+
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endfor %}
+
+
+    </div>
+{% endfor %}
+
+

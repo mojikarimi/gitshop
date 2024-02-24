@@ -1,0 +1,268 @@
+{% load static %}
+{% load custom_tag %}
+<footer class="main-footer dt-sl">
+    <div class="back-to-top">
+        <a href="#"><span class="icon"><i class="mdi mdi-chevron-up"></i></span> <span>بازگشت به
+                        بالا</span></a>
+    </div>
+    <div class="container main-container">
+        <div class="footer-services">
+            <div class="row">
+                <div class="service-item col">
+                    <a href="{{ footer.link1 }}" target="_blank">
+                        <img src="{{ footer.image1.url }}">
+                    </a>
+                    <p>{{ footer.image1_text }}</p>
+                </div>
+                <div class="service-item col">
+                    <a href="{{ footer.link2 }}" target="_blank">
+                        <img src="{{ footer.image2.url }}">
+                    </a>
+                    <p>{{ footer.image2_text }}</p>
+                </div>
+                <div class="service-item col">
+                    <a href="{{ footer.link3 }}" target="_blank">
+                        <img src="{{ footer.image3.url }}">
+                    </a>
+                    <p>{{ footer.image3_text }}</p>
+                </div>
+                <div class="service-item col">
+                    <a href="{{ footer.link4 }}" target="_blank">
+                        <img src="{{ footer.image4.url }}">
+                    </a>
+                    <p>{{ footer.image4_text }}</p>
+                </div>
+                <div class="service-item col">
+                    <a href="{{ footer.link5 }}" target="_blank">
+                        <img src="{{ footer.image5.url }}">
+                    </a>
+                    <p>{{ footer.image5_text }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-widgets">
+            <div class="row">
+                {% for catfooter in catfooters %}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="widget-menu widget card">
+                        <header class="card-header">
+                            <h3 class="card-title">{{ catfooter.title }}</h3>
+                        </header>
+                        <ul class="footer-menu">
+                            {% for subcatfooter in subcatfooters %}
+                            {% if subcatfooter.cat_id == catfooter.pk %}
+                            <li>
+                                <a href="{{ subcatfooter.link }}">{{ subcatfooter.title }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="newsletter">
+                        <p>از تخفیف‌ها و جدیدترین‌های فروشگاه باخبر شوید:</p>
+                        <form action="">
+                            <input type="email" class="form-control"
+                                   placeholder="آدرس ایمیل خود را وارد کنید...">
+                            <input type="submit" class="btn btn-primary" value="ارسال">
+                        </form>
+                    </div>
+                    <div class="socials">
+                        <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
+                        <div class="footer-social">
+                            <ul class="text-center">
+                                <li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+                                <li><a href="#"><i class="mdi mdi-telegram"></i></a></li>
+                                <li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="description">
+        <div class="container main-container">
+            <div class="row">
+                <div class="site-description col-12 col-lg-7">
+                    {{ footer.text |safe }}
+                </div>
+                <div class="symbol col-12 col-lg-5">
+                    <a href="#" target="_blank"><img src="{% static 'front/assets/img/symbol-01.png' %}" alt=""></a>
+                    <a href="#" target="_blank"><img src="{% static 'front/assets/img/symbol-02.png' %}" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <div class="container main-container">
+            {{ footer.copy_right |safe }}
+        </div>
+    </div>
+</footer>
+<div class="modal" id="chat" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg send-info modal-dialog-centered" style="max-width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5  class="modal-title">
+                    <div>
+                    وضعیت:
+                    <span style="color: #f7858d"  id="chat_status">
+                        بدون وضعیت
+                    </span></div><div>
+                    پشتیبان:
+                    <span style="color: #f7858d" id="admin_sender">
+
+                    </span></div>
+
+                </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-ui dt-sl">
+                            <section class="rounded" id="message" style="
+                                    background:no-repeat url({% static 'front/assets/img/back-big.jpg' %});
+                                    width: 100%;
+                                    height: 500px;
+                                    overflow-y: auto;
+                                    overflow-x: hidden;
+                                    background-repeat: round;
+                                    padding: 20px;
+                                    ">
+                                <div id="mojtaba_karimi" class="ah-tab-content-wrapper dt-sl px-res-0">
+                                    <div id="div-chat" class="ah-tab-content dt-sl"
+                                         data-ah-tab-active="true">
+                                        {% for chat in chats %}
+                                            {% if chat.type == 'admin' %}
+                                                <div class="row admin">
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-danger text-start">
+                                                        <div>
+                                                            <span style="color: #ffffff;"> {{ chat.text }}</span>
+                                                        </div>
+                                                        <div style="max-width: 100%">
+                                                            <span style="color: #ffffff;font-size: 8px">>{{ chat.date |filter_date:10 }}</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            {% elif chat.type == 'client' %}
+                                                <div class="row client">
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-primary text-start">
+
+                                                        <div>
+                                                            <span style="color: #ffffff;">{{ chat.text }}</span></div>
+                                                        <div style="max-width: 100%">
+                                                            <span style="color: #ffffff;font-size: 8px">{{ chat.date |filter_date:10 }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+
+
+                            </section>
+
+                            <div class="row">
+                                <div class="col-md-2 col-lg-2">
+                                    <input id="send" onclick="send()" value="send" type="button"
+                                           style="padding: 10px 15px"
+                                           class="btn waves-effect waves-light btn-info">
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <input name="message" id="text" class="form-control " type="text">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    setInterval(function () {
+        $.ajax({
+            url: '{% url 'update_chat' %}',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'messages': '',
+                'admin': '',
+                'status': '',
+            },
+            success: function (data) {
+                const data_message = JSON.parse(data.messages)
+                let i;
+                let number = data_message.length;
+                for (i = 0; i < number; i++) {
+                    console.log(data_message[i])
+                    document.querySelector('#div-chat').innerHTML += `<div class="row admin">
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-danger text-start">
+                                                        <div>
+                                                        <span style="color: #ffffff;">${data_message[i].fields.text}</span></div>
+                                                        <div style="max-width: 100%">
+                                                            <span style="color: #ffffff;font-size: 8px">${data_message[i].fields.date.slice(0, 10)}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+
+                }
+                document.querySelector('#admin_sender').innerText = data.admin;
+                document.querySelector('#chat_status').innerText = data.status;
+            }
+        })
+    }, 10000000000);
+
+    function send() {
+        const text = document.querySelector('#text');
+        const message = text.value;
+
+        $.ajax({
+            url: '{% url 'new_chat' %}',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'message': message,
+            },
+            success: function (data) {
+                const message = JSON.parse(data.message)
+                document.querySelector('#div-chat').innerHTML += `<div class="row client">
+                                                    <div style="height: fit-content"
+                                                         class="col-md-8 rounded bg-primary text-start">
+                                                        <div>
+                                                        <span style="color: #ffffff;">${message[0].fields.text}</span></div>
+                                                        <div style="max-width: 100%">
+                                                            <span style="color: #ffffff;font-size: 8px">${message[0].fields.date.slice(0, 10)}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                text.value = ''
+            }
+        })
+    }
+</script>

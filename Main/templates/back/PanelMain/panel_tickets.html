@@ -1,0 +1,145 @@
+{% extends 'back/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% block content %}
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h4 class="text-themecolor">Tickets</h4>
+                </div>
+                <div class="col-md-7 align-self-center text-end">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <ol class="breadcrumb justify-content-end">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Tickets</li>
+                        </ol>
+                        <button type="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"><i
+                                class="fa fa-plus-circle"></i> Create New
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Support Ticket List</h4>
+                            <h6 class="card-subtitle">List of ticket opend by customers</h6>
+                            <div class="row m-t-40">
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card">
+                                        <div class="box bg-info text-center">
+                                            <h1 class="font-light text-white">{{ pending }}</h1>
+                                            <h6 class="text-white">Pending</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card">
+                                        <div class="box bg-dark text-center">
+                                            <h1 class="font-light text-white">{{ closed }}</h1>
+                                            <h6 class="text-white">Closed</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card">
+                                        <div class="box bg-success text-center">
+                                            <h1 class="font-light text-white">{{ answered }}</h1>
+                                            <h6 class="text-white">Answered</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card">
+                                        <div class="box bg-danger text-center">
+                                            <h1 class="font-light text-white">{{ invalid }}</h1>
+                                            <h6 class="text-white">Invalid</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Lists</h4>
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table color-table primary-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Subject</th>
+                                                    <th>Manager</th>
+                                                    <th>Date</th>
+                                                    <th>Date Update</th>
+                                                    <th>User</th>
+                                                    <th>Status</th>
+                                                    <th>Show</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for ticket in tickets %}
+                                                    <tr>
+                                                        <td>{{ ticket.ticket_id }}</td>
+                                                        <td>{{ ticket.subject }}</td>
+                                                        <td>{{ ticket.manager }}</td>
+                                                        <td>{{ ticket.date | filter_date:19 }}</td>
+                                                        <td>{{ ticket.date_update | filter_date:19 }}</td>
+                                                        <td>{{ ticket.user }}</td>
+                                                        <td><a{% if ticket.status == 'پاسخ داده شده' %}
+                                                        class="btn btn-success text-white"
+                                                        {% elif ticket.status == 'درحال بررسی'  %}
+                                                        class="btn btn-info text-white"
+                                                        {% elif ticket.status == 'بسته شده'  %}
+                                                        class="btn btn-dark text-white"
+                                                        {% elif ticket.status == 'غیر قابل قبول'  %}
+                                                        class="btn btn-danger text-white"
+                                                        {% endif %}
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#">
+                                                            {{ ticket.status }}</a></td>
+                                                        <td><a style="padding: 6px 9px;"
+                                                               href="{% url 'panel_answer_tickets' ticket.pk %}"
+                                                               class="btn btn-warning text-white"><i
+                                                                class="fa fa-eye"></i></a></td>
+
+                                                    </tr>
+
+
+                                                {% endfor %}
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+
+{% endblock content %}
+

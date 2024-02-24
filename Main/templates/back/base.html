@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ main.icon.url }}">
+    <title>{{ main.title_panel }}</title>
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <link href="{% static 'back/assets/node_modules/morrisjs/morris.css' %}" rel="stylesheet">
+    <!--Toaster Popup message CSS -->
+    <link href="{% static 'back/assets/node_modules/toast-master/css/jquery.toast.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'back/dist/css/style.min.css' %}" rel="stylesheet">
+    <!-- Dashboard 1 Page CSS -->
+    <link href="{% static 'back/dist/css/pages/dashboard1.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    {% block excss %}
+    {% endblock excss %}
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="{% static 'back/dist/css/pages/other-pages.css' %}" rel="stylesheet">
+
+
+    <!-- ######################################## -->
+    <link href="{% static 'back/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css' %}"
+          rel="stylesheet" type="text/css"/>
+    <link href="{% static 'back/assets/node_modules/select2/dist/css/select2.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'back/assets/node_modules/switchery/dist/switchery.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'back/assets/node_modules/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'back/assets/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css' %}"
+          rel="stylesheet"/>
+    <link href="{% static 'back/assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css' %}"
+          rel="stylesheet"/>
+    <link href="{% static 'back/assets/node_modules/multiselect/css/multi-select.css' %}" rel="stylesheet"
+          type="text/css"/>
+    {# ################################ css upload ###########################   #}
+    <link rel="stylesheet" href="{% static 'back/assets/node_modules/dropify/dist/css/dropify.min.css' %}">
+    {% block exscript %}
+    {% endblock exscript %}
+    {#     css pop up image       #}
+    <link href="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/magnific-popup.css' %}" rel="stylesheet">
+    <style>
+        @import url({% static 'back/assets/icons/font-awesome/css/all.css' %});
+        @import url({% static 'back/assets/icons/simple-line-icons/css/simple-line-icons.css' %});
+        @import url({% static 'back/assets/icons/weather-icons/css/weather-icons.min.css' %});
+        @import url({% static 'back/assets/icons/themify-icons/themify-icons.css' %});
+        @import url({% static 'back/assets/icons/flag-icon-css/flag-icon.min.css' %});
+        @import url({% static 'back/assets/icons/material-design-iconic-font/css/materialdesignicons.min.css' %});</style>
+
+</head>
+
+<body class="skin-default-dark fixed-layout">
+<!-- ============================================================== -->
+<!-- Preloader - style you can find in spinners.css -->
+<!-- ============================================================== -->
+<div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label">Elite admin</p>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    {% include 'back/partials/_header.html' %}
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    {% include 'back/partials/_sidebar.html' %}
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+
+    {% block content %}
+
+    {% endblock content %}
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+        © 2023 All the rights of this website are reserved for
+        <a href="javascript:void(0)">Mojtaba Karimi</a>
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+</div>
+
+
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="{% static 'back/assets/node_modules/jquery/dist/jquery.min.js' %}"></script>
+{#<!-- Bootstrap popper Core JavaScript -->#}
+<script src="{% static 'back/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+{#<!-- slimscrollbar scrollbar JavaScript -->#}
+<script src="{% static 'back/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>
+{#<!--Wave Effects -->#}
+<script src="{% static 'back/dist/js/waves.js' %}"></script>
+{#<!--Menu sidebar -->#}
+<script src="{% static 'back/dist/js/sidebarmenu.js' %}"></script>
+{#<!--Custom JavaScript -->#}
+<script src="{% static 'back/dist/js/custom.min.js' %}"></script>
+{#<!-- ============================================================== -->#}
+<script src="{% static 'back/assets/node_modules/icheck/icheck.min.js' %}"></script>
+
+<!-- This page plugins -->
+<!-- ######## alert script ############# -->
+<script>
+    setTimeout(function () {
+        $('#khom').hide('slow');
+    }, 5000);
+</script>
+
+    <script src="{% static 'back/dist/js/pages/chat.js' %}"></script>
+<script src="{% static 'back/dist/js/custom.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/toast-master/js/jquery.toast.js' %}"></script>
+    <script src="{% static 'back/dist/js/pages/toastr.js' %}"></script>
+
+<script src="{% static 'back/dist/js/custom.min.js' %}"></script>
+{% block script %}
+{% endblock script %}
+{% block Escript %}
+{% endblock Escript %}
+
+</body>
+
+</html>

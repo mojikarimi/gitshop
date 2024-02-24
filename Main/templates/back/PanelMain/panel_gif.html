@@ -1,0 +1,110 @@
+{% extends 'back/base.html' %}
+{% load static %}
+
+{% block exscript %}
+    <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+
+{% endblock exscript %}
+{% block content %}
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <form id="pr" action="{% url 'panel_gif' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="row" id="image">
+                            <div class="col-lg-12 col-md-12">
+                                <label for="link" style="padding-bottom: 10px">Link:</label>
+                                <input value="{{ main_gif.link }}" style="text-align: right" type="text"
+                                       id="link" name="link"
+                                       class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+                                    <label for="gif" class="form-label"><h4 class="card-title">Upload Gif
+                                        </h4></label>
+                                    <input data-default-file="{{ main_gif.gif.url }}" type="file" name="gif"
+                                           id="gif" class="dropify"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br>
+
+            <br>
+
+            <div class="ms-auto mt-3 mt-md-0">
+                <button form="pr" type="submit"
+                        class="btn btn-danger text-white">Submit
+                </button>
+            </div>
+            <br>
+            <br>
+
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="form-group">
+
+            <div class="row"></div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+    {#  file  #}
+    <script src="{% static 'back/assets/node_modules/dropify/dist/js/dropify.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            // Basic
+            $('.dropify').dropify();
+
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+
+            drEvent.on('dropify.beforeClear', function (event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+
+            drEvent.on('dropify.afterClear', function (event, element) {
+                alert('File deleted');
+            });
+
+            drEvent.on('dropify.errors', function (event, element) {
+                console.log('Has Errors');
+            });
+
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function (e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
+
+{% endblock %}

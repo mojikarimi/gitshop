@@ -1,0 +1,326 @@
+{% extends 'front/base.html' %}
+{% load custom_tag %}
+{% load static %}
+{% block excss %}
+    <link rel="stylesheet" href="{% static 'front/assets/css/star-rating.css' %}">
+
+{% endblock %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <!-- Start title - breadcrumb -->
+            <div class="title-breadcrumb-special dt-sl">
+                <div class="breadcrumb dt-sl">
+                    <nav>
+                        <a href="#">خانه</a>
+                        <a href="#">بلاگ</a>
+                        <a href="#">{{ my_post.category }}</a>
+                        <a href="#">{{ my_post.subcategory }}</a>
+                    </nav>
+                </div>
+                <div class="title-page dt-sl">
+                    <h1>{{ my_post.title }}</h1>
+                </div>
+                <div class="post-rating">
+                    <div class="star-rate" data-toggle="tooltip" data-placement="top" data-html="true" title=""
+                         data-original-title="<b>{{ score }}</b> از {{ number_score }} رای">
+                        {% for i in '12345' %}
+                            {% if i <= score %}
+                                <span class="active"></span>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+                <!-- End title - breadcrumb -->
+                <div class="row">
+                    <div class="col-lg-9 col-md-8 col-sm-12 col-12 mb-3">
+                        <div class="content-page">
+                            <div class="content-desc dt-sn dt-sl">
+                                <header class="entry-header dt-sl mb-3">
+                                    <div class="post-meta date">
+                                        <i class="mdi mdi-calendar-month"></i>{{ my_post.date }}
+                                    </div>
+                                    <div class="post-meta author">
+                                        <i class="mdi mdi-account-circle-outline"></i>
+                                        ارسال شده توسط<a href="#"> {{ my_post.author }}</a>
+                                    </div>
+                                    <div class="post-meta category">
+                                        <i class="mdi mdi-folder"></i>
+                                        <a href="#">{{ my_post.category }}</a> ، <a
+                                            href="#">{{ my_post.subcategory }}</a> ، <a
+                                            href="#">
+                                        {{ my_post.title }}
+                                    </a>
+                                    </div>
+                                    <div class="post-meta category">
+                                        <i class="mdi mdi-eye"></i>
+                                        {{ my_post.view }} بازدید
+                                    </div>
+                                </header>
+                                <div class="post-thumbnail dt-sl">
+                                    <img src="{{ my_post.image_url }}" alt="{{ my_post.image }}">
+                                    <br>
+                                    <div style="text-align: right">
+                                        {{ my_post.full_text | safe }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="comments-area dt-sl my-3">
+                            <div class="dt-sn">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-ui blog-comment">
+                                            <form action="{% url 'comment_post' my_post.pk %}" method="post">
+
+
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-row-title mb-2">عنوان نظر شما (اجباری)
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <input {% if not request.user.is_authenticated %}
+                                                                disabled
+                                                            {% endif %}  name="title" class="input-ui pr-2" type="text"
+                                                                placeholder="عنوان نظر خود را بنویسید">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 mt-3 mb-3">
+                                                        <div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
+                                                        <div class="form-row">
+                                                            <textarea
+                                                                    {% if not user.is_authenticated %}
+                                                                        disabled
+                                                                    {% endif %}  name="text" class="input-ui pr-2 pt-2"
+                                                                        rows="5"
+                                                                        placeholder="متن خود را بنویسید"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <br><br>
+                                                    <div class="col-7 px-4">
+                                                        <div class="row">
+                                                            <label class="col-2">امتیاز:</label>
+                                                            <div class="star-source">
+                                                                <svg>
+                                                                    <linearGradient x1="50%" y1="5.41294643%"
+                                                                                    x2="87.5527344%" y2="65.4921875%"
+                                                                                    id="grad">
+                                                                        <stop stop-color="#bf209f" offset="0%"></stop>
+                                                                        <stop stop-color="#d62a9d" offset="60%"></stop>
+                                                                        <stop stop-color="#ED009E" offset="100%"></stop>
+                                                                    </linearGradient>
+                                                                    <symbol id="star" viewBox="153 89 106 108">
+                                                                        <polygon id="star-shape" stroke="url(#grad)"
+                                                                                 stroke-width="5" fill="currentColor"
+                                                                                 points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085"></polygon>
+                                                                    </symbol>
+                                                                </svg>
+
+                                                            </div>
+                                                            <div class="star-container">
+                                                                <input  {% if not user.is_authenticated %}
+                                                                    disabled
+                                                                {% endif %}  type="radio" value="5" name="star"
+                                                                    id="five">
+                                                                <label for="five">
+                                                                    <svg class="star">
+                                                                        <use xlink:href="#star"/>
+                                                                    </svg>
+                                                                </label>
+                                                                <input {% if not user.is_authenticated %}
+                                                                    disabled
+                                                                {% endif %} type="radio" value="4" name="star"
+                                                                    id="four">
+                                                                <label for="four">
+                                                                    <svg class="star">
+                                                                        <use xlink:href="#star"/>
+                                                                    </svg>
+                                                                </label>
+                                                                <input {% if not user.is_authenticated %}
+                                                                    disabled
+                                                                {% endif %} type="radio" value="3" name="star"
+                                                                    id="three">
+                                                                <label for="three">
+                                                                    <svg class="star">
+                                                                        <use xlink:href="#star"/>
+                                                                    </svg>
+                                                                </label>
+                                                                <input {% if not user.is_authenticated %}
+                                                                    disabled
+                                                                {% endif %} type="radio" value="2" name="star" id="two">
+                                                                <label for="two">
+                                                                    <svg class="star">
+                                                                        <use xlink:href="#star"/>
+                                                                    </svg>
+                                                                </label>
+                                                                <input {% if not user.is_authenticated %}
+                                                                    disabled
+                                                                {% endif %} type="radio" name="star" value="1" id="one">
+                                                                <label for="one">
+                                                                    <svg class="star">
+                                                                        <use xlink:href="#star"/>
+                                                                    </svg>
+                                                                </label>
+
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                    <br><br>
+                                                    <div class="col-12 px-3">
+
+                                                        <p class="d-block">با “ثبت نظر” موافقت خود را با <a href="#"
+                                                                                                            class="border-bottom-dt"
+                                                                                                            target="_blank">قوانین
+                                                            انتشار محتوا</a> در دیجی‌کالا اعلام می‌کنم.</p>
+                                                        {% if user.is_authenticated %}
+                                                            <button class="btn btn btn-primary px-3">
+                                                                ثبت نظر
+                                                            </button>
+                                                        {% else %}
+                                                            <a href="{% url 'signin' %}"
+                                                               class="btn btn btn-primary px-3">
+                                                                برای ثت نظر ابتدا وارد شوید!!!
+                                                            </a>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-title text-sm-title title-wide no-after-title-wide mb-0 mt-5 dt-sl">
+                                <h2>نظرات کاربران</h2>
+                                <p class="count-comment">{{ counts }} نظر</p>
+                            </div>
+                            <ol class="comment-list">
+                                {% for comment in comments %}
+                                    <li>
+                                        <div class="comment-body mt-3">
+                                            <div class="row">
+                                                <div class="col-12 comment-content">
+                                                    <div class="comment-author">
+                                                        توسط {{ comment.user.first_name }} {{ comment.user.last_name }}
+                                                        در تاریخ{{ comment.date }}
+                                                    </div>
+
+                                                    <h6>{{ comment.title }}</h6>
+                                                    <p>{{ comment.comment }}</p>
+                                                    <div class="footer">
+                                                        <div class="comments-likes">
+                                                            آیا این نظر برایتان مفید بود؟
+                                                            <button onclick="like('true_{{ comment.pk }}','like_{{ comment.pk }}','dis_like_{{ comment.pk }}')"
+                                                                    id="like_{{ comment.pk }}" class="btn-like"
+                                                                    data-counter="{{ comment.like }}">بله
+                                                            </button>
+                                                            <button onclick="like('false_{{ comment.pk }}','like_{{ comment.pk }}','dis_like_{{ comment.pk }}')"
+                                                                    id="dis_like_{{ comment.pk }}" class="btn-like"
+                                                                    data-counter="{{ comment.dis_like }}">خیر
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                <!-- #comment-## -->
+
+
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 col-12 mb-3 sidebar sticky-sidebar">
+                        <div class="widget-posts dt-sn dt-sl rounded-0 border-bottom mb-3">
+                            <div class="title-sidebar dt-sl mb-3">
+                                <h3>پست های مشابه</h3>
+                            </div>
+                            <div class="content-sidebar dt-sl">
+                                {% for related_post in related_posts %}
+                                    {% if related_post.title != my_post.title %}
+                                        <div class="item">
+                                            <div class="item-inner">
+                                                <div class="item-thumb">
+                                                    <a href="#" class="img-holder"
+                                                       style="background-image: url('{{ related_post.image_url }}')"></a>
+                                                </div>
+                                                <p class="title">
+                                                    <a href="#">{{ related_post.title|filter_text:30 }}</a>
+                                                </p>
+                                                <div class="item-meta">
+                                                    <span class="time">{{ related_post.date }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+                        <div class="dt-sn dt-sl rounded-0 border-bottom mb-3">
+                            <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
+                                <h2>{{ دسته }}</h2>
+                            </div>
+                            <ul class="category-list">
+
+                                <li><a href="#">{{ my_post.category }}</a>
+                                    <ul>
+                                        {% for sub_cat in sub_cats %}
+                                            <li><a href="#">{{ sub_cat.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+
+                            </ul>
+                        </div>
+                        <div class="dt-sn dt-sl rounded-0 border-bottom">
+                            <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
+                                <h2>برچسبها</h2>
+                            </div>
+                            <ul class="tag-list">
+                                {% for post_tag in post_tags %}
+                                    <li><a href="#">{{ post_tag }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+{% block exscript %}
+
+    <script>
+
+        function like(comment_id, element_like, element_dis_like) {
+            $.ajax({
+                url: '{% url "like_system" %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'comment_id': comment_id,
+                    'number_dis_like': 'dl',
+                    'number_like': 'l'
+                },
+                success: function (data) {
+                    const element_like_button = document.getElementById(element_like);
+                    const element_dis_like_button = document.getElementById(element_dis_like);
+                    element_like_button.setAttribute('data-counter', data.number_like);
+                    element_dis_like_button.setAttribute('data-counter', data.number_dis_like);
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f7858d">
+    <meta name="msapplication-navbutton-color" content="#f7858d">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f7858d">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ main.icon.url }}">
+    <title>{{ main.title_website }}</title>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/materialdesignicons.min.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/bootstrap.min.css' %}">
+    <!-- Plugins -->
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/bootstrap-slider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/jquery.horizontalmenu.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/jquery-stack-menu.min.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/vendor/nouislider.min.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'front/assets/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'front/assets/css/colors/default.css' %}" id="colorswitch">
+<style>
+    .admin {
+        color: #ffffff;width: 100%;text-align: left;padding: 2px 10px;margin: 0% 38%
+    }
+
+    .client {
+       color: #ffffff;width: 100%;text-align: right;padding: 2px 10px;margin: 0% -7% }
+</style>
+    {% block excss %}
+
+    {% endblock %}
+</head>
+
+<body>
+<div class="wrapper">
+    {% if 'account' not in request.path %}
+        {% include 'front/partials/_header.html' %}
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock content %}
+    {% if 'account' not in request.path %}
+        {% include 'front/partials/_footer.html' %}
+    {% endif %}
+
+</div>
+
+
+<!-- Core JS Files -->
+<script src="{% static 'front/assets/js/vendor/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/popper.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/bootstrap.min.js' %}"></script>
+<!-- Plugins -->
+<script src="{% static 'front/assets/js/vendor/bootstrap-slider.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/owl.carousel.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/owl.carousel2.thumbs.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/jquery.nicescroll.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/nouislider.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/jquery.horizontalmenu.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/jquery-stack-menu.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/jquery.fancybox.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/countdown.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/wNumb.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/ResizeSensor.min.js' %}"></script>
+<script src="{% static 'front/assets/js/vendor/theia-sticky-sidebar.min.js' %}"></script>
+<!-- Main JS File -->
+<script src="{% static 'front/assets/js/main.js' %}"></script>
+<script>
+    setTimeout(function () {
+        $('#khom').hide('slow');
+    }, 5000);
+</script>
+{% block exscript %}
+{% endblock %}
+{% block chatscript %}
+{% endblock %}
+</body>
+
+</html>

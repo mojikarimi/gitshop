@@ -1,0 +1,189 @@
+{% extends 'back/base.html' %}
+{% load static %}
+
+{% block exscript %}
+    <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+
+{% endblock exscript %}
+{% block content %}
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <form id="pr" action="{% url 'panel_footer' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <div class="row" id="image">
+
+
+                            <div style="width: 20%;" class="col-lg-2 col-md-2">
+                                <label for="image1_text" style="padding-bottom: 10px">Title:</label>
+                        <input value="{{ footer_view.image1_text }}" style="text-align: right" type="text" id="image1_text" name="image1_text"
+                               class="form-control"><br><br>
+                                <label for="link1" style="padding-bottom: 10px">Link:</label>
+                        <input value="{{ footer_view.link1 }}" type="text" id="link1" name="link1"
+                               class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+
+                                    <label for="image1" class="form-label"><h4 class="card-title">Upload Image Product
+                                        1</h4></label>
+                                    <input data-default-file="{{ footer_view.image1.url }}" type="file" name="image1" id="image1" class="dropify"/>
+                                </div>
+                            </div>
+                            <div style="width: 20%;" class="col-lg-2 col-md-2">
+                                <label for="image2_text" style="padding-bottom: 10px">Title:</label>
+                        <input value="{{ footer_view.image2_text }}" style="text-align: right" type="text" id="image2_text" name="image2_text"
+                               class="form-control"><br><br>
+                                <label for="link2" style="padding-bottom: 10px">Link:</label>
+                        <input value="{{ footer_view.link2 }}" type="text" id="link2" name="link2"
+                               class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+
+
+                                    <label for="image2" class="form-label"><h4 class="card-title">Upload Image Product
+                                        2</h4></label>
+                                    <input data-default-file="{{ footer_view.image2.url }}" type="file" name="image2" id="image2" class="dropify"/>
+                                </div>
+                            </div>
+                            <div style="width: 20%;" class="col-lg-2 col-md-2">
+                                <label for="image3_text" style="padding-bottom: 10px">Title:</label>
+                        <input value="{{ footer_view.image3_text }}" style="text-align: right" type="text" id="image3_text" name="image3_text"
+                               class="form-control"><br><br>
+                                <label for="link3" style="padding-bottom: 10px">Link:</label>
+                        <input value="{{ footer_view.link3 }}" type="text" id="link3" name="link3"
+                               class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+
+
+                                    <label for="image3" class="form-label"><h4 class="card-title">Upload Image Product
+                                        3</h4></label>
+                                    <input type="file" data-default-file="{{ footer_view.image3.url }}" name="image3" id="image3" class="dropify"/>
+                                </div>
+                            </div>
+                            <div style="width: 20%;" class="col-lg-2 col-md-2">
+                                <label for="image4_text" style="padding-bottom: 10px">Title:</label>
+                        <input value="{{ footer_view.image4_text }}" style="text-align: right" type="text" id="image4_text" name="image4_text"
+                               class="form-control"><br><br>
+                                <label for="link4" style="padding-bottom: 10px">Link:</label>
+                        <input value="{{ footer_view.link4 }}"  type="text" id="link4" name="link4"
+                               class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+                                    <label for="image4" class="form-label"><h4 class="card-title">Upload Image Product
+                                        4</h4></label>
+                                    <input type="file" data-default-file="{{ footer_view.image4.url }}" name="image4" id="image4" class="dropify"/>
+                                </div>
+                            </div>
+                            <div style="width: 20%;" class="col-lg-2 col-md-2">
+                                <label for="image5_text" style="padding-bottom: 10px">Title:</label>
+                        <input value="{{ footer_view.image5_text }}" style="text-align: right" type="text" id="image5_text" name="image5_text"
+                               class="form-control"><br><br>
+                                <label for="link5" style="padding-bottom: 10px">Link:</label>
+                        <input value="{{ footer_view.link5 }}" type="text" id="link5" name="link5"
+                               class="form-control"><br><br>
+                                <div class="card" style="padding: 5px">
+                                    <label for="image5" class="form-label"><h4 class="card-title">Upload Image Product
+                                        5</h4></label>
+                                    <input type="file" data-default-file="{{ footer_view.image5.url }}" name="image5" id="image5" class="dropify"/>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label for="CR" class="form-label">Copy Right</label>
+                        <textarea
+                                required name="copy_right" id="CR" class="form-control"
+                                rows="5">{{ footer_view.copy_right }}</textarea>
+                    </div>
+                    <script>CKEDITOR.replace('CR');</script>
+                    <hr>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="text" class="form-label">Text Footer</label>
+                        <textarea
+                                required name="text" id="text" class="form-control"
+                                rows="5">{{ footer_view.text }}</textarea>
+                    </div>
+                    <script>CKEDITOR.replace('text');</script>
+                    <hr>
+                </div>
+
+            </form>
+            <br>
+
+            <br>
+
+            <div class="ms-auto mt-3 mt-md-0">
+                <button form="pr" type="submit"
+                        class="btn btn-danger text-white">Submit
+                </button>
+            </div>
+            <br>
+            <br>
+
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="form-group">
+
+            <div class="row"></div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+    {#  file  #}
+    <script src="{% static 'back/assets/node_modules/dropify/dist/js/dropify.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            // Basic
+            $('.dropify').dropify();
+
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+
+            drEvent.on('dropify.beforeClear', function (event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+
+            drEvent.on('dropify.afterClear', function (event, element) {
+                alert('File deleted');
+            });
+
+            drEvent.on('dropify.errors', function (event, element) {
+                console.log('Has Errors');
+            });
+
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function (e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
+
+{% endblock %}

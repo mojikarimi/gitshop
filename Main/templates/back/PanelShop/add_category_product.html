@@ -1,0 +1,331 @@
+{% extends 'back/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="page-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+
+
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Sub Category</h4>
+                        </div>
+
+                        <div class="card-body">
+                            {% include 'back/partials/_alert.html' %}
+                            <div class="row">
+                                <form action="{% url 'panel_add_category_product' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="group" class="form-label">Group</label>
+
+                                            <select id="group" name="group"
+                                                    class="select2 form-control form-select"
+                                                    style="width: 100%; height:36px;">
+                                                {% for group in groups %}
+                                                    <option>{{ group.name }}</option>
+                                                {% endfor %}
+
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="category" class="form-label">Category</label>
+                                            <input id="category" required type="text" name="category"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="ms-auto mt-3 mt-md-0">
+                                        <button
+                                                class="btn btn-danger text-white">Submit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Category Lists</h4>
+                            <h6 class="card-subtitle">Your built-in categories</h6>
+                            <div class="table-responsive">
+                                <table class="table color-table success-table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th style="text-align: center">Group Name</th>
+                                        <th style="text-align: center">Category name</th>
+                                        <th style="text-align: center">action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for categorie in categories %}
+                                        <tr>
+                                            <td style="width: 10%">{{ forloop.counter }}</td>
+                                            <td style="width: 30%; text-align: center">{{ categorie.group }}</td>
+                                            <td style="width: 30%; text-align: center">{{ categorie.name }}</td>
+                                            <td style="width: 30%;text-align: center"><a
+                                                    class="btn btn-info text-white" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-edit-{{ categorie.pk }}"> <i
+                                                    class="fa fa-edit"></i> Edit</a>
+
+                                                <a style="padding: 6px 7px;" class="btn btn-danger text-white"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#modal-delete-{{ categorie.pk }}">
+                                                    <i
+                                                            class="fa fa-trash"></i> Delete</a>
+                                            </td>
+                                            <!--########################################################### modal edit ######################################################################-->
+
+                                            <div id="modal-edit-{{ categorie.pk }}" class="modal" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true"
+                                                 style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit ({{ categorie.title }})</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="post"
+                                                                  action="{% url 'panel_edit_category_product' categorie.pk %}">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="group_new"
+                                                                           class="form-label">Group</label>
+
+                                                                    <select id="group_new" name="group_new"
+                                                                            class="select2 form-control form-select"
+                                                                            style="width: 100%; height:36px;">
+                                                                        {% for group in groups %}
+                                                                            <option
+                                                                                    {% if group.name == categorie.name %}
+                                                                                        selected
+                                                                                    {% endif %}
+                                                                            >{{ group.name }}</option>
+                                                                        {% endfor %}
+
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="category_new" class="form-label">Category:</label>
+                                                                    <input name="category_new" type="text"
+                                                                           value="{{ categorie.name }}"
+                                                                           class="form-control"
+                                                                           id="category_new">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn waves-effect waves-light btn-dark"
+                                                                            data-bs-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit"
+                                                                            class="btn waves-effect waves-light btn-success">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--########################################################### modal delete ######################################################################-->
+                                            <div id="modal-delete-{{ categorie.pk }}" class="modal" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel">Delete category</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>Are you sure!!!</h4>
+                                                            <p>Are you sure you want to delete the <span
+                                                                    style="color: #e46a76">{{ categorie.name }}</span>
+                                                                sub category?</p>
+                                                            <p>Title: {{ categorie.name }}</p>
+                                                            <p>group: {{ categorie.category }}</p>
+                                                            <p>Number: {{ forloop.counter }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="btn btn-danger text-white"
+                                                               href="{% url 'panel_delete_category_product' categorie.pk %}">Delete</a>
+                                                            <button type="button"
+                                                                    class="btn btn-info text-white"
+                                                                    data-bs-dismiss="modal">Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+
+        </div>
+
+    </div>
+
+{% endblock content %}
+{% block script %}
+    <script src="{% static 'back/assets/node_modules/select2/dist/js/select2.full.min.js' %}"
+            type="text/javascript"></script>
+    <script src="{% static 'back/assets/node_modules/bootstrap-select/bootstrap-select.min.js' %}"
+            type="text/javascript"></script>
+    <script src="{% static 'back/assets/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js' %}"
+            type="text/javascript"></script>
+    <script src="{% static 'back/assets/node_modules/dff/dff.js' %}" type="text/javascript"></script>
+    <script type="text/javascript"
+            src="{% static 'back/assets/node_modules/multiselect/js/jquery.multi-select.js' %}"></script>
+    <script>
+        $(function () {
+            // Switchery
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            $('.js-switch').each(function () {
+                new Switchery($(this)[0], $(this).data());
+            });
+            // For select 2
+            $(".select2").select2();
+            $('.selectpicker').selectpicker();
+            //Bootstrap-TouchSpin
+            $(".vertical-spin").TouchSpin({
+                verticalbuttons: true
+            });
+            var vspinTrue = $(".vertical-spin").TouchSpin({
+                verticalbuttons: true
+            });
+            if (vspinTrue) {
+                $('.vertical-spin').prev('.bootstrap-touchspin-prefix').remove();
+            }
+            $("input[name='tch1']").TouchSpin({
+                min: 0,
+                max: 100,
+                step: 0.1,
+                decimals: 2,
+                boostat: 5,
+                maxboostedstep: 10,
+                postfix: '%'
+            });
+            $("input[name='tch2']").TouchSpin({
+                min: -1000000000,
+                max: 1000000000,
+                stepinterval: 50,
+                maxboostedstep: 10000000,
+                prefix: '$'
+            });
+            $("input[name='tch3']").TouchSpin();
+            $("input[name='tch3_22']").TouchSpin({
+                initval: 40
+            });
+            $("input[name='tch5']").TouchSpin({
+                prefix: "pre",
+                postfix: "post"
+            });
+            // For multiselect
+            $('#pre-selected-options').multiSelect();
+            $('#optgroup').multiSelect({
+                selectableOptgroup: true
+            });
+            $('#public-methods').multiSelect();
+            $('#select-all').click(function () {
+                $('#public-methods').multiSelect('select_all');
+                return false;
+            });
+            $('#deselect-all').click(function () {
+                $('#public-methods').multiSelect('deselect_all');
+                return false;
+            });
+            $('#refresh').on('click', function () {
+                $('#public-methods').multiSelect('refresh');
+                return false;
+            });
+            $('#add-option').on('click', function () {
+                $('#public-methods').multiSelect('addOption', {
+                    value: 42,
+                    text: 'test 42',
+                    index: 0
+                });
+                return false;
+            });
+            $(".ajax").select2({
+                ajax: {
+                    url: "https://api.github.com/search/repositories",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }, // let our custom formatter work
+                minimumInputLength: 1,
+                //templateResult: formatRepo, // omitted for brevity, see the source of this page
+                //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+            });
+        });
+    </script>
+{% endblock %}
