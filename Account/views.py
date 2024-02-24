@@ -15,8 +15,9 @@ from .models import CustomUser
 
 
 # Create your views here.
-@login_required
 def signin(request):  # User login function
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method == 'POST':
         form = SigninForm(request.POST)
         if form.is_valid():
