@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 @login_required
 def profile_dashboard(request):
     if request.method == 'POST':
-        x = ''.join((random.choice('0123456789') for i in range(5)))  # Creating a verification code
+        x = ''.join((random.choice('0123456789') for _ in range(5)))  # Creating a verification code
         request.session['username'] = request.user.username
         user = CustomUser.objects.get(pk=request.user.pk)
         user.verify_code = x
@@ -22,7 +22,14 @@ def profile_dashboard(request):
         send_mail(subject='moji', message=f'hi moji {x}', from_email=settings.EMAIL_HOST_USER,
                   recipient_list=[request.user.email])  # Send email
         return redirect('verify_email')
-    return render(request, 'front/Profile/profile_dashboard.html')
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    return render(request, 'front/Profile/profile_dashboard.html', {'myuser': myuser, })
+
+
+@login_required
+def profile_personal_info(request):
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    return render(request, 'front/Profile/profile_dashboard.html', {'myuser': myuser, })
 
 
 @login_required

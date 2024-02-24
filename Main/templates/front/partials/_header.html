@@ -53,10 +53,11 @@
                 </div>
                 <div class="col-md-4 col-6 topbar-left">
                     <ul class="nav float-left">
+                        {% if user.is_authenticated %}
                         <li class="nav-item account dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                <span class="label-dropdown">حساب کاربری</span>
+                                <span class="label-dropdown">{{ user.username }}</span>
                                 <i class="mdi mdi-account-circle-outline"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
@@ -77,6 +78,16 @@
                                 </a>
                             </div>
                         </li>
+                            {% else %}
+                            <li class="nav-item account dropdown">
+                            <a class="nav-link" href="{% url 'signin' %}" aria-haspopup="true"
+                               aria-expanded="false">
+                                <span class="label-dropdown">ورود/ثبت نام</span>
+                                <i class="mdi mdi-account-circle-outline"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </div>
