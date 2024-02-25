@@ -103,3 +103,22 @@ class CommentsProduct(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Cart(models.Model):
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    address_id = models.IntegerField(default=0)
+    sending_method = models.IntegerField(default=0)
+    bill = models.BooleanField(default=False)
+    status = models.BooleanField(default=False)
+    price=models.IntegerField(default=0)
+
+
+class ProductCart(models.Model):
+    cart_id = models.IntegerField(default=0)
+    product_id = models.IntegerField(default=0)
+    size=models.CharField(max_length=25,blank=True,null=True)
+    color=models.CharField(max_length=25,blank=True)
+
+

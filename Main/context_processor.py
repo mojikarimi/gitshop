@@ -1,4 +1,5 @@
 from Main.models import MainModel, Menu, ChatNew, ChatRoom, Footer, CatFooter, SubCatFooter, Trend
+from Shop.models import Cart, ProductCart, Product
 from ipware import get_client_ip
 
 
@@ -9,8 +10,19 @@ def context_processor(request):
     trend = Trend.objects.all().first()
     catfooters = CatFooter.objects.all()
     subcatfooters = SubCatFooter.objects.all()
-    return {'main': main, 'menus': menus, 'footer': footer, 'trend': trend, 'catfooters': catfooters,
-             'subcatfooters': subcatfooters}
+    context = {'main': main, 'menus': menus, 'footer': footer, 'trend': trend, 'catfooters': catfooters,
+               'subcatfooters': subcatfooters}
+    try:
+        carts = Cart.objects.filter(user_id=request.user.pk, status=False).first()
+        product_carts = ProductCart.objects.filter(cart_id=carts.pk)
+        products = Product.objects.filter(pk__in=product_carts.values('product_id'))
+        context['carts']=carts
+        context['product_carts']=product_carts
+        context['products']=products
+    except:
+        pass
+    print(context)
+    return context
 
 
 def context_processor_chat(request):

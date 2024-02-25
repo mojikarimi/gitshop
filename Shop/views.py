@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from .models import Group, SubCategory, Category, Product, CommentsProduct
+from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart
 from jdatetime import datetime
 from django.db.models import Q
 from django.contrib import messages
@@ -62,7 +62,31 @@ def product_comments(request, title):
     return render(request, 'front/Shop/product_comments.html', context=context)
 
 
-##########################################################################################################
+@login_required
+def cart(request):
+    if request.method == 'POST':
+
+        product_id = request.POST.get('product_id')
+        product=Product.objects.get(pk=product_id)
+        size = request.POST.get('size')
+        color = request.POST.get('color')
+        carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
+        if carts:
+            if not ProductCart.objects.filter(cart_id=carts.pk, product_id=product_id, size=size, color=color).exists():
+                product_cart = ProductCart(cart_id=carts.pk, product_id=product_id, size=size, color=color)
+                carts.price+= product.discounted_price
+                carts.save(using='shop')
+                product_cart.save(using='shop')
+        else:
+            new_cart = Cart(user_id=request.user.pk, user=request.user,price=product.discounted_price)
+            new_cart.save(using='shop')
+            product_cart = ProductCart(cart_id=new_cart.pk, product_id=product_id, size=size, color=color)
+            product_cart.save(using='shop')
+
+        return redirect(request.META['HTTP_REFERER'])
+
+
+#########################################  Panel  #################################################################
 # Create your views here.
 @login_required
 @permission_required(perm='Shop.add_group')
