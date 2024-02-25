@@ -21,7 +21,6 @@ def context_processor(request):
         context['products']=products
     except:
         pass
-    print(context)
     return context
 
 

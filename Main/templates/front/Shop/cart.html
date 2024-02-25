@@ -1,0 +1,202 @@
+{% extends 'front/base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row mx-0">
+                <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 mb-2">
+                    <nav class="tab-cart-page">
+                        <div class="nav nav-tabs border-bottom" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link d-inline-flex w-auto active" id="nav-home-tab"
+                               data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+                               aria-selected="true">سبد خرید<span class="count-cart">1</span></a>
+
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                             aria-labelledby="nav-home-tab">
+                            <div class="row">
+                                <div class="col-xl-9 col-lg-8 col-12 px-0">
+                                    <div class="table-responsive checkout-content dt-sl">
+                                        <div class="checkout-header checkout-header--express">
+                                            <span class="checkout-header-title">ارسال عادی</span>
+                                        </div>
+                                        {% for product_cart in product_carts %}
+
+                                            {% for product in products %}
+                                                {% if product.pk == product_cart.product_id %}
+                                                    <div class="checkout-section-content-dd-k">
+                                                        <div class="cart-items-dd-k">
+                                                            <div class="cart-item py-4 px-3">
+                                                                <div class="item-thumbnail">
+                                                                    <a href="#">
+                                                                        <img src="{{ product.image1.url }}"
+                                                                             alt="item">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="item-info flex-grow-1">
+                                                                    <div class="item-title">
+                                                                        <h2>
+                                                                            <a href="#">
+                                                                                {{ product.name_product }}</a>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div class="item-detail">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <span>رنگ</span>
+                                                                                <span class="color"
+                                                                                      style="background-color: {{ product_cart.color }};"></span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="far fa-shield-check text-muted"></i>
+                                                                                <span>گارانتی ۱۸ ماهه</span>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <i
+                                                                                        class="far fa-clipboard-check text-primary"></i>
+                                                                                <span>موجود در انبار</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div class="item-quantity--item-price">
+                                                                            <div class="item-quantity">
+                                                                                <div class="num-block">
+                                                                                    <div class="num-in">
+
+                                                                                        <span class="plus"
+                                                                                              onclick="plus_func('product_{{ product_cart.pk }}')"></span>
+                                                                                        <input id="product_{{ product_cart.pk }}"
+                                                                                               type="text"
+                                                                                               class="num"
+                                                                                               value="{{ product_cart.number }}"
+                                                                                               readonly>
+
+                                                                                        <span class="minus ids"
+                                                                                              onclick="minus_func('product_{{ product_cart.pk }}')"></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <button class="item-remove-btn mr-3">
+                                                                                    <i class="far fa-trash-alt"></i>
+                                                                                    حذف
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="item-price">
+                                                                                {{ product.price |intcomma }}<span
+                                                                                    class="text-sm mr-1">تومان</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-12 w-res-sidebar sticky-sidebar">
+                                    <div class="dt-sn dt-sn--box border mb-2">
+                                        <ul class="checkout-summary-summary">
+                                            <li>
+                                                <span>مبلغ کل </span><span>{{ carts.price | intcomma }} تومان</span>
+                                            </li>
+
+                                            <li>
+                                                    <span>هزینه ارسال<span class="help-sn" data-toggle="tooltip"
+                                                                           data-html="true" data-placement="bottom"
+                                                                           title="<div class='help-container is-right'><div class='help-arrow'></div><p class='help-text'>هزینه ارسال مرسولات می‌تواند وابسته به شهر و آدرس گیرنده متفاوت باشد. در صورتی که هر یک از مرسولات حداقل ارزشی برابر با ۱۵۰هزار تومان داشته باشد، آن مرسوله بصورت رایگان ارسال می‌شود.<br>'حداقل ارزش هر مرسوله برای ارسال رایگان، می تواند متغیر باشد.'</p></div>">
+                                                            <span class="mdi mdi-information-outline"></span>
+                                                        </span></span><span>وابسته به آدرس</span>
+                                            </li>
+
+                                        </ul>
+                                        <div class="checkout-summary-devider">
+                                            <div></div>
+                                        </div>
+                                        <div class="checkout-summary-content">
+                                            <div class="checkout-summary-price-title">مبلغ قابل پرداخت:</div>
+                                            <div class="checkout-summary-price-value">
+                                                <span class="checkout-summary-price-value-amount">{{ carts.price | intcomma }}</span>
+                                                تومان
+                                            </div>
+                                            <a href="{% url 'shopping' %}" class="mb-2 d-block">
+                                                <button class="btn-primary-cm btn-with-icon w-100 text-center pr-0">
+                                                    <i class="mdi mdi-arrow-left"></i>
+                                                    ادامه ثبت سفارش
+                                                </button>
+                                            </a>
+                                            <div>
+                                                    <span>
+                                                        کالاهای موجود در سبد شما ثبت و رزرو نشده‌اند، برای ثبت سفارش
+                                                        مراحل بعدی را تکمیل کنید.
+                                                    </span><span class="help-sn" data-toggle="tooltip" data-html="true"
+                                                                 data-placement="bottom"
+                                                                 title="<div class='help-container is-right'><div class='help-arrow'></div><p class='help-text'>محصولات موجود در سبد خرید شما تنها در صورت ثبت و پرداخت سفارش برای شما رزرو می‌شوند. در صورت عدم ثبت سفارش، دیجی‌کالا هیچگونه مسئولیتی در قبال تغییر قیمت یا موجودی این کالاها ندارد.</p></div>">
+                                                        <span class="mdi mdi-information-outline"></span>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+{% block exscript %}
+    <script>
+        function plus_func(product) {
+
+            $.ajax({
+                url: '{% url "cart_number_plus" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'product_id': product,
+
+                },
+                success: function (data) {
+                    const c = document.getElementById(product)
+                    c.value++
+                },
+                error: function (data) {
+                    alert('کالایی دیگر در انبار موجود نیست!!!')
+                },
+
+            })
+        }
+
+        function minus_func(product) {
+            $.ajax({
+                url: '{% url "cart_number_minus" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'product_id': product,
+
+                },
+                success: function (data) {
+                    const c = document.getElementById(product);
+                    if (c.value > 1) {
+                        c.value -= 1
+                    }
+                },
+                error: function (data) {
+                    alert('دیگر نمیتوان کمتر کرد!!!')
+                },
+
+            })
+
+        }
+    </script>
+{% endblock %}

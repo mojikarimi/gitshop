@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart
 from jdatetime import datetime
 from django.db.models import Q
@@ -65,25 +66,65 @@ def product_comments(request, title):
 @login_required
 def cart(request):
     if request.method == 'POST':
-
         product_id = request.POST.get('product_id')
-        product=Product.objects.get(pk=product_id)
+        product = Product.objects.get(pk=product_id)
         size = request.POST.get('size')
         color = request.POST.get('color')
         carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
         if carts:
             if not ProductCart.objects.filter(cart_id=carts.pk, product_id=product_id, size=size, color=color).exists():
                 product_cart = ProductCart(cart_id=carts.pk, product_id=product_id, size=size, color=color)
-                carts.price+= product.discounted_price
+                carts.price += product.discounted_price
                 carts.save(using='shop')
                 product_cart.save(using='shop')
+                product.order_number += 1
+                product.save()
         else:
-            new_cart = Cart(user_id=request.user.pk, user=request.user,price=product.discounted_price)
+            new_cart = Cart(user_id=request.user.pk, user=request.user, price=product.discounted_price)
             new_cart.save(using='shop')
             product_cart = ProductCart(cart_id=new_cart.pk, product_id=product_id, size=size, color=color)
             product_cart.save(using='shop')
+            product.order_number += 1
+            product.save()
 
         return redirect(request.META['HTTP_REFERER'])
+    return render(request, 'front/Shop/cart.html')
+
+
+def cart_number_plus(request):
+    if request.method == 'POST':
+        carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
+        cart_product_pk = request.POST['product_id'][8:]
+        cart_product = ProductCart.objects.get(pk=cart_product_pk)
+        product = Product.objects.get(pk=cart_product.product_id)
+        if (product.number > cart_product.number) and (product.order_number != product.number):
+            cart_product.number += 1
+            cart_product.save(using='shop')
+            carts.price += product.discounted_price
+            product.order_number += 1
+            product.save(using='shop')
+            carts.save(using='shop')
+            return JsonResponse({})
+
+
+def cart_number_minus(request):
+    if request.method == 'POST':
+        carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
+        cart_product_pk = request.POST['product_id'][8:]
+        cart_product = ProductCart.objects.get(pk=cart_product_pk)
+        product = Product.objects.get(pk=cart_product.product_id)
+        if (cart_product.number > 1) and (product.order_number > 0):
+            cart_product.number -= 1
+            cart_product.save(using='shop')
+            carts.price -= product.discounted_price
+            product.order_number -= 1
+            product.save(using='shop')
+            carts.save(using='shop')
+            return JsonResponse({})
+
+
+def shopping(request):
+    return render(request, 'front/Shop/shopping.html')
 
 
 #########################################  Panel  #################################################################

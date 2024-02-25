@@ -78,6 +78,7 @@ class Product(models.Model):
     number = models.IntegerField(default=0)
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0)
+    order_number=models.IntegerField(default=0)
 
     def __str__(self):
         return self.name_product
@@ -120,5 +121,6 @@ class ProductCart(models.Model):
     product_id = models.IntegerField(default=0)
     size=models.CharField(max_length=25,blank=True,null=True)
     color=models.CharField(max_length=25,blank=True)
+    number=models.IntegerField(default=1)
 
 

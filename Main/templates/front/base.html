@@ -42,8 +42,8 @@
 </head>
 
 <body>
-<div class="wrapper">
-    {% if 'account' not in request.path %}
+<div class="wrapper shopping-page">
+    {% if 'account' not in request.path and 'shopping' not in request.path %}
         {% include 'front/partials/_header.html' %}
     {% endif %}
 
