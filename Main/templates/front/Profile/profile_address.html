@@ -1,0 +1,535 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                {% include 'front/partials/_profile_sidebar.html' %}
+                <!-- Start Content -->
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                <h2>آدرس ها</h2>
+                            </div>
+                            <div class="dt-sl">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="card-horizontal-address text-center px-4">
+                                            <button class="checkout-address-location" data-toggle="modal"
+                                                    data-target="#modal-location">
+                                                <strong>ایجاد آدرس جدید</strong>
+                                                <i class="mdi mdi-map-marker-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {% if addresses %}
+                                        {% for address in addresses %}
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="card-horizontal-address">
+                                                    <div class="card-horizontal-address-desc">
+                                                        <h4 class="card-horizontal-address-full-name">{{ address.name }}</h4>
+                                                        <p>
+                                                            {{ address.address }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-horizontal-address-data">
+                                                        <ul class="card-horizontal-address-methods float-right">
+                                                            <li class="card-horizontal-address-method">
+                                                                <i class="mdi mdi-email-outline"></i>
+                                                                کدپستی : <span>{{ address.postal_code }}</span>
+                                                            </li>
+                                                            <li class="card-horizontal-address-method">
+                                                                <i class="mdi mdi-cellphone-iphone"></i>
+                                                                تلفن همراه : <span>{{ address.phone }}</span>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="card-horizontal-address-actions">
+                                                            <button class="btn-note" data-toggle="modal"
+                                                                    data-target="#modal-location-edit-{{ address.pk }}">
+                                                                ویرایش
+                                                            </button>
+                                                            <button class="btn-note" data-toggle="modal"
+                                                                    data-target="#remove-location-{{ address.pk }}">حذف
+                                                            </button>
+
+                                                        </div>
+                                                        <!-- Start Modal location edit -->
+                                                        <div class="modal fade"
+                                                             id="modal-location-edit-{{ address.pk }}" role="dialog"
+                                                             aria-labelledby="exampleModalCenterTitle"
+                                                             aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg send-info modal-dialog-centered"
+                                                                 role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="exampleModalCenterTitle">
+                                                                            <i class="now-ui-icons location_pin"></i>
+                                                                            ویرایش آدرس
+                                                                        </h5>
+                                                                        <button type="button" class="close"
+                                                                                data-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 col-md-12">
+                                                                                <div class="form-ui dt-sl">
+                                                                                    <form class="form-account"
+                                                                                          method="post"
+                                                                                          action="{% url 'profile_edit_address' address.pk %}">
+                                                                                        {% csrf_token %}
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6 col-sm-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        نام و نام
+                                                                                                        خانوادگی
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                                                                    <input value="{{ address.name }}"
+                                                                                                           name="edit_name"
+                                                                                                           class="input-ui pr-2 text-right"
+                                                                                                           type="text"
+                                                                                                           placeholder="نام خود را وارد نمایید">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 col-sm-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        شماره موبایل
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                                                                    <input name="edit_phone"
+                                                                                                           class="input-ui pl-2 dir-ltr text-left"
+                                                                                                           type="text"
+                                                                                                           value="{{ address.phone }}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 col-sm-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        استان
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                                                                    <input value="{{ address.state }}"
+                                                                                                           name="edit_state"
+                                                                                                           class="input-ui pr-2 text-right"
+                                                                                                           type="text"
+                                                                                                           placeholder="نام خود را وارد نمایید">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 col-sm-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        شهر
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                                                                    <input value="{{ address.city }}"
+                                                                                                           name="edit_city"
+                                                                                                           class="input-ui pr-2 text-right"
+                                                                                                           type="text"
+                                                                                                           placeholder="نام خود را وارد نمایید">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        آدرس پستی
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                    <textarea name="edit_address" class="input-ui pr-2 text-right"
+                                                              placeholder=" آدرس تحویل گیرنده را وارد نمایید">{{ address.address }}</textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-12 mb-2">
+                                                                                                <div class="form-row-title">
+                                                                                                    <h4>
+                                                                                                        کد پستی
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="form-row">
+                                                                                                    <input name="edit_postal_code"
+                                                                                                           value="{{ address.postal_code }}"
+                                                                                                           class="input-ui pl-2 dir-ltr text-left placeholder-right"
+                                                                                                           type="text"
+                                                                                                           placeholder=" کد پستی را بدون خط تیره بنویسید">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-12 pr-4 pl-4">
+                                                                                                <button type="submit"
+                                                                                                        class="btn btn-sm btn-primary btn-submit-form">
+                                                                                                    ثبت
+                                                                                                    و
+                                                                                                    ارسال به این آدرس
+                                                                                                </button>
+                                                                                                <button type="button"
+                                                                                                        class="btn-link-border float-left mt-2">
+                                                                                                    انصراف
+                                                                                                    و بازگشت
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- End Modal location edit -->
+                                                        <!-- Start Modal remove-location -->
+                                                        <div class="modal fade" id="remove-location-{{ address.pk }}"
+                                                             tabindex="-1"
+                                                             role="dialog" aria-labelledby="exampleModalLabel"
+                                                             aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                 role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title mb-3"
+                                                                            id="exampleModalLabel">آیا
+                                                                            مطمئنید که
+                                                                            این آدرس حذف شود؟</h5>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-info"
+                                                                                data-dismiss="modal">خیر
+                                                                        </button>
+                                                                        <a href="{% url 'profile_delete_address' address.pk %}" type="button"
+                                                                                class="btn btn-danger">بله
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+            <!-- Start Product-Slider -->
+            <section class="slider-section dt-sl mt-5 mb-5">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="section-title text-sm-title title-wide no-after-title-wide">
+                            <h2>محصولات پیشنهادی برای شما</h2>
+                            <a href="#">مشاهده همه</a>
+                        </div>
+                    </div>
+
+                    <!-- Start Product-Slider -->
+                    <div class="col-12 px-res-0">
+                        <div class="product-carousel carousel-lg owl-carousel owl-theme">
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                        </div>
+                                        <div class="discount">
+                                            <span>20%</span>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/07.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">مانتو زنانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                        <span class="product-price">157,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/017.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">کت مردانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
+                                        <span class="product-price">199,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star"></i>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/013.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">مانتو زنانه مدل هودی تیک تین</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                        <span class="product-price">135,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star"></i>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/09.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">مانتو زنانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                        <span class="product-price">145,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/010.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">مانتو زنانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                        <span class="product-price">170,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star"></i>
+                                        </div>
+                                        <div class="discount">
+                                            <span>20%</span>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/011.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">مانتو زنانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                        <span class="product-price">185,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="product-card mb-3">
+                                    <div class="product-head">
+                                        <div class="rating-stars">
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star active"></i>
+                                            <i class="mdi mdi-star"></i>
+                                        </div>
+                                    </div>
+                                    <a class="product-thumb" href="shop-single.html">
+                                        <img src="./assets/img/products/019.jpg" alt="Product Thumbnail">
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">
+                                            <a href="shop-single.html">تیشرت مردانه</a>
+                                        </h5>
+                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
+                                        <span class="product-price">54,000 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product-Slider -->
+
+                </div>
+            </section>
+            <!-- End Product-Slider -->
+        </div>
+    </main>
+
+    <div class="modal fade" id="modal-location" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg send-info modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">
+                        <i class="now-ui-icons location_pin"></i>
+                        افزودن آدرس جدید
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-ui dt-sl">
+                                <form class="form-account" method="post" action="{% url 'profile_add_address' %}">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    نام و نام خانوادگی
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                <input name="name" class="input-ui pr-2 text-right" type="text"
+                                                       placeholder="نام خود را وارد نمایید">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    شماره موبایل
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                <input name="phone" class="input-ui pl-2 dir-ltr text-left" type="text"
+                                                       placeholder="09xxxxxxxxx">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    استان
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                <input name="state" class="input-ui pr-2 text-right" type="text"
+                                                       placeholder="نام استان">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    شهر
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                <input name="city" class="input-ui pr-2 text-right" type="text"
+                                                       placeholder="نام شهر">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    آدرس پستی
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                    <textarea name="address" class="input-ui pr-2 text-right"
+                                                              placeholder=" آدرس تحویل گیرنده را وارد نمایید"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <div class="form-row-title">
+                                                <h4>
+                                                    کد پستی
+                                                </h4>
+                                            </div>
+                                            <div class="form-row">
+                                                <input name="postal_code"
+                                                       class="input-ui pl-2 dir-ltr text-left placeholder-right"
+                                                       type="text" placeholder=" کد پستی را بدون خط تیره بنویسید">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pr-4 pl-4">
+                                            <button type="submit" class="btn btn-sm btn-primary btn-submit-form">ثبت
+                                                و
+                                                ارسال به این آدرس
+                                            </button>
+                                            <button type="button" class="btn-link-border float-left mt-2">انصراف
+                                                و بازگشت
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal location new -->
+
+
+
+
+
+{% endblock content %}
+

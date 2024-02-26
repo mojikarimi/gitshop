@@ -27,6 +27,15 @@ class AnswerTicket(models.Model):
     type_user = models.CharField(max_length=40, blank=True)
     text = models.TextField(blank=True)
     date = models.CharField(default=datetime.now, max_length=10)
-# class UserProfile(models.Model):
-#     user=models.CharField(max_length=255,blank=True)
-#     user_id=models.IntegerField(default=0)
+
+
+class Address(models.Model):
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    city = models.CharField(max_length=150, blank=True)
+    state = models.CharField(max_length=150, blank=True)
+    postal_code = models.CharField(max_length=25, blank=True)
+    address = models.TextField(blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=250, blank=True)
+    status=models.IntegerField(default=1)

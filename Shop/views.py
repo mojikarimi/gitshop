@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+
+from Profile.models import Address
 from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart
 from jdatetime import datetime
 from django.db.models import Q
@@ -124,7 +126,12 @@ def cart_number_minus(request):
 
 
 def shopping(request):
-    return render(request, 'front/Shop/shopping.html')
+    addresses = Address.objects.filter(user=request.user, user_id=request.user.pk)
+    context = {'addresses': addresses}
+    if addresses:
+        active_address = addresses.get(status=1)
+        context['active_address'] = active_address
+    return render(request, 'front/Shop/shopping.html', context=context)
 
 
 #########################################  Panel  #################################################################

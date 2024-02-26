@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 # Create your views here.
 from jdatetime import datetime
 from django.conf import settings
-from Profile.models import Tickets, AnswerTicket
+from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
@@ -60,6 +60,59 @@ def profile_personal_info(request):
             return redirect('profile_personal_info')
 
     return render(request, 'front/Profile/profile_personal_info.html', {'myuser': myuser, })
+
+
+@login_required
+def profile_address(request):
+    addresses = Address.objects.filter(user_id=request.user.pk, user=request.user)
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    return render(request, 'front/Profile/profile_address.html', {'addresses': addresses,'myuser':myuser})
+
+
+@login_required
+def profile_add_address(request):
+    if request.method == 'POST':
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        name = request.POST.get('name')
+        postal_code = request.POST.get('postal_code')
+        new_address = Address(city=city, state=state, phone=phone, address=address, name=name, postal_code=postal_code,
+                              user=request.user, user_id=request.user.pk,status=1)
+        address = Address.objects.filter(user=request.user, user_id=request.user.pk)
+        address.update(status=0)
+
+        new_address.save(using='profile')
+
+        return redirect(request.META['HTTP_REFERER'])
+
+
+@login_required
+def profile_edit_address(request, pk):
+    if request.method == 'POST':
+        edit_city = request.POST.get('edit_city')
+        edit_state = request.POST.get('edit_state')
+        edit_phone = request.POST.get('edit_phone')
+        edit_address = request.POST.get('edit_address')
+        edit_name = request.POST.get('edit_name')
+        edit_postal_code = request.POST.get('edit_postal_code')
+        edit_new_address = Address.objects.get(pk=pk)
+        edit_new_address.city = edit_city
+        edit_new_address.state = edit_state
+        edit_new_address.phone = edit_phone
+        edit_new_address.address = edit_address
+        edit_new_address.name = edit_name
+        edit_new_address.postal_code = edit_postal_code
+        edit_new_address.save(using='profile')
+        return redirect(request.META['HTTP_REFERER'])
+
+
+@login_required
+def profile_delete_address(request, pk):
+    edit_new_address = Address.objects.get(pk=pk)
+    edit_new_address.delete(using='profile')
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required
