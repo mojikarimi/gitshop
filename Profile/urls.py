@@ -10,5 +10,6 @@ urlpatterns = [
     re_path(r'^profile_add_address/$', profile_add_address, name='profile_add_address'),
     re_path(r'^profile_edit_address/(?P<pk>\d+)$', profile_edit_address, name='profile_edit_address'),
     re_path(r'^profile_delete_address/(?P<pk>\d+)$', profile_delete_address, name='profile_delete_address'),
+    re_path(r'^profile_user_history/$', profile_user_history, name='profile_user_history'),
 
 ]

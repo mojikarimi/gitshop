@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from django.core.signing import Signer
+from django.db.models.functions import Sign
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
@@ -19,7 +21,14 @@ def single_product(request, title):
     context = {'product': product, 'colors': eval(product.color), 'sizes': eval(product.size),
                'attrs': dict(zip(eval(product.attribute_title), eval(product.attribute_value))),
                # Send related features of each other
-               'texts': zip(eval(product.title_text), eval(product.full_text))}  # Send text and title Title together
+               'texts': zip(eval(product.title_text), eval(product.full_text))}  # Send text and Title together
+    if 'product_view' in request.session:
+        product_view = request.session.get('product_view')
+        request.session.delete('product_view')
+        product_view.append(title)
+        request.session['product_view'] = list(set(product_view))  # ye irad dash feghat ye mahsool ro mifrestad
+    elif 'product_view' not in request.session:
+        request.session['product_view'] = [title]
     return render(request, 'front/Shop/single_product.html', context=context)
 
 
@@ -127,11 +136,50 @@ def cart_number_minus(request):
 
 def shopping(request):
     addresses = Address.objects.filter(user=request.user, user_id=request.user.pk)
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        print(address, '4' * 25)
+        x = addresses.get(pk=address)
+        addresses.update(status=False)
+        print(x)
+        print(x.status)
+        x.status = 1
+        x.save(using='profile')
+        return redirect('shopping')
     context = {'addresses': addresses}
     if addresses:
         active_address = addresses.get(status=1)
         context['active_address'] = active_address
+
     return render(request, 'front/Shop/shopping.html', context=context)
+
+
+def shopping_peyment(request):
+    if request.method == 'POST':
+        sending_method = request.POST.get('sending_method')
+        address = request.POST.get('address')
+        carts = Cart.objects.get(user_id=request.user.pk, user=request.user, status=False)
+        carts.sending_method = sending_method
+        print(address, '7' * 20)
+        carts.address_id = address
+        carts.save(using='shop')
+        return render(request, 'front/Shop/shopping_peyment.html')
+
+
+def shopping_complete_buy(request):
+    if request.method == 'POST':
+        try:
+            carts = Cart.objects.get(user_id=request.user.pk, user=request.user, status=False)
+        except:
+            return redirect('index')
+        carts.status = True
+        sign = Signer(key='eww@z3os_-1!fu&j-ic&%adl%428ztm8v6)7ey72aw$mt64!1(')
+        carts.order_code = f'{sign.sign_object(carts.pk + 100000 + request.user.pk)}'[8:38]
+        carts.save(using='shop')
+        address = Address.objects.get(pk=carts.address_id)
+        number = len(ProductCart.objects.filter(cart_id=carts.pk))
+        context = {'cart': carts, 'number': number, 'address': address}
+        return render(request, 'front/Shop/shopping_complete_buy.html', context=context)
 
 
 #########################################  Panel  #################################################################

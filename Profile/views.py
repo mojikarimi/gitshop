@@ -10,9 +10,12 @@ from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
+from Shop.models import Product
+
 
 @login_required
 def profile_dashboard(request):
+
     if request.method == 'POST':
         x = ''.join((random.choice('0123456789') for _ in range(5)))  # Creating a verification code
         request.session['username'] = request.user.username
@@ -23,7 +26,19 @@ def profile_dashboard(request):
                   recipient_list=[request.user.email])  # Send email
         return redirect('verify_email')
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    return render(request, 'front/Profile/profile_dashboard.html', {'myuser': myuser, })
+    context = {'myuser': myuser}
+
+    return render(request, 'front/Profile/profile_dashboard.html', context=context)
+
+
+def profile_user_history(request):
+    context = None
+    print(request.session['product_view'], 'wwww' * 50)
+    if 'product_view' in request.session:
+        product_view = request.session['product_view']
+        products_view=Product.objects.filter(name_product__in=product_view)
+        context = {'products_view': products_view}
+    return render(request, 'front/Profile/profile_user_history.html', context=context)
 
 
 @login_required
@@ -66,7 +81,7 @@ def profile_personal_info(request):
 def profile_address(request):
     addresses = Address.objects.filter(user_id=request.user.pk, user=request.user)
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    return render(request, 'front/Profile/profile_address.html', {'addresses': addresses,'myuser':myuser})
+    return render(request, 'front/Profile/profile_address.html', {'addresses': addresses, 'myuser': myuser})
 
 
 @login_required
@@ -79,7 +94,7 @@ def profile_add_address(request):
         name = request.POST.get('name')
         postal_code = request.POST.get('postal_code')
         new_address = Address(city=city, state=state, phone=phone, address=address, name=name, postal_code=postal_code,
-                              user=request.user, user_id=request.user.pk,status=1)
+                              user=request.user, user_id=request.user.pk, status=1)
         address = Address.objects.filter(user=request.user, user_id=request.user.pk)
         address.update(status=0)
 

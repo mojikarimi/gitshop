@@ -39,7 +39,6 @@ def post(request, title):
     comments_score_list = []
     for comment_score in comments_score:
         comments_score_list.append(comment_score['score'])
-
     sub_cats = SubCategory.objects.using('blog').filter(category=my_post.category)
     related_posts = Post.objects.using('blog').filter(category=my_post.category)[:5]
     if comments:

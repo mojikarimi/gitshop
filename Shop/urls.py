@@ -1,4 +1,4 @@
-from .views import products, search, single_product,product_comments,cart,cart_number_plus,cart_number_minus,shopping
+from .views import *
 from django.urls import re_path
 
 urlpatterns = [
@@ -10,5 +10,7 @@ urlpatterns = [
     re_path('^cart_number_plus/$', cart_number_plus, name='cart_number_plus'),
     re_path('^cart_number_minus/$', cart_number_minus, name='cart_number_minus'),
     re_path('^shopping/$', shopping, name='shopping'),
+    re_path('^shopping_peyment/$', shopping_peyment, name='shopping_peyment'),
+    re_path('^shopping_complete_buy/$', shopping_complete_buy, name='shopping_complete_buy'),
 
 ]

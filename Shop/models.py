@@ -114,6 +114,7 @@ class Cart(models.Model):
     bill = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     price=models.IntegerField(default=0)
+    order_code=models.CharField(max_length=50,blank=True)
 
 
 class ProductCart(models.Model):
