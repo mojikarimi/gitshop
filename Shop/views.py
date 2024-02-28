@@ -1,10 +1,7 @@
 from __future__ import unicode_literals
-
 from django.core.signing import Signer
-from django.db.models.functions import Sign
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
 from Profile.models import Address
 from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct
 from jdatetime import datetime

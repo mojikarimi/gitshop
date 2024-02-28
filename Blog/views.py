@@ -393,7 +393,7 @@ def like_system(request):
             elif len(OpinionComment.objects.using('blog').filter(opinion=0, user_id=request.user.pk,
                                                                  comment_id=int(type_comment[5:]),
                                                                  user=request.user)) >= 1:
-                opinioncomment = OpinionComment.using('blog').objects.get(opinion=0, user_id=request.user.pk,
+                opinioncomment = OpinionComment.objects.using('blog').get(opinion=0, user_id=request.user.pk,
                                                                           comment_id=int(type_comment[5:]),
                                                                           user=request.user)
                 opinioncomment.opinion = 1
