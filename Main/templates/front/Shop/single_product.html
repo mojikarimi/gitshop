@@ -25,7 +25,9 @@
                         <!-- Product Options-->
                         <ul class="gallery-options">
                             <li>
-                                <button class="add-favorites"><i class="mdi mdi-heart"></i></button>
+                                <button id="myfav" onclick="myfavorite()"
+                                        class="add-favorites {% if my_favorite.status == '1' %}favorites
+                                {% endif %}"><i class="mdi mdi-heart"></i></button>
                                 <span class="tooltip-option">افزودن به علاقمندی</span>
                             </li>
                         </ul>
@@ -1134,3 +1136,24 @@
         </div>
     </main>
 {% endblock content %}
+{% block exscript %}
+    <script>
+        function myfavorite() {
+            let status = document.getElementById('myfav').className
+            if (status.indexOf('add-favorites favorites') !== -1) {
+                status = '0'
+            } else {
+                status = '1'
+            }
+            $.ajax({
+                url: '{% url "my_favorite_product" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'product_id': '{{ product.pk }}',
+                    'status': status,
+                }
+
+            })
+        }</script>
+{% endblock %}

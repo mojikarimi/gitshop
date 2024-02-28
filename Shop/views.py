@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from Profile.models import Address
-from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart
+from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct
 from jdatetime import datetime
 from django.db.models import Q
 from django.contrib import messages
@@ -23,13 +23,38 @@ def single_product(request, title):
                # Send related features of each other
                'texts': zip(eval(product.title_text), eval(product.full_text))}  # Send text and Title together
     if 'product_view' in request.session:
+        # To add a product to recent visits
         product_view = request.session.get('product_view')
         request.session.delete('product_view')
         product_view.append(title)
-        request.session['product_view'] = list(set(product_view))  # ye irad dash feghat ye mahsool ro mifrestad
+        request.session['product_view'] = list(set(product_view))
+        # There was an error that sent only one product, so I changed it this way
     elif 'product_view' not in request.session:
         request.session['product_view'] = [title]
+    if len(FavoriteProduct.objects.filter(user_id=request.user.pk, user=request.user,
+                                          product_id=product.pk)):  # It is used to show liking
+        context['my_favorite'] = FavoriteProduct.objects.filter(user_id=request.user.pk, user=request.user,
+                                                                product_id=product.pk).first()
+    else:
+        context['my_favorite'] = None
+
     return render(request, 'front/Shop/single_product.html', context=context)
+
+
+@login_required
+def my_favorite_product(request):
+    # To add a product to Favorites
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        status = request.POST.get('status')
+        my_favorite = FavoriteProduct.objects.filter(user_id=request.user.pk, user=request.user, product_id=product_id)
+        if len(my_favorite) >= 1:  # If a product is available, continue the bet
+            my_favorite.update(status=status)  # Update favorites
+        else:
+            # Create a new model to add to favorites
+            my_fav = FavoriteProduct(user_id=request.user.pk, user=request.user, product_id=product_id, status=status)
+            my_fav.save(using='shop')
+        return JsonResponse({})
 
 
 def products(request):
@@ -49,10 +74,13 @@ def search(request):
     return render(request, 'front/Shop/products.html')
 
 
+@login_required
 def product_comments(request, title):
-    product = Product.objects.using('shop').get(name_product=title)
+    # It is used to make product comments
+    product = Product.objects.using('shop').get(name_product=title)  # It takes the desired product
     context = {'product': product}
     if request.method == 'POST':
+        # Get form values
         build = request.POST.get('build')
         innovation = request.POST.get('innovation')
         ease_of_use = request.POST.get('ease_of_use')
@@ -64,6 +92,7 @@ def product_comments(request, title):
         weaknesses = request.POST.getlist('weaknesses')
         text = request.POST.get('text')
         tender = request.POST.get('tender')
+        # Make a comment
         product_comment = CommentsProduct(pk_product=product.pk, user_id=request.user.pk, user=request.user.username,
                                           innovation=innovation, build=build,
                                           ease_of_use=ease_of_use, designing=designing, possibilities=possibilities,
@@ -76,21 +105,30 @@ def product_comments(request, title):
 
 @login_required
 def cart(request):
+    # Add product to cart
     if request.method == 'POST':
+        # Getting data from the form
         product_id = request.POST.get('product_id')
         product = Product.objects.get(pk=product_id)
         size = request.POST.get('size')
         color = request.POST.get('color')
-        carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
-        if carts:
+        # Taking a shopping cart that has not yet been confirmed and the payment process has not been completed
+        carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False)
+        if len(carts) >= 1:
+            # If it is in the shopping cart, it will be added to it
+            carts = carts.first()
             if not ProductCart.objects.filter(cart_id=carts.pk, product_id=product_id, size=size, color=color).exists():
+                # If the exact same product is not in the shopping cart, it will be added
                 product_cart = ProductCart(cart_id=carts.pk, product_id=product_id, size=size, color=color)
+                # The total price has not increased in the shopping cart
                 carts.price += product.discounted_price
                 carts.save(using='shop')
                 product_cart.save(using='shop')
                 product.order_number += 1
-                product.save()
+                # It increases the number of orders by one so that it does not exceed the capacity limit
+                product.save(using='shop')
         else:
+            # If there was no shopping cart, it would make one
             new_cart = Cart(user_id=request.user.pk, user=request.user, price=product.discounted_price)
             new_cart.save(using='shop')
             product_cart = ProductCart(cart_id=new_cart.pk, product_id=product_id, size=size, color=color)
@@ -102,22 +140,30 @@ def cart(request):
     return render(request, 'front/Shop/cart.html')
 
 
+@login_required
 def cart_number_plus(request):
+    # To increase the number of products ordered
     if request.method == 'POST':
+        # A shopping cart whose purchase process has not yet been completed
         carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
         cart_product_pk = request.POST['product_id'][8:]
         cart_product = ProductCart.objects.get(pk=cart_product_pk)
         product = Product.objects.get(pk=cart_product.product_id)
         if (product.number > cart_product.number) and (product.order_number != product.number):
+            # Check the order number with the existing number
             cart_product.number += 1
+            # Increase the number of products
             cart_product.save(using='shop')
+            # Increase the total price in the shopping cart
             carts.price += product.discounted_price
+            # Increase the number ordered in the product model
             product.order_number += 1
             product.save(using='shop')
             carts.save(using='shop')
             return JsonResponse({})
 
 
+@login_required
 def cart_number_minus(request):
     if request.method == 'POST':
         carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
@@ -134,15 +180,13 @@ def cart_number_minus(request):
             return JsonResponse({})
 
 
+@login_required
 def shopping(request):
     addresses = Address.objects.filter(user=request.user, user_id=request.user.pk)
     if request.method == 'POST':
         address = request.POST.get('address')
-        print(address, '4' * 25)
         x = addresses.get(pk=address)
         addresses.update(status=False)
-        print(x)
-        print(x.status)
         x.status = 1
         x.save(using='profile')
         return redirect('shopping')
@@ -154,18 +198,19 @@ def shopping(request):
     return render(request, 'front/Shop/shopping.html', context=context)
 
 
+@login_required
 def shopping_peyment(request):
     if request.method == 'POST':
         sending_method = request.POST.get('sending_method')
         address = request.POST.get('address')
         carts = Cart.objects.get(user_id=request.user.pk, user=request.user, status=False)
         carts.sending_method = sending_method
-        print(address, '7' * 20)
         carts.address_id = address
         carts.save(using='shop')
         return render(request, 'front/Shop/shopping_peyment.html')
 
 
+@login_required
 def shopping_complete_buy(request):
     if request.method == 'POST':
         try:

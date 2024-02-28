@@ -78,7 +78,7 @@ class Product(models.Model):
     number = models.IntegerField(default=0)
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0)
-    order_number=models.IntegerField(default=0)
+    order_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name_product
@@ -113,15 +113,20 @@ class Cart(models.Model):
     sending_method = models.IntegerField(default=0)
     bill = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
-    price=models.IntegerField(default=0)
-    order_code=models.CharField(max_length=50,blank=True)
+    price = models.IntegerField(default=0)
+    order_code = models.CharField(max_length=50, blank=True)
 
 
 class ProductCart(models.Model):
     cart_id = models.IntegerField(default=0)
     product_id = models.IntegerField(default=0)
-    size=models.CharField(max_length=25,blank=True,null=True)
-    color=models.CharField(max_length=25,blank=True)
-    number=models.IntegerField(default=1)
+    size = models.CharField(max_length=25, blank=True, null=True)
+    color = models.CharField(max_length=25, blank=True)
+    number = models.IntegerField(default=1)
 
 
+class FavoriteProduct(models.Model):
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    product_id = models.IntegerField(default=0)
+    status=models.CharField(blank=True,max_length=1)

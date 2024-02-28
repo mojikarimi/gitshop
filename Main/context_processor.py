@@ -16,9 +16,9 @@ def context_processor(request):
         carts = Cart.objects.filter(user_id=request.user.pk, status=False).first()
         product_carts = ProductCart.objects.filter(cart_id=carts.pk)
         products = Product.objects.filter(pk__in=product_carts.values('product_id'))
-        context['carts']=carts
-        context['product_carts']=product_carts
-        context['products']=products
+        context['carts'] = carts
+        context['product_carts'] = product_carts
+        context['products'] = products
     except:
         pass
     return context

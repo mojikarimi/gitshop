@@ -12,5 +12,6 @@ urlpatterns = [
     re_path('^shopping/$', shopping, name='shopping'),
     re_path('^shopping_peyment/$', shopping_peyment, name='shopping_peyment'),
     re_path('^shopping_complete_buy/$', shopping_complete_buy, name='shopping_complete_buy'),
+    re_path('^my_favorite_product/$', my_favorite_product, name='my_favorite_product'),
 
 ]

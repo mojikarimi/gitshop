@@ -15,7 +15,6 @@ from Shop.models import Product
 
 @login_required
 def profile_dashboard(request):
-
     if request.method == 'POST':
         x = ''.join((random.choice('0123456789') for _ in range(5)))  # Creating a verification code
         request.session['username'] = request.user.username
@@ -36,7 +35,7 @@ def profile_user_history(request):
     print(request.session['product_view'], 'wwww' * 50)
     if 'product_view' in request.session:
         product_view = request.session['product_view']
-        products_view=Product.objects.filter(name_product__in=product_view)
+        products_view = Product.objects.filter(name_product__in=product_view)
         context = {'products_view': products_view}
     return render(request, 'front/Profile/profile_user_history.html', context=context)
 
