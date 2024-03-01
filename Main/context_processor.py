@@ -13,10 +13,10 @@ def context_processor(request):
     context = {'main': main, 'menus': menus, 'footer': footer, 'trend': trend, 'catfooters': catfooters,
                'subcatfooters': subcatfooters}
     try:
-        carts = Cart.objects.filter(user_id=request.user.pk, status=False).first()
-        product_carts = ProductCart.objects.filter(cart_id=carts.pk)
+        context_processor_carts = Cart.objects.filter(user_id=request.user.pk, status=False).first()
+        product_carts = ProductCart.objects.filter(cart_id=context_processor_carts.pk)
         products = Product.objects.filter(pk__in=product_carts.values('product_id'))
-        context['carts'] = carts
+        context['context_processor_carts'] = context_processor_carts
         context['product_carts'] = product_carts
         context['products'] = products
     except:

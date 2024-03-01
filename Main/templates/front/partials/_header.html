@@ -374,9 +374,9 @@
                                     <span>مشاهده سبد خرید</span>
                                 </a>
                             </div>
-                            <ul class="header-basket-list do-nice-scroll">
+                        {% if context_processor_carts %}
+                        <ul class="header-basket-list do-nice-scroll">
                                 {% for product_cart in product_carts %}
-
                                     {% for product in products %}
                                         {% if product.pk == product_cart.product_id %}
                                             <li class="cart-item">
@@ -424,7 +424,7 @@
                                     <span class="header-cart-info-total-text">مبلغ قابل پرداخت:</span>
                                     <p class="header-cart-info-total-amount">
                                                 <span class="header-cart-info-total-amount-number">
-                                                    {{ carts.price | intcomma }} <span>تومان</span></span>
+                                                    {{ context_processor_carts.price | intcomma }} <span>تومان</span></span>
                                     </p>
                                 </div>
 
@@ -434,6 +434,9 @@
                                     </a>
                                 </div>
                             </div>
+                        {% endif %}
+
+
                         </div>
                     </div>
                 </div>

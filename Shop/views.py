@@ -46,7 +46,8 @@ def my_favorite_product(request):
         status = request.POST.get('status')
         my_favorite = FavoriteProduct.objects.filter(user_id=request.user.pk, user=request.user, product_id=product_id)
         if len(my_favorite) >= 1:  # If a product is available, continue the bet
-            my_favorite.update(status=status)  # Update favorites
+            my_favorite.delete()
+
         else:
             # Create a new model to add to favorites
             my_fav = FavoriteProduct(user_id=request.user.pk, user=request.user, product_id=product_id, status=status)
@@ -126,12 +127,17 @@ def cart(request):
                 product.save(using='shop')
         else:
             # If there was no shopping cart, it would make one
+            sign = Signer(key='eww@z3os_-1!fu&j-ic&%adl%428ztm8v6)7ey72aw$mt64!1(')
             new_cart = Cart(user_id=request.user.pk, user=request.user, price=product.discounted_price)
             new_cart.save(using='shop')
             product_cart = ProductCart(cart_id=new_cart.pk, product_id=product_id, size=size, color=color)
             product_cart.save(using='shop')
             product.order_number += 1
-            product.save()
+            product.save(using='shop')
+            # set an order code for cart
+            cart_order_code = Cart.objects.using('shop').get(user_id=request.user.pk, user=request.user, status=False)
+            cart_order_code.order_code = str(sign.sign_object(cart_order_code.id + 100000 + request.user.pk))[8:28]
+            cart_order_code.save(using='shop')
 
         return redirect(request.META['HTTP_REFERER'])
     return render(request, 'front/Shop/cart.html')
@@ -215,8 +221,6 @@ def shopping_complete_buy(request):
         except:
             return redirect('index')
         carts.status = True
-        sign = Signer(key='eww@z3os_-1!fu&j-ic&%adl%428ztm8v6)7ey72aw$mt64!1(')
-        carts.order_code = f'{sign.sign_object(carts.pk + 100000 + request.user.pk)}'[8:38]
         carts.save(using='shop')
         address = Address.objects.get(pk=carts.address_id)
         number = len(ProductCart.objects.filter(cart_id=carts.pk))
@@ -625,3 +629,9 @@ def panel_edit_subcategory_product(request, pk):
         subcategory_edit.name = subcategory_new
         subcategory_edit.save(using='blog')
         return redirect('panel_add_subcategory_product')
+
+
+def panel_view_cart(request):
+    panel_carts = Cart.objects.order_by('-date')
+    context = {'panel_carts': panel_carts}
+    return render(request, 'back/PanelShop/list_cart.html',context=context)

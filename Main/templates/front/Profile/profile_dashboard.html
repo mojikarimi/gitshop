@@ -1,195 +1,166 @@
 {% extends 'front/base.html' %}
+{% load humanize %}
 {% load static %}
+{% load custom_tag %}
 {% block content %}
-        <main class="main-content dt-sl mb-3">
-            <div class="container main-container">
-                <div class="row">
-                    <!-- Start Sidebar -->
-                    {% include 'front/partials/_profile_sidebar.html' %}
-                    <!-- End Sidebar -->
-                    <!-- Start Content -->
-                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-12">
-                                <div class="px-3">
-                                    <div
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <!-- Start Sidebar -->
+                {% include 'front/partials/_profile_sidebar.html' %}
+                <!-- End Sidebar -->
+                <!-- Start Content -->
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-12">
+                            <div class="px-3">
+                                <div
                                         class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2">
-                                        <h2>اطلاعات شخصی</h2>
-                                    </div>
-                                    <div class="profile-section dt-sl">
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="label-info">
-                                                    <span>نام و نام خانوادگی:</span>
-                                                </div>
-                                                <div class="value-info">
-                                                    <span>{{ myuser.first_name }} {{ myuser.last_name }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="label-info">
-                                                    <span>پست الکترونیک:</span>
-                                                </div>
-                                                <div class="value-info">
-                                                    <span>{{ myuser.email }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="label-info">
-                                                    <span>شماره تلفن همراه:</span>
-                                                </div>
-                                                <div class="value-info">
-                                                    <span>{{ myuser.phone_number }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="label-info">
-                                                    <span>کد ملی:</span>
-                                                </div>
-                                                <div class="value-info">
-                                                    <span>{{ myuser.national_number }}</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 col-sm-12">
-                                                <div class="label-info">
-                                                    <span>شماره کارت:</span>
-                                                </div>
-                                                <div class="value-info">
-                                                    <span>{{ myuser.card_number }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="profile-section-link">
-                                            <a href="#" class="border-bottom-dt">
-                                                <i class="mdi mdi-account-edit-outline"></i>
-                                                ویرایش اطلاعات شخصی
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <h2>اطلاعات شخصی</h2>
                                 </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-12">
-                                <div class="px-3">
-                                    <div
-                                        class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2">
-                                        <h2>لیست آخرین علاقه‌مندی‌ها</h2>
-                                    </div>
-                                    <div class="profile-section dt-sl">
-                                        <ul class="list-favorites">
-                                            <li>
-                                                <a href="#">
-                                                    <img src="./assets/img/products/016.jpg" alt="">
-                                                    <span>کت مردانه مجلسی مدل k-m-5500</span>
-                                                </a>
-                                                <button>
-                                                    <i class="mdi mdi-trash-can-outline"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img src="./assets/img/products/020.jpg" alt="">
-                                                    <span>کت مردانه مجلسی مدل k-m-5640</span>
-                                                </a>
-                                                <button>
-                                                    <i class="mdi mdi-trash-can-outline"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img src="./assets/img/products/017.jpg" alt="">
-                                                    <span>کت مردانه مجلسی مدل k-m-5110</span>
-                                                </a>
-                                                <button>
-                                                    <i class="mdi mdi-trash-can-outline"></i>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        <div class="profile-section-link">
-                                            <a href="#" class="border-bottom-dt">
-                                                <i class="mdi mdi-square-edit-outline"></i>
-                                                مشاهده و ویرایش لیست مورد علاقه
-                                            </a>
+                                <div class="profile-section dt-sl">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="label-info">
+                                                <span>نام و نام خانوادگی:</span>
+                                            </div>
+                                            <div class="value-info">
+                                                <span>{{ myuser.first_name }} {{ myuser.last_name }}</span>
+                                            </div>
                                         </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="label-info">
+                                                <span>پست الکترونیک:</span>
+                                            </div>
+                                            <div class="value-info">
+                                                <span>{{ myuser.email }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="label-info">
+                                                <span>شماره تلفن همراه:</span>
+                                            </div>
+                                            <div class="value-info">
+                                                <span>{{ myuser.phone_number }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="label-info">
+                                                <span>کد ملی:</span>
+                                            </div>
+                                            <div class="value-info">
+                                                <span>{{ myuser.national_number }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="label-info">
+                                                <span>شماره کارت:</span>
+                                            </div>
+                                            <div class="value-info">
+                                                <span>{{ myuser.card_number }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="profile-section-link">
+                                        <a href="#" class="border-bottom-dt">
+                                            <i class="mdi mdi-account-edit-outline"></i>
+                                            ویرایش اطلاعات شخصی
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-5">
-                            <div class="col-12">
+                        <div class="col-xl-6 col-lg-12">
+                            <div class="px-3">
                                 <div
-                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
-                                    <h2>آخرین سفارش‌ها</h2>
+                                        class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2">
+                                    <h2>لیست آخرین علاقه‌مندی‌ها</h2>
                                 </div>
-                                <div class="dt-sl">
-                                    <div class="table-responsive">
-                                        <table class="table table-order">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>شماره سفارش</th>
-                                                    <th>تاریخ ثبت سفارش</th>
-                                                    <th>مبلغ قابل پرداخت</th>
-                                                    <th>مبلغ کل</th>
-                                                    <th>عملیات پرداخت</th>
-                                                    <th>جزییات</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>DDC-57456951</td>
-                                                    <td>۳۱ مرداد ۱۳۹۸</td>
-                                                    <td>۰</td>
-                                                    <td>۹,۹۸۹,۰۰۰ تومان</td>
-                                                    <td>لغو شده</td>
-                                                    <td class="details-link">
-                                                        <a href="#">
-                                                            <i class="mdi mdi-chevron-left"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>DKC-45173498</td>
-                                                    <td>۱۰ خرداد ۱۳۹۸</td>
-                                                    <td>۰</td>
-                                                    <td>۱۸,۰۴۹,۰۰۰ تومان</td>
-                                                    <td>لغو شده</td>
-                                                    <td class="details-link">
-                                                        <a href="#">
-                                                            <i class="mdi mdi-chevron-left"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>DDC-58976951</td>
-                                                    <td>۲۱ مرداد ۱۳۹۸</td>
-                                                    <td>۰</td>
-                                                    <td>۹,۱۸۹,۰۰۰ تومان</td>
-                                                    <td>لغو شده</td>
-                                                    <td class="details-link">
-                                                        <a href="#">
-                                                            <i class="mdi mdi-chevron-left"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="link-to-orders" colspan="7"><a href="#">مشاهده لیست سفارش
-                                                            ها</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="profile-section dt-sl">
+                                    <ul class="list-favorites">
+                                        {% if my_favorites %}
+                                            {% for my_favorite in my_favorites %}
+                                                <li>
+                                                    <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                        <img src="{{ my_favorite.image1.url }}" alt="">
+                                                        <span>{{ my_favorite.name_product }}</span>
+                                                    </a>
+                                                    <button>
+                                                        <i class="mdi mdi-trash-can-outline"></i>
+                                                    </button>
+                                                </li>
+                                            {% endfor %}
+
+                                        {% endif %}
+
+
+                                    </ul>
+                                    <div class="profile-section-link">
+                                        <a href="#" class="border-bottom-dt">
+                                            <i class="mdi mdi-square-edit-outline"></i>
+                                            مشاهده و ویرایش لیست مورد علاقه
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- End Content -->
-                </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                <h2>آخرین سفارش‌ها</h2>
+                            </div>
+                            <div class="dt-sl">
+                                <div class="table-responsive">
+                                    <table class="table table-order">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>شماره سفارش</th>
+                                            <th>تاریخ ثبت سفارش</th>
+                                            <th>مبلغ قابل پرداخت</th>
 
+                                            <th>عملیات پرداخت</th>
+                                            <th>جزییات</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for cart in carts %}
+                                         <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ cart.order_code }}</td>
+                                            <td>{{ cart.date |filter_date:19 }}</td>
+
+                                            <td> {{ cart.price|intcomma }} تومان </td>
+                                            <td>{% if cart.status == True %}
+                                            تایید شده
+                                                {% else %}
+                                                تایید نشده
+                                            {% endif %}
+                                            </td>
+                                            <td class="details-link">
+                                                <a href="#">
+                                                    <i class="mdi mdi-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
             </div>
-        </main>
+
+        </div>
+    </main>
 {% endblock content %}
 

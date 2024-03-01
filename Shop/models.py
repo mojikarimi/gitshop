@@ -115,6 +115,14 @@ class Cart(models.Model):
     status = models.BooleanField(default=False)
     price = models.IntegerField(default=0)
     order_code = models.CharField(max_length=50, blank=True)
+    date=models.CharField(default=datetime.now, max_length=10)
+    cancel=models.BooleanField(default=False)
+    preparation=models.BooleanField(default=False)
+    exit=models.BooleanField(default=False)
+    delivery=models.BooleanField(default=False)
+    exchange=models.BooleanField(default=False)
+    customer=models.BooleanField(default=False)
+
 
 
 class ProductCart(models.Model):

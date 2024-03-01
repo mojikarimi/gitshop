@@ -110,7 +110,7 @@
                     <div class="dt-sn dt-sn--box border mb-2">
                         <ul class="checkout-summary-summary">
                             <li>
-                                <span>مبلغ کل </span><span>{{ carts.price | intcomma }} تومان</span>
+                                <span>مبلغ کل </span><span>{{ context_processor_carts.price | intcomma }} تومان</span>
                             </li>
 
                             <li>
@@ -128,7 +128,7 @@
                         <div class="checkout-summary-content">
                             <div class="checkout-summary-price-title">مبلغ قابل پرداخت:</div>
                             <div class="checkout-summary-price-value">
-                                <span class="checkout-summary-price-value-amount">{{ carts.price | intcomma }}</span>
+                                <span class="checkout-summary-price-value-amount">{{ context_processor_carts.price | intcomma }}</span>
                                 تومان
                             </div>
                             <a href="#" class="mb-2 d-block">

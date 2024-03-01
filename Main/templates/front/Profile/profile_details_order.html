@@ -1,0 +1,162 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% load humanize %}
+{% block content %}
+
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <!-- Start Sidebar -->
+                {% include 'front/partials/_profile_sidebar.html' %}
+                <!-- End Sidebar -->
+                <!-- Start Content -->
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="profile-navbar">
+                                <a href="#" class="profile-navbar-btn-back">بازگشت</a>
+                                <h4>سفارش <span class="font-en">{{ cart.order_code }}</span> </h4>
+
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="dt-sl dt-sn border">
+                                <div class="row table-draught px-3">
+                                    <div class="col-md-6 col-sm-12">
+                                        <span class="title">تحویل گیرنده:</span>
+                                        <span class="value">{{ products_order_address.name }}</span>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <span class="title">شماره تماس تحویل گیرنده:</span>
+                                        <span class="value" dir="ltr">{{ products_order_address.phone }}</span>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <span class="title">مبلغ این مرسوله:</span>
+                                        <span class="value">{{ cart.price|intcomma }} تومان</span>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <span class="title">نحوه ارسال سفارش:</span>
+                                        {% if cart.sending_method == True %}
+                                            <span class="value">پست پیشتاز با ظرفیت اختصاصی برای دیدیکالا</span>
+
+                                        {% else %}
+                                            <span class="value">پست عادی</span>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <section class="slider-section dt-sl mb-5">
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="section-title text-sm-title title-wide no-after-title-wide">
+                                            <h2>مرسوله 1 از 1</h2>
+                                            <a href="#">لغو دریافت مرسوله</a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Start Profile-order-step-Slider -->
+                                    <div class="col-12">
+                                        <div class="profile-order-steps carousel-lg owl-carousel owl-theme">
+                                            <div class="item profile-order-steps-item is-active">
+                                                <img src="{% static 'front/assets/img/svg/0eab59b0.svg' %}">
+                                                <span>لغو شده</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item is-active">
+                                                <img src="{% static 'front/assets/img/svg/d5d5e1d2.svg' %}">
+                                                <span>تایید سفارش</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item">
+                                                <img src="{% static 'front/assets/img/svg/3db3cdeb.svg' %}">
+                                                <span>آماده‌سازی سفارش</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item">
+                                                <img src="{% static 'front/assets/img/svg/332b9ff1.svg' %}">
+                                                <span>خروج از مرکز پردازش</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item">
+                                                <img src="{% static 'front/assets/img/svg/07a0808a.svg' %}">
+                                                <span>تحویل به پست</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item">
+                                                <img src="{% static 'front/assets/img/svg/dbab74ce.svg' %}">
+                                                <span>مرکز مبادلات پست</span>
+                                            </div>
+                                            <div class="item profile-order-steps-item">
+                                                <img src="{% static 'front/assets/img/svg/50450a73.svg' %}">
+                                                <span>تحویل به مشتری</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Profile-order-step-Slider -->
+
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-12">
+                            <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                <h2>همه سفارش‌ها</h2>
+                            </div>
+                            <div class="dt-sl">
+                                <div class="table-responsive">
+                                    <table class="table table-order table-order-details">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>نام محصول</th>
+                                            <th>قیمت کل</th>
+                                            <th>تخفیف</th>
+                                            <th>قیمت نهایی</th>
+                                            <th>عملیات</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for products_order_cart in products_order_carts %}
+                                            <tr>
+                                                <td>
+                                                    <div class="details-product-area">
+                                                        <img src="{{ products_order_cart.image1.url }}"
+                                                             class="thumbnail-product" alt="">
+
+                                                    </div>
+                                                </td>
+                                                <td><h6>
+                                                    {{ products_order_cart.name_product }}
+
+                                                </h6></td>
+                                                <td>{{ products_order_cart.price|intcomma }} تومان</td>
+                                                <td>{{ products_order_cart.discount_percent }}</td>
+                                                <td>{{ products_order_cart.discounted_price|intcomma }} تومان</td>
+                                                <td>
+                                                    <a href="{% url 'single_product' products_order_cart.name_product %}" class="btn btn-info d-block w-100 mb-2">خرید
+                                                        مجدد
+                                                    </a>
+                                                    <a  href="{% url 'product_comments' products_order_cart.name_product %}"  class="btn text-light bg-secondary d-block w-100">ثبت
+                                                        نظر
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+
+        </div>
+    </main>
+
+
+
+{% endblock content %}
+
