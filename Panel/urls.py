@@ -58,7 +58,8 @@ urlpatterns = [
             name='panel_edit_subcategory_product'),
     re_path(r'^panel_view_cart$', shopview.panel_view_cart,
             name='panel_view_cart'),
-
+    re_path(r'^panel_details_cart/(?P<pk>\d+)$', shopview.panel_details_cart,
+            name='panel_details_cart'),
 
     # APP Main Panel URLs
     re_path(r'^panel_tickets_lists$', mainview.panel_tickets_lists, name='panel_tickets_lists'),

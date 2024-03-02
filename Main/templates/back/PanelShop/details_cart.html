@@ -1,0 +1,204 @@
+{% extends 'back/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load custom_tag %}
+{% block excss %}
+
+    <link href="{% static 'back/assets/node_modules/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
+    <link href="{% static 'back/dist/css/pages/bootstrap-switch.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block content %}
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <form method="post" action="{% url 'panel_details_cart' panel_cart.pk %}">
+            {% csrf_token %}
+                <div class="col-lg-12 bt-switch">
+                    <div class="m-b-30">
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-2">
+
+                                    <h5>Post Steps</h5>
+                                    <button type="submit" class="btn btn-dark">Update</button>
+
+                                </div>
+                                <div class="col-2">
+                                    <label for="preparation">
+                                        <h5>Preparation</h5>
+                                        <input {% if panel_cart.preparation == True %}
+                                            checked
+                                        {% endif %}  id="preparation" name="preparation" type="checkbox"
+                                            data-on-color="info"
+                                            data-off-color="primary"
+                                            data-on-text="<i class='fa fa-check'></i>"
+                                            data-off-text="<i class='fa fa-times'></i>">
+                                    </label>
+                                </div>
+                                <div class="col-2">
+                                    <label for="exit">
+                                        <h5>Reception Center</h5>
+                                        <input {% if panel_cart.exit == True %}
+                                            checked {% endif %} id="exit"
+                                            name="exit" type="checkbox"
+                                            data-on-color="info"
+                                            data-off-color="primary"
+                                            data-on-text="<i class='fa fa-check'></i>"
+                                            data-off-text="<i class='fa fa-times'></i>">
+                                    </label>
+                                </div>
+                                <div class="col-2">
+                                    <label for="delivery">
+                                        <h5>Post Office</h5>
+                                        <input {% if panel_cart.delivery == True %}
+                                            checked {% endif %} name="delivery" id="delivery" type="checkbox"
+                                            data-on-color="info"
+                                            data-off-color="primary"
+                                            data-on-text="<i class='fa fa-check'></i>"
+                                            data-off-text="<i class='fa fa-times'></i>">
+                                    </label>
+                                </div>
+                                <div class="col-2">
+                                    <label for="exchange">
+                                        <h5>Exchange Center</h5>
+                                        <input {% if panel_cart.exchange == True %}
+                                            checked {% endif %} name="exchange" id="exchange" type="checkbox"
+                                            data-on-color="info"
+                                            data-off-color="primary"
+                                            data-on-text="<i class='fa fa-check'></i>"
+                                            data-off-text="<i class='fa fa-times'></i>">
+                                    </label>
+                                </div>
+                                <div class="col-2">
+                                    <label for="customer">
+                                        <h5>Customer</h5>
+                                        <input {% if panel_cart.customer == True %}
+                                            checked {% endif %} name="customer" id="customer" type="checkbox"
+                                            data-on-color="info"
+                                            data-off-color="primary"
+                                            data-on-text="<i class='fa fa-check'></i>"
+                                            data-off-text="<i class='fa fa-times'></i>">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Sub Category Lists</h4>
+                            <h6 class="card-subtitle">Your built-in sub categories</h6>
+                            <div class="table-responsive">
+                                <table class="table color-table success-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:5%">#</th>
+                                        <th style="text-align: center;width: 10%">image</th>
+                                        <th style="text-align: center;width: 35%">Name Product</th>
+                                        <th style="text-align: center;width: 25%">Order Number</th>
+                                        <th style="text-align: center;width: 10%">Unit Price</th>
+                                        <th style="text-align: center;width: 10%">Size</th>
+                                        <th style="text-align: center;width: 5%">Color</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                    {% for panel_product in panel_products %}
+                                        {% for panel_product_cart in panel_products_cart %}
+                                            {% if panel_product.pk == panel_product_cart.product_id %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+
+                                                    <td style="text-align: center">
+                                                        <a class="image-popup-no-margins"
+                                                           href="{{ panel_product.image1.url }}">
+                                                            <img style="max-width: 40px"
+                                                                 src="{{ panel_product.image1.url }}"
+                                                                 alt="image"
+                                                                 class="img-responsive img-xs rounded-circle"/> </a>
+                                                    </td>
+                                                    <td style=" text-align: center">{{ panel_product.name_product }}</td>
+                                                    <td style=" text-align: center">{{ panel_product_cart.number }}</td>
+                                                    <td style=" text-align: center">{{ panel_product.discounted_price|intcomma }}</td>
+                                                    <td style=" text-align: center">
+                                                        {% if panel_product_cart.size %}
+                                                            {{ panel_product_cart.size }}
+                                                        {% else %}
+                                                            --
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style=" text-align: center"><i class="fa fa-circle"
+                                                                                       style="color: {{ panel_product_cart.color }}"></i>
+                                                    </td>
+
+
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+
+
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+{% endblock content %}
+
+{% block Escript %}
+    {#  chekbox  #}
+    <script src="{% static 'back/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/sparkline/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/bootstrap-switch/bootstrap-switch.min.js' %}"></script>
+    <script type="text/javascript">
+        $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+        var radioswitch = function () {
+            var bt = function () {
+                $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
+                }), $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+                }), $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+                })
+            };
+            return {
+                init: function () {
+                    bt()
+                }
+            }
+        }();
+        $(document).ready(function () {
+            radioswitch.init()
+        });
+    </script>
+    <!-- Magnific popup JavaScript -->
+    <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup-init.js' %}"></script>
+{% endblock %}

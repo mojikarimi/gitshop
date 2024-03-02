@@ -634,4 +634,46 @@ def panel_edit_subcategory_product(request, pk):
 def panel_view_cart(request):
     panel_carts = Cart.objects.order_by('-date')
     context = {'panel_carts': panel_carts}
-    return render(request, 'back/PanelShop/list_cart.html',context=context)
+    return render(request, 'back/PanelShop/list_cart.html', context=context)
+
+
+def panel_details_cart(request, pk):
+    panel_cart = Cart.objects.get(pk=pk)
+    panel_products_cart = ProductCart.objects.filter(cart_id=panel_cart.pk).order_by('product_id')
+    panel_products = Product.objects.filter(pk__in=panel_products_cart.values('product_id'))
+    context = {'panel_cart': panel_cart, 'panel_products_cart': panel_products_cart, 'panel_products': panel_products}
+    if request.method == 'POST':
+        preparation = request.POST.get('preparation')
+        exit_ = request.POST.get('exit')
+        delivery = request.POST.get('delivery')
+        exchange = request.POST.get('exchange')
+        customer = request.POST.get('customer')
+
+        if preparation:
+            preparation = True
+        else:
+            preparation = False
+        if exit_:
+            exit_ = True
+        else:
+            exit_ = False
+        if delivery:
+            delivery = True
+        else:
+            delivery = False
+        if exchange:
+            exchange = True
+        else:
+            exchange = False
+        if customer:
+            customer = True
+        else:
+            customer = False
+        panel_cart.preparation = preparation
+        panel_cart.exit = exit_
+        panel_cart.delivery = delivery
+        panel_cart.exchange = exchange
+        panel_cart.customer = customer
+        panel_cart.save(using='shop')
+        return redirect('panel_details_cart', pk=pk)
+    return render(request, 'back/PanelShop/details_cart.html', context=context)

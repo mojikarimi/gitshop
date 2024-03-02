@@ -28,14 +28,26 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'front/assets/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'front/assets/css/colors/default.css' %}" id="colorswitch">
-<style>
-    .admin {
-        color: #ffffff;width: 100%;text-align: left;padding: 2px 10px;margin: 0% 38%
-    }
+    {#   CKeditor     #}
+    <script src="{% static 'front/assets/js/helpers/ckeditor/ckeditor.js' %}"></script>
 
-    .client {
-       color: #ffffff;width: 100%;text-align: right;padding: 2px 10px;margin: 0% -7% }
-</style>
+    <style>
+        .admin {
+            color: #ffffff;
+            width: 100%;
+            text-align: left;
+            padding: 2px 10px;
+            margin: 0% 38%
+        }
+
+        .client {
+            color: #ffffff;
+            width: 100%;
+            text-align: right;
+            padding: 2px 10px;
+            margin: 0% -7%
+        }
+    </style>
     {% block excss %}
 
     {% endblock %}

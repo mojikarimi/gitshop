@@ -2,6 +2,8 @@
 
 {% load static %}
 {% load custom_tag %}
+
+
 {% block content %}
     <main class="main-content dt-sl mb-3">
         <div class="container main-container">
@@ -36,8 +38,9 @@
                                                 </h4>
                                             </div>
                                             <div class="form-row">
-                                                    <textarea name="text" class="input-ui pr-2 text-right"
+                                                    <textarea id="text" name="text" class="input-ui pr-2 text-right"
                                                               placeholder="تیکت خود را بنویسید!!!"></textarea>
+                                                <script>CKEDITOR.replace('text');</script>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12 mb-2">

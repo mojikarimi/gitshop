@@ -1,6 +1,7 @@
 {% extends 'back/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load custom_tag %}
 {% block content %}
     <div class="page-wrapper">
         <!-- ============================================================== -->
@@ -21,19 +22,19 @@
                                 <table class="table color-table success-table">
                                     <thead>
                                     <tr>
-                                        <th style="width:5%">#</th>
-                                        <th style="text-align: center;width: 10%">Price</th>
-                                        <th style="text-align: center;width: 15%">Order Code</th>
-                                        <th style="text-align: center;width: 15%">Date</th>
-                                        <th style="text-align: center;width: 5%">Status</th>
-                                        <th style="text-align: center;width: 3%">Cancel</th>
-                                        <th style="text-align: center;width: 10%">Preparation</th>
-                                        <th style="text-align: center;width: 3%">Posted</th>
-                                        <th style="text-align: center;width: 12%">Post Delivery</th>
-                                        <th style="text-align: center;width: 3%">Exchange</th>
-                                        <th style="text-align: center;width: 3%">Receive</th>
+                                        <th style="width:10%">#</th>
+                                        <th style="text-align: center;width: 15%">Price</th>
+                                        <th style="text-align: center;width: 25%">Order Code</th>
+                                        <th style="text-align: center;width: 10%">Date</th>
+                                        <th style="text-align: center;width: 10%">Status</th>
+                                        <th style="text-align: center;width: 10%">Cancel</th>
+                                        {#                                        <th style="text-align: center;width: 10%">Preparation</th>#}
+                                        {#                                        <th style="text-align: center;width: 3%">Posted</th>#}
+                                        {#                                        <th style="text-align: center;width: 12%">Post Delivery</th>#}
+                                        {#                                        <th style="text-align: center;width: 3%">Exchange</th>#}
+                                        {#                                        <th style="text-align: center;width: 3%">Receive</th>#}
                                         <th style="text-align: center;width: 10%">Details & Edit</th>
-                                        <th style="text-align: center;width: 5%">Delete</th>
+                                        <th style="text-align: center;width: 10%">Delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -41,86 +42,77 @@
                                     {% for panel_cart in panel_carts %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
-                                            <td style=" text-align: center"><a
-                                                    href="#">{{ product.name_product }} </a></td>
-                                            <td style=" text-align: center">{{ product.group }}</td>
-                                            <td style=" text-align: center">{{ product.category }}</td>
-                                            <td style=" text-align: center">{{ product.sub_category }}</td>
-                                            <td style=" text-align: center">{{ product.price | intcomma }}</td>
-                                            <td style="text-align: center">
-                                                <a style="padding: 6px 9px;"
-                                                   href="#"
-                                                   class="btn btn-dark text-white"><i
-                                                        class="fa fa-eye"></i></a>
-                                            </td>
-                                            <td style="text-align: center">
-                                                <a style="padding: 6px 9px;"
-                                                   href="#"
-                                                   class="btn btn-dark text-white"><i
-                                                        class="fa fa-eye"></i></a>
-                                            </td>
-                                            <td style="text-align: center">
-                                                <a style="padding: 6px 9px;"
-                                                   href="#"
-                                                   class="btn btn-dark text-white"><i
-                                                        class="fa fa-eye"></i></a>
-                                            </td>
-                                            <td style="text-align: center">
-                                                <a style="padding: 6px 9px;"
-                                                   href="#"
-                                                   class="btn btn-dark text-white"><i
-                                                        class="fa fa-eye"></i></a>
-                                            </td>
-                                            <td style="text-align: center">
-                                                <a style="padding: 6px 10px;"
-                                                   href="#"
-                                                   class="btn btn-info text-white"><i
-                                                        class="fa fa-question-circle"></i></a>
-                                            </td>
+                                            <td style=" text-align: center">{{ panel_cart.price | intcomma }}</td>
+                                            <td style=" text-align: center">{{ panel_cart.order_code }}</td>
+                                            <td style=" text-align: center">{{ panel_cart.date|filter_date:10 }}</td>
+                                            <td style=" text-align: center">
+                                                {% if panel_cart.status == True %}
+                                                    <a style="padding: 5px 9px;"
+                                                       href="#"
+                                                       class="btn btn-success text-white"><i
+                                                            class="fa fa-check"></i></a>
+                                                {% else %}
+                                                    <a style="padding: 5px 11px;"
+                                                       href="#"
+                                                       class="btn btn-danger text-white"><i
+                                                            class="fa fa-times"></i></a>
+                                                {% endif %}</td>
+                                            <td style=" text-align: center">
+                                                {% if panel_cart.cancel == True %}
+                                                    <a style="padding: 5px 9px;"
+                                                       href="#"
+                                                       class="btn btn-success text-white"><i
+                                                            class="fa fa-check"></i></a>
+                                                {% else %}
+                                                    <a style="padding: 5px 11px;"
+                                                       href="#"
+                                                       class="btn btn-primary text-white"><i
+                                                            class="fa fa-times"></i></a>
+                                                {% endif %}</td>
                                             <td style="text-align: center"><a style="padding: 6px 9px;"
-                                                                              href="{% url 'panel_edit_product' panel_cart.pk %}"
+                                                                              href="{% url 'panel_details_cart' panel_cart.pk %}"
                                                                               class="btn btn-warning text-white"> <i
                                                     class="fa fa-edit"></i></a>
                                             </td>
                                             <td style="text-align: center">
                                                 <a class="btn btn-danger text-white"
                                                    data-bs-toggle="modal"
-                                                   data-bs-target="#modal-delete-{{ product.pk }}">
+                                                   data-bs-target="#modal-delete-{{ panel_cart.pk }}">
                                                     <i class="fa fa-trash"></i></a>
                                             </td>
                                             <!--########################################################### modal delete ######################################################################-->
-{#                                            <div id="modal-delete-{{ product.pk }}" class="modal" tabindex="-1"#}
-{#                                                 role="dialog"#}
-{#                                                 aria-labelledby="myModalLabel" aria-hidden="true">#}
-{#                                                <div class="modal-dialog">#}
-{#                                                    <div class="modal-content">#}
-{#                                                        <div class="modal-header">#}
-{#                                                            <h4 class="modal-title" id="myModalLabel">Delete Sub#}
-{#                                                                category</h4>#}
-{#                                                            <button type="button" class="btn-close"#}
-{#                                                                    data-bs-dismiss="modal"#}
-{#                                                                    aria-hidden="true"></button>#}
-{#                                                        </div>#}
-{#                                                        <div class="modal-body">#}
-{#                                                            <h4>Are you sure!!!</h4>#}
-{#                                                            <p>Are you sure you want to delete this post?</p>#}
-{#                                                            <p>Title: {{ product.title }}</p>#}
-{##}
-{#                                                            <p>Number: {{ forloop.counter }}</p>#}
-{#                                                        </div>#}
-{#                                                        <div class="modal-footer">#}
-{#                                                            <a class="btn btn-danger text-white"#}
-{#                                                               href="{% url 'panel_delete_product' product.pk %}">Delete</a>#}
-{#                                                            <button type="button"#}
-{#                                                                    class="btn btn-info text-white"#}
-{#                                                                    data-bs-dismiss="modal">Cancel#}
-{#                                                            </button>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                    <!-- /.modal-content -->#}
-{#                                                </div>#}
-{#                                                <!-- /.modal-dialog -->#}
-{#                                            </div>#}
+                                            {#                                            <div id="modal-delete-{{ panel_cart.pk }}" class="modal" tabindex="-1"#}
+                                            {#                                                 role="dialog"#}
+                                            {#                                                 aria-labelledby="myModalLabel" aria-hidden="true">#}
+                                            {#                                                <div class="modal-dialog">#}
+                                            {#                                                    <div class="modal-content">#}
+                                            {#                                                        <div class="modal-header">#}
+                                            {#                                                            <h4 class="modal-title" id="myModalLabel">Delete Sub#}
+                                            {#                                                                category</h4>#}
+                                            {#                                                            <button type="button" class="btn-close"#}
+                                            {#                                                                    data-bs-dismiss="modal"#}
+                                            {#                                                                    aria-hidden="true"></button>#}
+                                            {#                                                        </div>#}
+                                            {#                                                        <div class="modal-body">#}
+                                            {#                                                            <h4>Are you sure!!!</h4>#}
+                                            {#                                                            <p>Are you sure you want to delete this post?</p>#}
+                                            {#                                                            <p>Title: {{ panel_cart.title }}</p>#}
+                                            {##}
+                                            {#                                                            <p>Number: {{ forloop.counter }}</p>#}
+                                            {#                                                        </div>#}
+                                            {#                                                        <div class="modal-footer">#}
+                                            {#                                                            <a class="btn btn-danger text-white"#}
+                                            {#                                                               href="{% url 'panel_delete_product' panel_cart.pk %}">Delete</a>#}
+                                            {#                                                            <button type="button"#}
+                                            {#                                                                    class="btn btn-info text-white"#}
+                                            {#                                                                    data-bs-dismiss="modal">Cancel#}
+                                            {#                                                            </button>#}
+                                            {#                                                        </div>#}
+                                            {#                                                    </div>#}
+                                            {#                                                    <!-- /.modal-content -->#}
+                                            {#                                                </div>#}
+                                            {#                                                <!-- /.modal-dialog -->#}
+                                            {#                                            </div>#}
 
                                         </tr>
                                     {% endfor %}

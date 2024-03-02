@@ -2,6 +2,9 @@
 
 {% load static %}
 {% load custom_tag %}
+{% block exscript %}
+    <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
 {% block content %}
     <main class="main-content dt-sl mb-3">
         <div class="container main-container">
@@ -19,7 +22,7 @@
                                 <div
                                         class="section-title text-sm-title title-wide no-after-title-wide mt-5 mb-0 dt-sl">
                                     <h2>پرسش ها و پاسخ ها</h2>
-                                    <p class="count-comment">{{ number }}  پرسش و پاسخ</p>
+                                    <p class="count-comment">{{ number }} پرسش و پاسخ</p>
                                 </div>
                                 <ol class="comment-list">
                                     {% for answerticket in answertickets %}
@@ -39,13 +42,13 @@
 
                                                     <div class="commentmetadata">
                                                         <a href="#">
-                                                           {{ answerticket.date |filter_date:19 }}
+                                                            {{ answerticket.date |filter_date:19 }}
                                                         </a>
                                                     </div>
                                                 </div>
 
 
-                                                <p>{{ answerticket.text }}</p>
+                                                <p>{{ answerticket.text|safe }}</p>
 
                                             </div>
                                         </li>
@@ -57,9 +60,10 @@
                                 </ol>
                             </div>
                         </div>
-<div class="col-lg-12 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="form-ui dt-sl">
-                                <form style="max-width: 100%" class="form-account" action="{% url 'profile_detail_tickets' ticket.pk %}"
+                                <form style="max-width: 100%" class="form-account"
+                                      action="{% url 'profile_detail_tickets' ticket.pk %}"
                                       method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="type_user" value="user">
@@ -72,8 +76,11 @@
                                                 </h4>
                                             </div>
                                             <div class="form-row">
-                                                    <textarea name="text" class="input-ui pr-2 text-right"
+                                                    <textarea id="text_ticket" name="text"
+                                                              class="input-ui pr-2 text-right"
                                                               placeholder="پاسخ خود را بنویسید!!!"></textarea>
+
+                                                <script>CKEDITOR.replace('text_ticket');</script>
                                             </div>
                                         </div>
                                         <div class="col-12 pr-4 pl-4">
