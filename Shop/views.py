@@ -460,7 +460,7 @@ def panel_add_product(request):
                                              size=size,
                                              image1=image1, image2=image2, image3=image3, image4=image4, video=video,
                                              attribute_title=input_title, attribute_value=input_value, price=price,
-                                             discount_percent=float(percent), number=number, discount_period=to_day,
+                                             discount_percent=int(float(percent)), number=number, discount_period=to_day,
                                              discounted_price=int(
                                                  float(price) - (float(price) * (float(percent) / 100))),
                                              instant_sale=instant_sale,
@@ -549,7 +549,7 @@ def panel_edit_product(request, pk):
         edit_product.number = number
         edit_product.discount_period = to_day
         edit_product.discounted_price = int(float(price) - (float(price) * (float(percent) / 100)))
-        edit_product.discount_percent = float(percent)
+        edit_product.discount_percent = int(float(percent))
         edit_product.name_product_english = title_english
         edit_product.name_product = title
         if image1:

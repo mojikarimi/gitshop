@@ -66,7 +66,7 @@ class Product(models.Model):
     title_text = models.TextField(blank=True)
     full_text = models.TextField(blank=True)
     price = models.IntegerField(default=0)
-    discount_percent = models.FloatField(default=0)
+    discount_percent = models.IntegerField(default=0)
     discount_period = models.CharField(max_length=10)
     discounted_price = models.IntegerField(default=0)
     instant_sale = models.BooleanField(default=False)

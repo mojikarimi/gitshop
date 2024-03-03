@@ -15,14 +15,16 @@ from django.conf import settings
 from Shop.models import Product
 
 from django.contrib.auth.decorators import login_required, permission_required
+
+
 # Create your views here.
 def index(request):
     gif = Gif.objects.all().first()
     sliders = Slider.objects.all()
-    best_sellers= Product.objects.order_by('sales_number')
-    instant_sales= Product.objects.filter(instant_sale=True).order_by('instant_sale')
-    instant_sales_reverse = Product.objects.filter(instant_sale=True).order_by('-instant_sale')
-    our_suggestions=Product.objects.filter(our_suggestion=True)[:9]
+    instant_sales = Product.objects.using('shop').filter(instant_sale=True).order_by('instant_sale')[:5]
+    best_sellers = Product.objects.using('shop').order_by('sales_number')
+    best_sellers_reverse = Product.objects.using('shop').order_by('-sales_number')
+    our_suggestions = Product.objects.filter(our_suggestion=True)[:9]
 
     if Visit.objects.filter(x=str(datetime.now())[:10]):
         obj = Visit.objects.get(x=str(datetime.now())[:10])
@@ -31,7 +33,9 @@ def index(request):
     else:
         visit = Visit(x=str(datetime.now())[:10], y=1)
         visit.save()
-    return render(request, "front/Main/index.html", {'gif': gif, 'sliders': sliders})
+    return render(request, "front/Main/index.html",
+                  {'gif': gif, 'sliders': sliders, 'instant_sales': instant_sales, 'best_sellers': best_sellers,
+                   'best_sellers_reverse': best_sellers_reverse, 'our_suggestions': our_suggestions})
 
 
 def new_chat(request):
@@ -114,6 +118,7 @@ def panel_update_chat(request):
         status = chatroom.status
         return JsonResponse({'chatroom_pk': chatroom_pk, 'messages': messages, 'status': status})
 
+
 @login_required
 @permission_required(perm='Main.view_chatroom')
 def panel_chat(request):
@@ -121,6 +126,7 @@ def panel_chat(request):
     chatrooms = ChatRoom.objects.all()
     users = CustomUser.objects.filter(username__in=chatrooms.values('user'))  # In order to recognize anonymous users
     return render(request, 'back/PanelMain/panel_new_chat.html', context={'chatrooms': chatrooms, 'users': users})
+
 
 @login_required
 @permission_required(perm='Main.add_chatnew')
@@ -135,6 +141,7 @@ def panel_massages(request, pk):
                   context={'chatroom': chatroom, 'chats': chats, 'status': status, 'chatrooms': chatrooms,
                            'users': users})
 
+
 @login_required
 @permission_required(perm='Main.add_catfooter')
 def panel_add_cat_footer(request):
@@ -146,6 +153,7 @@ def panel_add_cat_footer(request):
         cat.save()
         return redirect('panel_add_cat_footer')
     return render(request, 'back/PanelMain/panel_add_cat_footer.html', context=context)
+
 
 @login_required
 @permission_required(perm='Main.change_chatfooter')
@@ -161,6 +169,7 @@ def panel_edit_cat_footer(request, pk):
             i.save()
         return redirect('panel_add_cat_footer')
 
+
 @login_required
 @permission_required(perm='Main.delete_chatfooter')
 def panel_delete_cat_footer(request, pk):
@@ -169,6 +178,7 @@ def panel_delete_cat_footer(request, pk):
     subcats.delete()
     cat.delete()
     return redirect('panel_add_cat_footer')
+
 
 @login_required
 @permission_required(perm='Main.add_subchatfooter')
@@ -184,12 +194,14 @@ def panel_add_subcat_footer(request, pk):
         return redirect('panel_add_subcat_footer', pk=pk)
     return render(request, 'back/PanelMain/panel_add_subcat_footer.html', context=context)
 
+
 @login_required
 @permission_required(perm='Main.delete_subchatfooter')
 def panel_delete_subcat_footer(request, pk):
     subcat = SubCatFooter.objects.get(pk=pk)
     subcat.delete()
     return redirect('panel_add_subcat_footer', pk=pk)
+
 
 @login_required
 @permission_required(perm='Main.change_subchatfooter')
@@ -202,6 +214,7 @@ def panel_edit_subcat_footer(request, pk):
         subcat.link = link
         subcat.save()
         return redirect('panel_add_subcat_footer', pk=pk)
+
 
 @login_required
 @permission_required(perm='Main.add_menu')
@@ -216,6 +229,7 @@ def panel_add_menu(request):
         return redirect('panel_add_menu')
     return render(request, 'back/PanelMain/panel_add_menu.html', context=context)
 
+
 @login_required
 @permission_required(perm='Main.change_menu')
 def panel_edit_menu(request, pk):
@@ -228,12 +242,14 @@ def panel_edit_menu(request, pk):
         menu.save()
         return redirect('panel_add_menu')
 
+
 @login_required
 @permission_required(perm='Main.delete_menu')
 def panel_delete_menu(request, pk):
     menu = Menu.objects.get(pk=pk)
     menu.delete()
     return redirect('panel_add_menu')
+
 
 @login_required
 @permission_required(perm='Main.add_menu')
@@ -246,6 +262,7 @@ def panel_sort_menu(request):
             menu.number = i
             menu.save()
         return redirect('panel_add_menu')
+
 
 @login_required
 @permission_required(perm='Main.add_footer')
@@ -296,6 +313,7 @@ def panel_footer(request):
         return redirect('panel_footer')
     return render(request, 'back/PanelMain/panel_footer.html', {'footer_view': footer_view})
 
+
 @login_required
 @permission_required(perm='Main.add_mainmodel')
 def panel_main_model(request):
@@ -316,6 +334,7 @@ def panel_main_model(request):
         return redirect('panel_main_model')
     return render(request, 'back/PanelMain/panel_main_model.html')
 
+
 @login_required
 @permission_required(perm='Main.add_tickets')
 def panel_tickets_lists(request):
@@ -325,6 +344,7 @@ def panel_tickets_lists(request):
                'answered': len(tickets.filter(status='پاسخ داده شده')),
                'pending': len(tickets.filter(status='درحال بررسی')), }
     return render(request, "back/PanelMain/panel_tickets.html", context=context)
+
 
 @login_required
 @permission_required(perm='Main.add_answerticket')
@@ -344,6 +364,7 @@ def panel_answer_tickets(request, pk):
         return redirect('panel_tickets_lists')
     return render(request, "back/PanelMain/panel_answer_tickets.html", context=context)
 
+
 @login_required
 @permission_required(perm='Main.view_tickets')
 def panel_change_status_ticket(request, pk):
@@ -354,6 +375,7 @@ def panel_change_status_ticket(request, pk):
         ticket.date_update = datetime.now()
         ticket.save(using='profile')
         return redirect('panel_tickets_lists')
+
 
 @login_required
 @permission_required(perm='Main.add_gif')
@@ -369,6 +391,7 @@ def panel_gif(request):
         return redirect('panel_gif')
     main_gif = Gif.objects.all().first()
     return render(request, 'back/PanelMain/panel_gif.html', {'main_gif': main_gif})
+
 
 @login_required
 @permission_required(perm='Main.add_slider')
@@ -396,6 +419,7 @@ def panel_add_slider(request):
             return redirect('panel_add_slider')
     sliders = Slider.objects.all()
     return render(request, 'back/PanelMain/panel_add_slider.html', {'sliders': sliders})
+
 
 @login_required
 @permission_required(perm='Main.change_slider')
@@ -428,12 +452,14 @@ def panel_edit_slider(request, pk):
             return redirect('panel_add_slider')
     return render(request, 'back/PanelMain/panel_edit_slider.html', {'slider': slider})
 
+
 @login_required
 @permission_required(perm='Main.delete_slider')
 def panel_delete_slider(request, pk):
     slider = Slider.objects.get(pk=pk)
     slider.delete()
     return redirect('panel_add_slider')
+
 
 @login_required
 @permission_required(perm='Main.add_trend')
