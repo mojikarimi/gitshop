@@ -505,21 +505,6 @@
                                                                     <div class="col-md-4 col-sm-6 col-12">
                                                                         <div class="content-expert-evaluation-positive">
                                                                             <span>نقاط قوت</span>
-
-                                                                        <ul>
-                                                                                {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
-                                                                                        {% if pk == product_comment.pk %}
-                                                                                            {% for product_comments_weakness in product_comments_weaknesse %}
-                                                                                            <li>{{ product_comments_weakness }}</li>
-                                                                                            {% endfor %}
-                                                                                        {% endif %}
-                                                                                {% endfor %}
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4 col-sm-6 col-12">
-                                                                        <div class="content-expert-evaluation-negative">
-                                                                            <span>نقاط ضعف</span>
                                                                             <ul>
                                                                                 {% for pk,product_comments_strength in product_comments_strengths %}
                                                                                         {% if pk == product_comment.pk %}
@@ -529,6 +514,20 @@
                                                                                         {% endif %}
                                                                                 {% endfor %}
 
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 col-sm-6 col-12">
+                                                                        <div class="content-expert-evaluation-negative">
+                                                                            <span>نقاط ضعف</span>
+                                                                            <ul>
+                                                                                {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
+                                                                                        {% if pk == product_comment.pk %}
+                                                                                            {% for product_comments_weakness in product_comments_weaknesse %}
+                                                                                            <li>{{ product_comments_weakness }}</li>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                {% endfor %}
                                                                             </ul>
                                                                         </div>
                                                                     </div>

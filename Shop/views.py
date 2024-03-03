@@ -23,12 +23,13 @@ def single_product(request, title):
     product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
 
     if product_comments:
-        build = mean(list(product_comments.values_list('build', flat=True))) * 20
-        innovation = mean(list(product_comments.values_list('innovation', flat=True))) * 20
-        ease_of_use = mean(list(product_comments.values_list('ease_of_use', flat=True))) * 20
-        designing = mean(list(product_comments.values_list('designing', flat=True))) * 20
-        possibilities = mean(list(product_comments.values_list('possibilities', flat=True))) * 20
-        worth_buying = mean(list(product_comments.values_list('worth_buying', flat=True))) * 20
+        #Show user comments
+        build = mean(list(product_comments.values_list('build', flat=True))) * 20#Average characteristics in percentage
+        innovation = mean(list(product_comments.values_list('innovation', flat=True))) * 20#Average characteristics in percentage
+        ease_of_use = mean(list(product_comments.values_list('ease_of_use', flat=True))) * 20#Average characteristics in percentage
+        designing = mean(list(product_comments.values_list('designing', flat=True))) * 20#Average characteristics in percentage
+        possibilities = mean(list(product_comments.values_list('possibilities', flat=True))) * 20#Average characteristics in percentage
+        worth_buying = mean(list(product_comments.values_list('worth_buying', flat=True))) * 20#Average characteristics in percentage
         context['build'] = build
         context['innovation'] = innovation
         context['ease_of_use'] = ease_of_use
@@ -36,8 +37,8 @@ def single_product(request, title):
         context['possibilities'] = possibilities
         context['worth_buying'] = worth_buying
         context['product_comments'] = product_comments
-        context['product_comments_weaknesses'] = [(x.pk, eval(x.weaknesses)) for x in product_comments]
-        context['product_comments_strengths'] = [(x.pk, eval(x.strengths)) for x in product_comments]
+        context['product_comments_weaknesses'] = [(x.pk, eval(x.weaknesses)) for x in product_comments]#To show weaknesses
+        context['product_comments_strengths'] = [(x.pk, eval(x.strengths)) for x in product_comments]#To show strengths
         context['len_product_comments'] = len(product_comments)
     if 'product_view' in request.session:
         # To add a product to recent visits
