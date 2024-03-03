@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="profile-navbar">
-                                <a href="#" class="profile-navbar-btn-back">بازگشت</a>
-                                <h4>سفارش <span class="font-en">{{ cart.order_code }}</span> </h4>
+                                <a href="{% url 'profile_orders' %}" class="profile-navbar-btn-back">بازگشت</a>
+                                <h4>سفارش <span class="font-en">{{ cart.order_code }}</span></h4>
 
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 <div class="row mb-3">
                                     <div class="col-12">
                                         <div class="section-title text-sm-title title-wide no-after-title-wide">
-                                            <h2>مرسوله 1 از 1</h2>
+
                                             <a href="#">لغو دریافت مرسوله</a>
                                         </div>
                                     </div>
@@ -61,31 +61,45 @@
                                     <!-- Start Profile-order-step-Slider -->
                                     <div class="col-12">
                                         <div class="profile-order-steps carousel-lg owl-carousel owl-theme">
-                                            <div class="item profile-order-steps-item is-active">
+                                            <div class="item profile-order-steps-item {% if cart.cancel %}
+                                            is-active
+                                            {% endif %} ">
                                                 <img src="{% static 'front/assets/img/svg/0eab59b0.svg' %}">
                                                 <span>لغو شده</span>
                                             </div>
-                                            <div class="item profile-order-steps-item is-active">
+                                            <div class="item profile-order-steps-item {% if cart.status %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/d5d5e1d2.svg' %}">
                                                 <span>تایید سفارش</span>
                                             </div>
-                                            <div class="item profile-order-steps-item">
+                                            <div class="item profile-order-steps-item {% if cart.preparation %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/3db3cdeb.svg' %}">
                                                 <span>آماده‌سازی سفارش</span>
                                             </div>
-                                            <div class="item profile-order-steps-item">
+                                            <div class="item profile-order-steps-item {% if cart.exit %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/332b9ff1.svg' %}">
                                                 <span>خروج از مرکز پردازش</span>
                                             </div>
-                                            <div class="item profile-order-steps-item">
+                                            <div class="item profile-order-steps-item {% if cart.delivery %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/07a0808a.svg' %}">
                                                 <span>تحویل به پست</span>
                                             </div>
-                                            <div class="item profile-order-steps-item">
+                                            <div class="item profile-order-steps-item {% if cart.exchange %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/dbab74ce.svg' %}">
                                                 <span>مرکز مبادلات پست</span>
                                             </div>
-                                            <div class="item profile-order-steps-item">
+                                            <div class="item profile-order-steps-item {% if cart.customer %}
+                                            is-active
+                                            {% endif %}">
                                                 <img src="{% static 'front/assets/img/svg/50450a73.svg' %}">
                                                 <span>تحویل به مشتری</span>
                                             </div>
@@ -132,10 +146,12 @@
                                                 <td>{{ products_order_cart.discount_percent }}</td>
                                                 <td>{{ products_order_cart.discounted_price|intcomma }} تومان</td>
                                                 <td>
-                                                    <a href="{% url 'single_product' products_order_cart.name_product %}" class="btn btn-info d-block w-100 mb-2">خرید
+                                                    <a href="{% url 'single_product' products_order_cart.name_product %}"
+                                                       class="btn btn-info d-block w-100 mb-2">خرید
                                                         مجدد
                                                     </a>
-                                                    <a  href="{% url 'product_comments' products_order_cart.name_product %}"  class="btn text-light bg-secondary d-block w-100">ثبت
+                                                    <a href="{% url 'product_comments' products_order_cart.name_product %}"
+                                                       class="btn text-light bg-secondary d-block w-100">ثبت
                                                         نظر
                                                     </a>
                                                 </td>

@@ -51,49 +51,65 @@
                 <div class="profile-menu">
                     <ul>
                         <li>
-                            <a href="{% url 'profile_dashboard' %}" class="active">
+                            <a href="{% url 'profile_dashboard' %}" {% if 'profile_dashboard' in request.path %}
+                            class="active"
+                            {% endif %}  >
                                 <i class="mdi mdi-account-circle-outline"></i>
                                 پروفایل
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_orders' %}">
+                            <a href="{% url 'profile_orders' %}" {% if 'profile_orders' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-basket"></i>
                                 همه سفارش ها
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_my_favorite' %}">
+                            <a href="{% url 'profile_my_favorite' %}" {% if 'profile_my_favorite' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-heart-outline"></i>
                                 لیست علاقمندی ها
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_dashboard' %}">
+                            <a href="{% url 'profile_dashboard' %}" {% if 'profile_dashboard' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-glasses"></i>
                                 نقد و نظرات
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_address' %}">
+                            <a href="{% url 'profile_address' %}" {% if 'profile_address' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-sign-direction"></i>
                                 آدرس ها
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_user_history' %}">
+                            <a href="{% url 'profile_user_history' %}" {% if 'profile_user_history' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-eye-outline"></i>
                                 بازدیدهای اخیر
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_personal_info' %}">
+                            <a href="{% url 'profile_personal_info' %}" {% if 'profile_personal_info' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-account-edit-outline"></i>
                                 اطلاعات شخصی
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'profile_tickets' %}">
+                            <a href="{% url 'profile_tickets' %}" {% if 'profile_tickets' in request.path %}
+                            class="active"
+                            {% endif %}>
                                 <i class="mdi mdi-account-edit-outline"></i>
                                 تیکت ها
                             </a>

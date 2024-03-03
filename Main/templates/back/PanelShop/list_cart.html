@@ -69,8 +69,8 @@
                                                        class="btn btn-primary text-white"><i
                                                             class="fa fa-times"></i></a>
                                                 {% endif %}</td>
-                                            <td style="text-align: center"><a style="padding: 6px 9px;"
-                                                                              href="{% url 'panel_details_cart' panel_cart.pk %}"
+                                            <td style="text-align: center"><a style="padding: 6px 9px;" {% if panel_cart.status %}href="{% url 'panel_details_cart' panel_cart.pk %}"{% else %}href="#"{% endif %}
+
                                                                               class="btn btn-warning text-white"> <i
                                                     class="fa fa-edit"></i></a>
                                             </td>

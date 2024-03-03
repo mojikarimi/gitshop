@@ -162,7 +162,7 @@ def profile_tickets(request):
 
 
 @login_required
-def profile_detail_tickets(request, pk):
+def profile_tickets_detail(request, pk):
     if not request.user.is_active:  # Account activation notification
         messages.warning(request, 'Please activate your account')
         return redirect('profile_dashboard')

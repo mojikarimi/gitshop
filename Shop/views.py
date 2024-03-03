@@ -631,17 +631,23 @@ def panel_edit_subcategory_product(request, pk):
         return redirect('panel_add_subcategory_product')
 
 
+@login_required
+@permission_required(perm='Shop.view_cart')
 def panel_view_cart(request):
     panel_carts = Cart.objects.order_by('-date')
     context = {'panel_carts': panel_carts}
     return render(request, 'back/PanelShop/list_cart.html', context=context)
 
 
+@login_required
+@permission_required(perm='Shop.view_cart')
 def panel_details_cart(request, pk):
     panel_cart = Cart.objects.get(pk=pk)
     panel_products_cart = ProductCart.objects.filter(cart_id=panel_cart.pk).order_by('product_id')
     panel_products = Product.objects.filter(pk__in=panel_products_cart.values('product_id'))
-    context = {'panel_cart': panel_cart, 'panel_products_cart': panel_products_cart, 'panel_products': panel_products}
+    panel_address = Address.objects.get(pk=panel_cart.address_id)
+    context = {'panel_cart': panel_cart, 'panel_products_cart': panel_products_cart, 'panel_products': panel_products,
+               'panel_address': panel_address}
     if request.method == 'POST':
         preparation = request.POST.get('preparation')
         exit_ = request.POST.get('exit')

@@ -100,7 +100,7 @@
                                                 <td>{{ ticket.date|filter_date:10 }}</td>
                                                 <td>{{ ticket.status }}</td>
                                                 <td class="details-link">
-                                                    <a href="{% url 'profile_detail_tickets' ticket.pk %}">
+                                                    <a href="{% url 'profile_tickets_detail' ticket.pk %}">
                                                         <i class="mdi mdi-chevron-left"></i>
                                                     </a>
                                                 </td>
