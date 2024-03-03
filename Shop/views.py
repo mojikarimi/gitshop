@@ -8,6 +8,7 @@ from jdatetime import datetime
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from statistics import mean
 
 
 def single_product(request, title):
@@ -19,6 +20,25 @@ def single_product(request, title):
                'attrs': dict(zip(eval(product.attribute_title), eval(product.attribute_value))),
                # Send related features of each other
                'texts': zip(eval(product.title_text), eval(product.full_text))}  # Send text and Title together
+    product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
+
+    if product_comments:
+        build = mean(list(product_comments.values_list('build', flat=True))) * 20
+        innovation = mean(list(product_comments.values_list('innovation', flat=True))) * 20
+        ease_of_use = mean(list(product_comments.values_list('ease_of_use', flat=True))) * 20
+        designing = mean(list(product_comments.values_list('designing', flat=True))) * 20
+        possibilities = mean(list(product_comments.values_list('possibilities', flat=True))) * 20
+        worth_buying = mean(list(product_comments.values_list('worth_buying', flat=True))) * 20
+        context['build'] = build
+        context['innovation'] = innovation
+        context['ease_of_use'] = ease_of_use
+        context['designing'] = designing
+        context['possibilities'] = possibilities
+        context['worth_buying'] = worth_buying
+        context['product_comments'] = product_comments
+        context['product_comments_weaknesses'] = [(x.pk, eval(x.weaknesses)) for x in product_comments]
+        context['product_comments_strengths'] = [(x.pk, eval(x.strengths)) for x in product_comments]
+        context['len_product_comments'] = len(product_comments)
     if 'product_view' in request.session:
         # To add a product to recent visits
         product_view = request.session.get('product_view')
@@ -460,7 +480,8 @@ def panel_add_product(request):
                                              size=size,
                                              image1=image1, image2=image2, image3=image3, image4=image4, video=video,
                                              attribute_title=input_title, attribute_value=input_value, price=price,
-                                             discount_percent=int(float(percent)), number=number, discount_period=to_day,
+                                             discount_percent=int(float(percent)), number=number,
+                                             discount_period=to_day,
                                              discounted_price=int(
                                                  float(price) - (float(price) * (float(percent) / 100))),
                                              instant_sale=instant_sale,
