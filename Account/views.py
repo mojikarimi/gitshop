@@ -158,42 +158,44 @@ def panel_add_group_user(request):
 @login_required
 @permission_required(perm='auth.delete_group')
 def panel_delete_group_user(request, pk):
+    # def for delete group
     if not request.user.is_staff:
         return redirect('index')
-    Group.objects.get(pk=pk).delete()
+    Group.objects.get(pk=pk).delete()  # get group and delete
     return redirect('panel_add_group_user')
 
 
 @login_required
 @permission_required(perm='auth.add_permission')
 def panel_user_access(request, pk):
+    # add permission to user
     if not request.user.is_staff:
         return redirect('index')
     if request.method == 'POST':
-        user = CustomUser.objects.get(pk=pk)
-        staff = request.POST.get('staff')
-        super_user = request.POST.get('super_user')
-        active = request.POST.get('active')
-        if staff == 'on':
+        user = CustomUser.objects.get(pk=pk)  # get user
+        staff = request.POST.get('staff')  # for is_staff
+        super_user = request.POST.get('super_user')  # for change to superuser
+        active = request.POST.get('active')  # for active user
+        if staff == 'on':  # if on staff => True
             user.is_staff = True
         else:
             user.is_staff = False
-        if super_user == 'on':
+        if super_user == 'on':  # if on super_user => True
             user.is_superuser = True
         else:
             user.is_superuser = False
-        if active == 'on':
+        if active == 'on':  # if on active => True
             user.is_active = True
         else:
             user.is_active = False
-        perms = request.POST.getlist('perms')
-        groups = request.POST.getlist('groups')
-        groups_list = Group.objects.filter(pk__in=groups)
-        perm_list = Permission.objects.filter(pk__in=perms)
-        user.user_permissions.clear()
-        user.groups.clear()
-        user.user_permissions.add(*perm_list)
-        user.groups.add(*groups_list)
+        perms = request.POST.getlist('perms')  # get permissions for user
+        groups = request.POST.getlist('groups')  # get group for user
+        groups_list = Group.objects.filter(pk__in=groups)  # get group list for user
+        perm_list = Permission.objects.filter(pk__in=perms)  # Getting permission based on pk's taken
+        user.user_permissions.clear()  # delete all permissions and add new permissions
+        user.groups.clear()  # delete all groups and add new groups
+        user.user_permissions.add(*perm_list)  # add new permissions
+        user.groups.add(*groups_list)  # add new groups
         user.save()
         return redirect('panel_permissions', pk=pk)
 
@@ -201,18 +203,18 @@ def panel_user_access(request, pk):
 @login_required
 @permission_required(perm='auth.view_group')
 def panel_details_group(request, pk=None):
+    # def for see details group
     if not request.user.is_staff:
         return redirect('index')
-
-    group = Group.objects.get(pk=pk)
-    perms_grope = group.permissions.all()
-    permissions = Permission.objects.all()
+    group = Group.objects.get(pk=pk)  # get group based on pk
+    perms_grope = group.permissions.all()  # get all permissions from group
+    permissions = Permission.objects.all()  # get all permissions
     if request.method == 'POST':
         title = request.POST.get('name_title')
         new_perms = request.POST.getlist('new_perms')
-        group.permissions.clear()
+        group.permissions.clear()  # delete all permissions from group and add new permissions
         group.name = title
-        group.permissions.add(*new_perms)
+        group.permissions.add(*new_perms)  # add new permissions to group
         group.save()
         return redirect('panel_details_group', pk=pk)
 
@@ -223,7 +225,8 @@ def panel_details_group(request, pk=None):
 @login_required
 @permission_required(perm='auth.delete_user')
 def panel_delete_user(request, pk):
+    # def for delete user based on user pk
     if not request.user.is_staff:
         return redirect('index')
-    CustomUser.objects.get(pk=pk).delete()
+    CustomUser.objects.get(pk=pk).delete()  # delete user
     return redirect('panel_list_user')
