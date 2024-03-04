@@ -137,3 +137,15 @@ class FavoriteProduct(models.Model):
     user_id = models.IntegerField(default=0)
     product_id = models.IntegerField(default=0)
     status = models.CharField(blank=True, max_length=1)
+
+
+class Question(models.Model):
+    product_id = models.IntegerField(default=0)
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    text = models.TextField(blank=True)
+    date = models.CharField(max_length=50, default=datetime.now)
+    status = models.BooleanField(default=False)
+    answer_text = models.TextField(blank=True)
+    answer_date = models.CharField(max_length=50, default=datetime.now)
+    faq = models.BooleanField(default=False)
