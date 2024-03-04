@@ -29,129 +29,140 @@
                         <!-- .chat-row -->
                         <div class="chat-main-box">
                             <!-- .chat-left-panel -->
-                        <div class="row">
-                            <div class="col-4 chat-left-aside">
-                                <div class="open-panel"><i class="ti-angle-right"></i></div>
-                                <div class="chat-left-inner">
-                                    <form id="status-{{ ticket.pk }}" method="post"
-                                          action="{% url 'panel_change_status_ticket' ticket.pk %}">
-                                        {% csrf_token %}
-                                        <ul class="chatonline style-none ">
-                                            <li>
-                                                <div class="col-12 form-check form-switch">
-                                                    <input name="status" value="درحال بررسی" type="radio"
-                                                           class="btn-check"
-                                                           id="checked-{{ ticket.pk }}"
-                                                           autocomplete="off"
-                                                           {% if ticket.status == 'درحال بررسی' %}checked {% endif %}>
-                                                    <label style="margin: 2px -25px;padding: 5% 36.8%"
-                                                           class="btn btn-outline-info"
-                                                           for="checked-{{ ticket.pk }}">درحال
-                                                        بررسی</label>
-                                                </div>
+                            <div class="row">
+                                <div class="col-4 chat-left-aside">
+                                    <div class="open-panel"><i class="ti-angle-right"></i></div>
+                                    <div class="chat-left-inner">
+                                        <form id="status-{{ ticket.pk }}" method="post"
+                                              action="{% url 'panel_change_status_ticket' ticket.pk %}">
+                                            {% csrf_token %}
+                                            <ul class="chatonline style-none ">
+                                                <li>
+                                                    <div class="col-12 form-check form-switch">
+                                                        <input name="status" value="درحال بررسی" type="radio"
+                                                               class="btn-check"
+                                                               id="checked-{{ ticket.pk }}"
+                                                               autocomplete="off"
+                                                               {% if ticket.status == 'درحال بررسی' %}checked {% endif %}>
+                                                        <label style="margin: 2px -25px;padding: 5% 36.8%"
+                                                               class="btn btn-outline-info"
+                                                               for="checked-{{ ticket.pk }}">درحال
+                                                            بررسی</label>
+                                                    </div>
 
-                                            </li>
-                                            <li>
-                                                <div class="col-12 form-check form-switch">
-                                                    <input name="status" value="پاسخ داده شده" type="radio"
-                                                           class="btn-check"
-                                                           id="answered-{{ ticket.pk }}"
-                                                           autocomplete="off"
-                                                           {% if ticket.status == 'پاسخ داده شده' %}checked {% endif %}>
-                                                    <label style="margin: 2px -25px;padding: 5% 33.8%"
-                                                           class="btn btn-outline-success"
-                                                           for="answered-{{ ticket.pk }}">پاسخ
-                                                        داده شده</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="col-12 form-check form-switch">
-                                                    <input name="status" value="بسته شده" type="radio"
-                                                           class="btn-check"
-                                                           id="closed-{{ ticket.pk }}"
-                                                           autocomplete="off"
-                                                           {% if ticket.status == 'بسته شده' %}checked {% endif %}>
-                                                    <label style="margin: 2px -25px;padding: 5% 41%"
-                                                           class="btn btn-outline-dark"
-                                                           for="closed-{{ ticket.pk }}">بسته شده
-                                                    </label>
-                                                </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-12 form-check form-switch">
+                                                        <input name="status" value="پاسخ داده شده" type="radio"
+                                                               class="btn-check"
+                                                               id="answered-{{ ticket.pk }}"
+                                                               autocomplete="off"
+                                                               {% if ticket.status == 'پاسخ داده شده' %}checked {% endif %}>
+                                                        <label style="margin: 2px -25px;padding: 5% 33.8%"
+                                                               class="btn btn-outline-success"
+                                                               for="answered-{{ ticket.pk }}">پاسخ
+                                                            داده شده</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-12 form-check form-switch">
+                                                        <input name="status" value="بسته شده" type="radio"
+                                                               class="btn-check"
+                                                               id="closed-{{ ticket.pk }}"
+                                                               autocomplete="off"
+                                                               {% if ticket.status == 'بسته شده' %}checked {% endif %}>
+                                                        <label style="margin: 2px -25px;padding: 5% 41%"
+                                                               class="btn btn-outline-dark"
+                                                               for="closed-{{ ticket.pk }}">بسته شده
+                                                        </label>
+                                                    </div>
 
-                                            </li>
-                                            <li>
-                                                <div class="col-12 form-check form-switch">
-                                                    <input name="status" value="غیر قابل قبول" type="radio"
-                                                           class="btn-check"
-                                                           id="uncorect-{{ ticket.pk }}"
-                                                           autocomplete="off"
-                                                           {% if ticket.status == 'غیر قابل قبول' %}checked {% endif %}>
-                                                    <label style="margin: 2px -25px;padding: 5% 35.8%"
-                                                           class="btn btn-outline-danger"
-                                                           for="uncorect-{{ ticket.pk }}">غیر
-                                                        قابل قبول
-                                                    </label>
-                                                </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-12 form-check form-switch">
+                                                        <input name="status" value="غیر قابل قبول" type="radio"
+                                                               class="btn-check"
+                                                               id="uncorect-{{ ticket.pk }}"
+                                                               autocomplete="off"
+                                                               {% if ticket.status == 'غیر قابل قبول' %}checked {% endif %}>
+                                                        <label style="margin: 2px -25px;padding: 5% 35.8%"
+                                                               class="btn btn-outline-danger"
+                                                               for="uncorect-{{ ticket.pk }}">غیر
+                                                            قابل قبول
+                                                        </label>
+                                                    </div>
 
-                                            </li>
-                                        <br><br>
-                                            <li>
-                                                <div style="position: center" class="col-7 text-end">
-                                                    <button type="submit"
-                                                            class="btn btn-info btn-circle btn-lg text-white">
-                                                        <i class="fas fa-paint-brush"></i></button>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- .chat-left-panel -->
-                            <!-- .chat-right-panel -->
-                            <div class="col-8 chat-right-aside">
-                                <div class="chat-main-header">
-                                    <div class="p-3 b-b">
-                                        <h4 class="box-title">Chat Message ({{ ticket.subject }})</h4>
-                                        <h6 class="box-title">{{ ticket.text |safe }}</h6>
+                                                </li>
+                                                <br><br>
+                                                <li>
+                                                    <div style="position: center" class="col-7 text-end">
+                                                        <button type="submit"
+                                                                class="btn btn-info btn-circle btn-lg text-white">
+                                                            <i class="fas fa-paint-brush"></i></button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="chat-rbox">
-                                    <ul class="chat-list p-3">
-                                        {% for answers_ticket in answers_tickets %}
-                                            <li {% if answers_ticket.type_user == 'user' %} class="reverse"{% endif %}>
+                                <!-- .chat-left-panel -->
+                                <!-- .chat-right-panel -->
+                                <div class="col-8 chat-right-aside">
+                                    <div class="chat-main-header">
+                                        <div class="p-3 b-b">
+                                            <h4 class="box-title">Subject Tickets: ({{ ticket.subject }})</h4>
+                                            <h6 class="box-title">User IP : {{ ticket.user_ip }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="chat-rbox">
+                                        <ul class="chat-list p-3">
+
+
+                                            {% for answers_ticket in answers_tickets %}
+                                                <li {% if answers_ticket.type_user == 'user' %}
+                                                    class="reverse"{% endif %}>
+                                                    <div class="chat-content">
+                                                        <h5>{{ answers_ticket.user }}</h5>
+                                                        <div class="box bg-light-inverse">{{ answers_ticket.text |safe }}</div>
+                                                        <div class="chat-time">{{ answers_ticket.date |filter_date:19 }}</div>
+                                                    </div>
+                                                </li>{% endfor %}
+                                            <li class="reverse">
                                                 <div class="chat-content">
-                                                    <h5>{{ answers_ticket.user }}</h5>
-                                                    <div class="box bg-light-inverse">{{ answers_ticket.text |safe }}</div>
-                                                    <div class="chat-time">{{ answers_ticket.date |filter_date:19 }}</div>
+                                                    <h5>{{ ticket.user }}</h5>
+                                                    <div class="box bg-light-inverse">{{ ticket.text |safe }}</div>
+                                                    <div class="chat-time">{{ ticket.date |filter_date:19 }}</div>
                                                 </div>
-                                            </li>{% endfor %}
+                                            </li>
+
+                                            <!--chat Row -->
 
 
-                                        <!--chat Row -->
-
-
-                                        <!--chat Row -->
-                                    </ul>
-                                </div>
-                                <div class="card-body border-top">
-                                    <form action="{% url 'panel_answer_tickets' ticket.pk %}" method="post">
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            <input type="hidden" name="type_user" value="admin">
-                                            <div class="col-11">
+                                            <!--chat Row -->
+                                        </ul>
+                                    </div>
+                                    <div class="card-body border-top">
+                                        <form action="{% url 'panel_answer_tickets' ticket.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <input type="hidden" name="type_user" value="admin">
+                                                <div class="col-11">
                                             <textarea id="tickets_text" name="text" placeholder="Type your message here"
                                                       class="form-control border-0"></textarea>
-                                                <script>CKEDITOR.replace('tickets_text');</script>
+                                                    <script>CKEDITOR.replace('tickets_text');</script>
+                                                </div>
+                                                <div class="col-1 text-end">
+                                                    <button type="submit"
+                                                            class="btn btn-info btn-circle btn-lg text-white">
+                                                        <i class="fas fa-paper-plane"></i></button>
+                                                </div>
                                             </div>
-                                            <div class="col-1 text-end">
-                                                <button type="submit" class="btn btn-info btn-circle btn-lg text-white">
-                                                    <i class="fas fa-paper-plane"></i></button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
+                                <!-- .chat-right-panel -->
                             </div>
-                            <!-- .chat-right-panel -->
-                        </div></div>
+                        </div>
                         <!-- /.chat-row -->
                     </div>
                 </div>
@@ -167,6 +178,6 @@
 {% endblock content %}
 {% block exscript %}
     <script src="{% static 'back/dist/js/custom.min.js' %}"></script>
-        <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
 
 {% endblock %}

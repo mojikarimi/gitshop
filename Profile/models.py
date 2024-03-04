@@ -15,6 +15,7 @@ class Tickets(models.Model):
     user = models.CharField(max_length=255, blank=True)
     user_id = models.IntegerField(default=0)
     status = models.CharField(max_length=150, blank=True)
+    user_ip=models.CharField(blank=True,max_length=150)
 
     def __str__(self):
         return self.subject

@@ -26,5 +26,4 @@ admin.site.register(Gif)
 admin.site.register(Trend)
 
 
-
 admin.site.register(Session)

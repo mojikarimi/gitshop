@@ -60,6 +60,10 @@ urlpatterns = [
             name='panel_view_cart'),
     re_path(r'^panel_details_cart/(?P<pk>\d+)$', shopview.panel_details_cart,
             name='panel_details_cart'),
+    re_path(r'^panel_comments_product/(?P<pk_product>\d+)$', shopview.panel_comments_product, name='panel_comments_product'),
+    re_path(r'^panel_details_comments/(?P<pk_comment>\d+)$', shopview.panel_details_comments, name='panel_details_comments'),
+    re_path(r'^panel_delete_comment/(?P<pk_comment>\d+)$', shopview.panel_delete_comment,
+            name='panel_delete_comment'),
 
     # APP Main Panel URLs
     re_path(r'^panel_tickets_lists$', mainview.panel_tickets_lists, name='panel_tickets_lists'),

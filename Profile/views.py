@@ -9,10 +9,8 @@ from django.conf import settings
 from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
-
 from Shop.models import Product, FavoriteProduct, Cart, ProductCart
-
-
+from ipware import get_client_ip
 @login_required
 def profile_dashboard(request):
     if request.method == 'POST':
@@ -153,7 +151,7 @@ def profile_tickets(request):
         text = request.POST.get('text')
         part_name = Group.objects.get(pk=part)
         ticket = Tickets(subject=subject, text=text, manager=part_name.name, manager_id=part,
-                         user=request.user.username, user_id=request.user.pk, status='درحال بررسی')
+                         user=request.user.username, user_id=request.user.pk, status='درحال بررسی',user_ip=get_client_ip(request)[0])
         ticket.save(using='profile')
         ticket.ticket_id = ticket.pk + 100000
         ticket.save(using='profile')

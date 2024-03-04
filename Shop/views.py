@@ -23,13 +23,19 @@ def single_product(request, title):
     product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
 
     if product_comments:
-        #Show user comments
-        build = mean(list(product_comments.values_list('build', flat=True))) * 20#Average characteristics in percentage
-        innovation = mean(list(product_comments.values_list('innovation', flat=True))) * 20#Average characteristics in percentage
-        ease_of_use = mean(list(product_comments.values_list('ease_of_use', flat=True))) * 20#Average characteristics in percentage
-        designing = mean(list(product_comments.values_list('designing', flat=True))) * 20#Average characteristics in percentage
-        possibilities = mean(list(product_comments.values_list('possibilities', flat=True))) * 20#Average characteristics in percentage
-        worth_buying = mean(list(product_comments.values_list('worth_buying', flat=True))) * 20#Average characteristics in percentage
+        # Show user comments
+        build = mean(
+            list(product_comments.values_list('build', flat=True))) * 20  # Average characteristics in percentage
+        innovation = mean(
+            list(product_comments.values_list('innovation', flat=True))) * 20  # Average characteristics in percentage
+        ease_of_use = mean(
+            list(product_comments.values_list('ease_of_use', flat=True))) * 20  # Average characteristics in percentage
+        designing = mean(
+            list(product_comments.values_list('designing', flat=True))) * 20  # Average characteristics in percentage
+        possibilities = mean(list(
+            product_comments.values_list('possibilities', flat=True))) * 20  # Average characteristics in percentage
+        worth_buying = mean(
+            list(product_comments.values_list('worth_buying', flat=True))) * 20  # Average characteristics in percentage
         context['build'] = build
         context['innovation'] = innovation
         context['ease_of_use'] = ease_of_use
@@ -37,9 +43,11 @@ def single_product(request, title):
         context['possibilities'] = possibilities
         context['worth_buying'] = worth_buying
         context['product_comments'] = product_comments
-        context['product_comments_weaknesses'] = [(x.pk, eval(x.weaknesses)) for x in product_comments]#To show weaknesses
-        context['product_comments_strengths'] = [(x.pk, eval(x.strengths)) for x in product_comments]#To show strengths
-        context['len_product_comments'] = len(product_comments)
+        context['product_comments_weaknesses'] = [(x.pk, eval(x.weaknesses)) for x in
+                                                  product_comments]  # To show weaknesses
+        context['product_comments_strengths'] = [(x.pk, eval(x.strengths)) for x in
+                                                 product_comments]  # To show strengths
+        context['len_product_comments'] = len(product_comments)  # for show len comments in template
     if 'product_view' in request.session:
         # To add a product to recent visits
         product_view = request.session.get('product_view')
@@ -612,9 +620,37 @@ def panel_edit_product(request, pk):
 def panel_list_product(request):
     if not request.user.is_staff:
         return redirect('index')
-    products = Product.objects.using('shop').order_by('-date')
-    context = {'products': products}
+    panel_list_products = Product.objects.using('shop').order_by('-date')
+    context = {'panel_list_products': panel_list_products}
     return render(request, 'back/PanelShop/list_product.html', context=context)
+
+
+def panel_comments_product(request, pk_product):
+    panel_comments = CommentsProduct.objects.filter(pk_product=pk_product)
+    product_comment = Product.objects.get(pk=pk_product)
+    return render(request, 'back/PanelShop/comments_product.html',
+                  {'panel_comments': panel_comments, 'product_comment': product_comment})
+
+
+def panel_details_comments(request, pk_comment):
+    panel_comment = CommentsProduct.objects.using('shop').get(pk=pk_comment)
+    if request.method == 'POST':
+        confirmed = request.POST.get('confirmed')
+        if confirmed:
+            confirmed = True
+        else:
+            confirmed = False
+        panel_comment.confirmed = confirmed
+        panel_comment.save(using='shop')
+        return redirect('panel_details_comments', pk_comment)
+    return render(request, 'back/PanelShop/details_comment.html', {'panel_comment': panel_comment})
+
+
+def panel_delete_comment(request, pk_comment):
+    delete_comment = CommentsProduct.objects.using('shop').get(pk=pk_comment)
+    pk_product=delete_comment.pk_product
+    delete_comment.delete(using='shop')
+    return redirect('panel_comments_product',pk_product)
 
 
 @login_required
