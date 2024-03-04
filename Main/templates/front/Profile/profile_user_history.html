@@ -1,0 +1,76 @@
+{% extends 'front/base.html' %}
+
+{% load static %}
+{% load custom_tag %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <!-- Start Sidebar -->
+                {% include 'front/partials/_profile_sidebar.html' %}
+
+                <!-- End Sidebar -->
+                <!-- Start Content -->
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                <h2>بازدیدهای اخیر</h2>
+                            </div>
+                            <div class="dt-sl">
+                                <div class="row">
+                                    {% if products_view %}
+                                        {% for product_view in products_view %}
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="card-horizontal-product border-bottom rounded-0">
+                                                    <div class="card-horizontal-product-thumb">
+                                                        <a href="{% url 'single_product' product_view.name_product %}">
+                                                            <img src="{{ product_view.image1.url }}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-horizontal-product-content">
+                                                        <div class="card-horizontal-product-title">
+                                                            <a href="{% url 'single_product' product_view.name_product %}">
+                                                                <h3>{{ product_view.name_product }}</h3>
+                                                            </a>
+                                                        </div>
+                                                        <div class="rating-stars">
+                                                            <i class="mdi mdi-star active"></i>
+                                                            <i class="mdi mdi-star active"></i>
+                                                            <i class="mdi mdi-star active"></i>
+                                                            <i class="mdi mdi-star active"></i>
+                                                            <i class="mdi mdi-star"></i>
+                                                        </div>
+                                                        <div class="card-horizontal-product-price">
+                                                            <span>{{ product_view.discounted_price }}</span>
+                                                        </div>
+                                                        <div class="card-horizontal-product-buttons">
+                                                            <a href="#" class="btn btn-outline-info">کالاهای مشابه</a>
+                                                            <button class="remove-btn">
+                                                                <i class="mdi mdi-trash-can-outline"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- End Content -->
+            </div>
+
+        </div>
+    </main>
+
+
+{% endblock content %}
+

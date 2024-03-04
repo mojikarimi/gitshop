@@ -9,8 +9,8 @@ from django.conf import settings
 from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
-
-
+from Shop.models import Product, FavoriteProduct, Cart, ProductCart
+from ipware import get_client_ip
 @login_required
 def profile_dashboard(request):
     if request.method == 'POST':
@@ -22,8 +22,23 @@ def profile_dashboard(request):
         send_mail(subject='moji', message='hi moji ' + x, from_email=settings.EMAIL_HOST_USER,
                   recipient_list=[request.user.email])  # Send email
         return redirect('verify_email')
+    my_favorites = FavoriteProduct.objects.using('shop').filter(user_id=request.user.pk, user=request.user)[:4]
+    my_favorites = Product.objects.filter(pk__in=my_favorites.values('product_id'))
+    carts = Cart.objects.filter(user_id=request.user.pk, user=request.user)
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    return render(request, 'front/Profile/profile_dashboard.html', {'myuser': myuser, })
+    context = {'myuser': myuser, 'my_favorites': my_favorites, 'carts': carts}
+
+    return render(request, 'front/Profile/profile_dashboard.html', context=context)
+
+
+def profile_user_history(request):
+    context = None
+    print(request.session['product_view'], 'wwww' * 50)
+    if 'product_view' in request.session:
+        product_view = request.session['product_view']
+        products_view = Product.objects.filter(name_product__in=product_view)
+        context = {'products_view': products_view}
+    return render(request, 'front/Profile/profile_user_history.html', context=context)
 
 
 @login_required
@@ -66,7 +81,7 @@ def profile_personal_info(request):
 def profile_address(request):
     addresses = Address.objects.filter(user_id=request.user.pk, user=request.user)
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    return render(request, 'front/Profile/profile_address.html', {'addresses': addresses,'myuser':myuser})
+    return render(request, 'front/Profile/profile_address.html', {'addresses': addresses, 'myuser': myuser})
 
 
 @login_required
@@ -79,7 +94,7 @@ def profile_add_address(request):
         name = request.POST.get('name')
         postal_code = request.POST.get('postal_code')
         new_address = Address(city=city, state=state, phone=phone, address=address, name=name, postal_code=postal_code,
-                              user=request.user, user_id=request.user.pk,status=1)
+                              user=request.user, user_id=request.user.pk, status=1)
         address = Address.objects.filter(user=request.user, user_id=request.user.pk)
         address.update(status=0)
 
@@ -121,7 +136,7 @@ def profile_tickets(request):
         messages.warning(request, 'Please activate your account')
         return redirect('profile_dashboard')
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    parts = Group.objects.using('profile').all()
+    parts = Group.objects.all()
     tickets = Tickets.objects.using('profile').order_by('-date').filter(user_id=request.user.pk)
     for i in tickets.filter(status='درحال بررسی'):
 
@@ -136,7 +151,7 @@ def profile_tickets(request):
         text = request.POST.get('text')
         part_name = Group.objects.get(pk=part)
         ticket = Tickets(subject=subject, text=text, manager=part_name.name, manager_id=part,
-                         user=request.user.username, user_id=request.user.pk, status='درحال بررسی')
+                         user=request.user.username, user_id=request.user.pk, status='درحال بررسی',user_ip=get_client_ip(request)[0])
         ticket.save(using='profile')
         ticket.ticket_id = ticket.pk + 100000
         ticket.save(using='profile')
@@ -145,7 +160,7 @@ def profile_tickets(request):
 
 
 @login_required
-def profile_detail_tickets(request, pk):
+def profile_tickets_detail(request, pk):
     if not request.user.is_active:  # Account activation notification
         messages.warning(request, 'Please activate your account')
         return redirect('profile_dashboard')
@@ -161,3 +176,32 @@ def profile_detail_tickets(request, pk):
         answerticket.save(using='profile')
         return redirect('profile_detail_tickets', pk=pk)
     return render(request, 'front/Profile/profile_detail_tickets.html', context=context)
+
+
+@login_required
+def profile_orders(request):
+    carts = Cart.objects.filter(user_id=request.user.pk, user=request.user)
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    context = {'myuser': myuser, 'carts': carts}
+    return render(request, 'front/Profile/profile_orders.html', context=context)
+
+
+@login_required
+def profile_details_order(request, order_code):
+    cart = Cart.objects.get(order_code=order_code)
+    products_order_carts = ProductCart.objects.filter(cart_id=cart.pk)
+    products_order_carts = Product.objects.filter(pk__in=products_order_carts.values('product_id'))
+    products_order_address = Address.objects.get(pk=cart.address_id)
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    context = {'myuser': myuser, 'cart': cart, 'products_order_carts': products_order_carts,
+               'products_order_address': products_order_address}
+    return render(request, 'front/Profile/profile_details_order.html', context=context)
+
+
+@login_required
+def profile_my_favorite(request):
+    my_favorites = FavoriteProduct.objects.using('shop').filter(user_id=request.user.pk, user=request.user)[:4]
+    my_favorites = Product.objects.filter(pk__in=my_favorites.values('product_id'))
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    context = {'myuser': myuser, 'my_favorites': my_favorites}
+    return render(request, 'front/Profile/profile_my_favorite.html', context=context)

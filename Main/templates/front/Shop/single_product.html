@@ -25,7 +25,9 @@
                         <!-- Product Options-->
                         <ul class="gallery-options">
                             <li>
-                                <button class="add-favorites"><i class="mdi mdi-heart"></i></button>
+                                <button id="myfav" onclick="myfavorite()"
+                                        class="add-favorites {% if my_favorite.status == '1' %}favorites
+                                {% endif %}"><i class="mdi mdi-heart"></i></button>
                                 <span class="tooltip-option">افزودن به علاقمندی</span>
                             </li>
                         </ul>
@@ -376,66 +378,65 @@
                                 <h2>امتیاز کاربران به:</h2>
                             </div>
                             <div class="product-title dt-sl mb-3">
-                                <h1>گوشی موبایل سامسونگ مدل Galaxy A50 SM-A505F/DS دو سیم کارت ظرفیت 128گیگابایت
+                                <h1>{{ product.name_product }}
                                 </h1>
-                                <h3>Samsung Galaxy A50 SM-A505F/DS Dual SIM 128GB Mobile Phone<span
-                                        class="rate-product">(4 از 5 | 15 نفر)</span></h3>
+                                <h3>{{ product.name_product_english }}</h3>
                             </div>
                             <div class="dt-sl">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-12">
                                         <ul class="content-expert-rating">
                                             <li>
-                                                <div class="cell">طراحی</div>
-                                                <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
-                                                        <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 70%;"></div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">ارزش خرید</div>
-                                                <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
-                                                        <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 20%;"></div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
                                                 <div class="cell">کیفیت ساخت</div>
                                                 <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
+                                                    <div class="rating rating--general">
                                                         <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 100%;"></div>
+                                                             style="width: {{ build }}%;"></div>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="cell">صدای مزاحم</div>
+                                                <div class="cell">ارزش خرید به نسبت قیمت</div>
                                                 <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
+                                                    <div class="rating rating--general">
                                                         <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 100%;"></div>
+                                                             style="width: {{ worth_buying }}%;"></div>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="cell">مصرف انرژی و آب</div>
+                                                <div class="cell">نوآوری</div>
                                                 <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
+                                                    <div class="rating rating--general">
                                                         <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 100%;"></div>
+                                                             style="width: {{ innovation }}%;"></div>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="cell">امکانات و قابلیت ها</div>
                                                 <div class="cell">
-                                                    <div class="rating rating--general" data-rate-digit="عالی">
+                                                    <div class="rating rating--general">
+                                                        <div class="rating-rate"
+                                                             style="width: {{ possibilities }}%;"></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="cell">سهولت استفاده</div>
+                                                <div class="cell">
+                                                    <div class="rating rating--general">
                                                         <div class="rating-rate" data-rate-value="100%"
-                                                             style="width: 100%;"></div>
+                                                             style="width: {{ ease_of_use }}%;"></div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="cell">طراحی و ظاهر</div>
+                                                <div class="cell">
+                                                    <div class="rating rating--general">
+                                                        <div class="rating-rate" data-rate-value="100%"
+                                                             style="width: {{ designing }}%;"></div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -465,321 +466,83 @@
                                     <div
                                             class="section-title text-sm-title title-wide no-after-title-wide mb-0 dt-sl">
                                         <h2>نظرات کاربران</h2>
-                                        <p class="count-comment">123 نظر</p>
+                                        <p class="count-comment">{{ len_product_comments }} نظر</p>
                                     </div>
                                     <ol class="comment-list">
-                                        <!-- #comment-## -->
-                                        <li>
-                                            <div class="comment-body">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <div class="message-light message-light--purchased">
-                                                            خریدار این محصول
-                                                        </div>
-                                                        <ul class="comments-user-shopping">
-                                                            <li>
-                                                                <div class="cell">رنگ خریداری
-                                                                    شده:
-                                                                </div>
-                                                                <div class="cell color-cell">
-                                                                        <span class="shopping-color-value"
-                                                                              style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">خریداری شده
-                                                                    از:
-                                                                </div>
-                                                                <div class="cell seller-cell">
-                                                                    <span class="o-text-blue">دیجی‌کالا</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-light message-light--opinion-positive">
-                                                            خرید این محصول را توصیه می‌کنم
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                        <div class="comment-title">
-                                                            لباسشویی سامسونگ
-                                                        </div>
-                                                        <div class="comment-author">
-                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                        </div>
-
-                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                        <div class="footer">
-                                                            <div class="comments-likes">
-                                                                آیا این نظر برایتان مفید بود؟
-                                                                <button class="btn-like" data-counter="۱۱">بله
-                                                                </button>
-                                                                <button class="btn-like" data-counter="۶">خیر
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- #comment-## -->
-                                        <li>
-                                            <div class="comment-body">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <div class="message-light message-light--purchased">
-                                                            خریدار این محصول
-                                                        </div>
-                                                        <ul class="comments-user-shopping">
-                                                            <li>
-                                                                <div class="cell">رنگ خریداری
-                                                                    شده:
-                                                                </div>
-                                                                <div class="cell color-cell">
-                                                                        <span class="shopping-color-value"
-                                                                              style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">خریداری شده
-                                                                    از:
-                                                                </div>
-                                                                <div class="cell seller-cell">
-                                                                    <span class="o-text-blue">دیجی‌کالا</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-light message-light--opinion-positive">
-                                                            خرید این محصول را توصیه می‌کنم
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                        <div class="comment-title">
-                                                            لباسشویی سامسونگ
-                                                        </div>
-                                                        <div class="comment-author">
-                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                        </div>
+                                        {% if product_comments %}
+                                            {% for product_comment in product_comments %}
+                                                <li>
+                                                    <div class="comment-body">
                                                         <div class="row">
-                                                            <div class="col-md-4 col-sm-6 col-12">
-                                                                <div class="content-expert-evaluation-positive">
-                                                                    <span>نقاط قوت</span>
-                                                                    <ul>
-                                                                        <li>دوربین‌های 4گانه پرقدرت
-                                                                        </li>
-                                                                        <li>باتری باظرفیت بالا</li>
-                                                                        <li>حسگر اثرانگشت زیر قاب
-                                                                            جلویی
-                                                                        </li>
-                                                                    </ul>
+                                                            <div class="col-md-3 col-sm-12">
+                                                                <div class="message-light message-light--purchased">
+                                                                    خریدار این محصول
+                                                                </div>
+                                                                <ul class="comments-user-shopping">
+
+                                                                    <li>
+                                                                        <div class="cell">خریداری شده
+                                                                            از:
+                                                                        </div>
+                                                                        <div class="cell seller-cell">
+                                                                            <span class="o-text-blue">دیجی‌کالا</span>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="message-light message-light--opinion-positive">
+                                                                    نظر کاربر: {{ product_comment.tender }}
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4 col-sm-6 col-12">
-                                                                <div class="content-expert-evaluation-negative">
-                                                                    <span>نقاط ضعف</span>
-                                                                    <ul>
-                                                                        <li>نرم‌افزار دوربین</li>
-                                                                        <li>نبودن Nano SD در بازار
-                                                                        </li>
-                                                                    </ul>
+                                                            <div class="col-md-9 col-sm-12 comment-content">
+                                                                <div class="comment-title">
+                                                                    {{ product.name_product }}
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <p>
-                                                            بعد از چندین هفته بررسی تصمیم به خرید
-                                                            این مدل از ماشین لباسشویی گرفتم ولی
-                                                            متاسفانه نتونست انتظارات منو برآورده کنه
-                                                            .
-                                                            دو تا ایراد داره یکی اینکه حدودا تا 20
-                                                            دقیقه اول شستشو یه صدایی شبیه به صدای
-                                                            پمپ تخلیه همش به گوش میاد که رو مخه یکی
-                                                            هم با اینکه خشک کنش تا 1400 دور در دقیقه
-                                                            میچرخه، ولی اون طوری که دوستان تعریف
-                                                            میکردن لباسها رو خشک نمیکنه .ضمنا برای
-                                                            این صدایی که گفتم زنگ زدم نمایندگی اومدن
-                                                            دیدن، وتعمیرکار گفتش که این صدا طبیعیه و
-                                                            تا چند دقیقه اول شستشو عادیه.بدجوری خورد
-                                                            تو ذوقم. اگه بیشتر پول میذاشتم میتونستم
-                                                            یه مدل میان رده از مارکهای بوش یا آ ا گ
-                                                            میخریدم که خیلی بهتر از جنس مونتاژی کره
-                                                            ای هستش.
-                                                        </p>
+                                                                <div class="comment-author">
+                                                                    توسط {{ product_comment.user }} در
+                                                                    تاریخ<span dir="rtl">{{ product_comment.date |filter_date:10 }}</span>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-4 col-sm-6 col-12">
+                                                                        <div class="content-expert-evaluation-positive">
+                                                                            <span>نقاط قوت</span>
+                                                                            <ul>
+                                                                                {% for pk,product_comments_strength in product_comments_strengths %}
+                                                                                        {% if pk == product_comment.pk %}
+                                                                                            {% for product_comments_strengt in product_comments_strength %}
+                                                                                            <li>{{ product_comments_strengt }}</li>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                {% endfor %}
 
-                                                        <div class="footer">
-                                                            <div class="comments-likes">
-                                                                آیا این نظر برایتان مفید بود؟
-                                                                <button class="btn-like" data-counter="۱۱">بله
-                                                                </button>
-                                                                <button class="btn-like" data-counter="۶">خیر
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- #comment-## -->
-                                        <li>
-                                            <div class="comment-body">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <div class="message-light message-light--purchased">
-                                                            خریدار این محصول
-                                                        </div>
-                                                        <ul class="comments-user-shopping">
-                                                            <li>
-                                                                <div class="cell">رنگ خریداری
-                                                                    شده:
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 col-sm-6 col-12">
+                                                                        <div class="content-expert-evaluation-negative">
+                                                                            <span>نقاط ضعف</span>
+                                                                            <ul>
+                                                                                {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
+                                                                                        {% if pk == product_comment.pk %}
+                                                                                            {% for product_comments_weakness in product_comments_weaknesse %}
+                                                                                            <li>{{ product_comments_weakness }}</li>
+                                                                                            {% endfor %}
+                                                                                        {% endif %}
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="cell color-cell">
-                                                                        <span class="shopping-color-value"
-                                                                              style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">خریداری شده
-                                                                    از:
-                                                                </div>
-                                                                <div class="cell seller-cell">
-                                                                    <span class="o-text-blue">دیجی‌کالا</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-light message-light--opinion-positive">
-                                                            خرید این محصول را توصیه می‌کنم
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                        <div class="comment-title">
-                                                            لباسشویی سامسونگ
-                                                        </div>
-                                                        <div class="comment-author">
-                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                        </div>
+                                                                <p>{{ product_comment.text }}</p>
 
-                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                        <div class="footer">
-                                                            <div class="comments-likes">
-                                                                آیا این نظر برایتان مفید بود؟
-                                                                <button class="btn-like" data-counter="۱۱">بله
-                                                                </button>
-                                                                <button class="btn-like" data-counter="۶">خیر
-                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- #comment-## -->
-                                        <li>
-                                            <div class="comment-body">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <div class="message-light message-light--purchased">
-                                                            خریدار این محصول
-                                                        </div>
-                                                        <ul class="comments-user-shopping">
-                                                            <li>
-                                                                <div class="cell">رنگ خریداری
-                                                                    شده:
-                                                                </div>
-                                                                <div class="cell color-cell">
-                                                                        <span class="shopping-color-value"
-                                                                              style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">خریداری شده
-                                                                    از:
-                                                                </div>
-                                                                <div class="cell seller-cell">
-                                                                    <span class="o-text-blue">دیجی‌کالا</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-light message-light--opinion-positive">
-                                                            خرید این محصول را توصیه می‌کنم
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                        <div class="comment-title">
-                                                            لباسشویی سامسونگ
-                                                        </div>
-                                                        <div class="comment-author">
-                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                        </div>
+                                                </li>
+                                            {% endfor %}
 
-                                                        <p>لورم ایپسوم متن ساختگی</p>
+                                        {% endif %}
 
-                                                        <div class="footer">
-                                                            <div class="comments-likes">
-                                                                آیا این نظر برایتان مفید بود؟
-                                                                <button class="btn-like" data-counter="۱۱">بله
-                                                                </button>
-                                                                <button class="btn-like" data-counter="۶">خیر
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- #comment-## -->
-                                        <li>
-                                            <div class="comment-body">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <div class="message-light message-light--purchased">
-                                                            خریدار این محصول
-                                                        </div>
-                                                        <ul class="comments-user-shopping">
-                                                            <li>
-                                                                <div class="cell">رنگ خریداری
-                                                                    شده:
-                                                                </div>
-                                                                <div class="cell color-cell">
-                                                                        <span class="shopping-color-value"
-                                                                              style="background-color: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.25)"></span>سفید
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cell">خریداری شده
-                                                                    از:
-                                                                </div>
-                                                                <div class="cell seller-cell">
-                                                                    <span class="o-text-blue">دیجی‌کالا</span>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-light message-light--opinion-positive">
-                                                            خرید این محصول را توصیه می‌کنم
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 comment-content">
-                                                        <div class="comment-title">
-                                                            لباسشویی سامسونگ
-                                                        </div>
-                                                        <div class="comment-author">
-                                                            توسط مجید سجادی فرد در تاریخ ۵ مهر ۱۳۹۵
-                                                        </div>
 
-                                                        <p>لورم ایپسوم متن ساختگی</p>
-
-                                                        <div class="footer">
-                                                            <div class="comments-likes">
-                                                                آیا این نظر برایتان مفید بود؟
-                                                                <button class="btn-like" data-counter="۱۱">بله
-                                                                </button>
-                                                                <button class="btn-like" data-counter="۶">خیر
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
                                     </ol>
                                 </div>
                             </div>
@@ -944,193 +707,28 @@
                 <!-- End tabs -->
             </div>
             <!-- End Product -->
-            <!-- Start Product-Slider -->
-            <section class="slider-section dt-sl mb-5">
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="section-title text-sm-title title-wide no-after-title-wide">
-                            <h2>خریداران این محصول، محصولات زیر را هم خریده‌اند</h2>
-                            <a href="#">مشاهده همه</a>
-                        </div>
-                    </div>
 
-                    <!-- Start Product-Slider -->
-                    <div class="col-12">
-                        <div class="product-carousel carousel-lg owl-carousel owl-theme">
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                        </div>
-                                        <div class="discount">
-                                            <span>20%</span>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/07.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">157,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/017.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">کت مردانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
-                                        <span class="product-price">199,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/013.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه مدل هودی تیک تین</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">135,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/09.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">145,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/010.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">170,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="discount">
-                                            <span>20%</span>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/011.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">185,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/019.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">تیشرت مردانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
-                                        <span class="product-price">54,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Product-Slider -->
-
-                </div>
-            </section>
-            <!-- End Product-Slider -->
         </div>
     </main>
 {% endblock content %}
+{% block exscript %}
+    <script>
+        function myfavorite() {
+            let status = document.getElementById('myfav').className
+            if (status.indexOf('add-favorites favorites') !== -1) {
+                status = '0'
+            } else {
+                status = '1'
+            }
+            $.ajax({
+                url: '{% url "my_favorite_product" %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'product_id': '{{ product.pk }}',
+                    'status': status,
+                }
+
+            })
+        }</script>
+{% endblock %}

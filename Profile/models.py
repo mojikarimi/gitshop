@@ -11,10 +11,11 @@ class Tickets(models.Model):
     manager = models.CharField(max_length=150, blank=True)
     manager_id = models.IntegerField(default=0)
     date = models.CharField(default=datetime.now, max_length=50)
-    date_update = models.CharField(max_length=50, blank=True)
+    date_update = models.CharField(max_length=50, blank=True, default=datetime.now)
     user = models.CharField(max_length=255, blank=True)
     user_id = models.IntegerField(default=0)
     status = models.CharField(max_length=150, blank=True)
+    user_ip=models.CharField(blank=True,max_length=150)
 
     def __str__(self):
         return self.subject
@@ -38,4 +39,4 @@ class Address(models.Model):
     address = models.TextField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
     name = models.CharField(max_length=250, blank=True)
-    status=models.IntegerField(default=1)
+    status = models.IntegerField(default=1)

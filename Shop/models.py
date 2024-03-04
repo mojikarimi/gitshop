@@ -66,7 +66,7 @@ class Product(models.Model):
     title_text = models.TextField(blank=True)
     full_text = models.TextField(blank=True)
     price = models.IntegerField(default=0)
-    discount_percent = models.FloatField(default=0)
+    discount_percent = models.IntegerField(default=0)
     discount_period = models.CharField(max_length=10)
     discounted_price = models.IntegerField(default=0)
     instant_sale = models.BooleanField(default=False)
@@ -78,7 +78,7 @@ class Product(models.Model):
     number = models.IntegerField(default=0)
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0)
-    order_number=models.IntegerField(default=0)
+    order_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name_product
@@ -113,14 +113,39 @@ class Cart(models.Model):
     sending_method = models.IntegerField(default=0)
     bill = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
-    price=models.IntegerField(default=0)
+    price = models.IntegerField(default=0)
+    order_code = models.CharField(max_length=50, blank=True)
+    date = models.CharField(default=datetime.now, max_length=10)
+    cancel = models.BooleanField(default=False)
+    preparation = models.BooleanField(default=False)
+    exit = models.BooleanField(default=False)
+    delivery = models.BooleanField(default=False)
+    exchange = models.BooleanField(default=False)
+    customer = models.BooleanField(default=False)
 
 
 class ProductCart(models.Model):
     cart_id = models.IntegerField(default=0)
     product_id = models.IntegerField(default=0)
-    size=models.CharField(max_length=25,blank=True,null=True)
-    color=models.CharField(max_length=25,blank=True)
-    number=models.IntegerField(default=1)
+    size = models.CharField(max_length=25, blank=True, null=True)
+    color = models.CharField(max_length=25, blank=True)
+    number = models.IntegerField(default=1)
 
 
+class FavoriteProduct(models.Model):
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    product_id = models.IntegerField(default=0)
+    status = models.CharField(blank=True, max_length=1)
+
+
+class Question(models.Model):
+    product_id = models.IntegerField(default=0)
+    user = models.CharField(max_length=150, blank=True)
+    user_id = models.IntegerField(default=0)
+    text = models.TextField(blank=True)
+    date = models.CharField(max_length=50, default=datetime.now)
+    status = models.BooleanField(default=False)
+    answer_text = models.TextField(blank=True)
+    answer_date = models.CharField(max_length=50, default=datetime.now)
+    faq = models.BooleanField(default=False)

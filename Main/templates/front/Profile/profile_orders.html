@@ -1,0 +1,75 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load custom_tag %}
+{% load humanize %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <!-- Start Sidebar -->
+                {% include 'front/partials/_profile_sidebar.html' %}
+
+                <!-- End Sidebar -->
+                <!-- Start Content -->
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                <h2>همه سفارش‌ها</h2>
+                            </div>
+                            <div class="dt-sl">
+                                <div class="table-responsive">
+                                    <table class="table table-order">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>شماره سفارش</th>
+                                            <th>تاریخ ثبت سفارش</th>
+                                            <th>مبلغ قابل پرداخت</th>
+
+                                            <th>عملیات پرداخت</th>
+                                            <th>جزییات</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for cart in carts %}
+                                         <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ cart.order_code }}</td>
+                                            <td>{{ cart.date |filter_date:19 }}</td>
+
+                                            <td> {{ cart.price|intcomma }} تومان </td>
+                                            <td>{% if cart.status == True %}
+                                            تایید شده
+                                                {% else %}
+                                                تایید نشده
+                                            {% endif %}
+                                            </td>
+                                            <td class="details-link">
+                                                <a href="{% url 'profile_details_order' cart.order_code %}">
+                                                    <i class="mdi mdi-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div>
+    </main>
+
+
+
+
+{% endblock content %}
+

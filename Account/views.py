@@ -106,8 +106,10 @@ def signout(request):  # User exit function
 @login_required
 @permission_required(perm='Account.view_CustomUser')
 def panel_list_user(request):
+    # View the list of users
     if not request.user.is_staff:
         return redirect('index')
+    # Get all users
     users = CustomUser.objects.all()
     context = {'users': users}
     return render(request, 'back/PanelUser/user_list.html', context=context)
@@ -118,12 +120,12 @@ def panel_list_user(request):
 def panel_permissions(request, pk):
     if not request.user.is_staff:
         return redirect('index')
-
+    # View the permissions and groups page for user
     user = CustomUser.objects.get(pk=pk)
     groups = Group.objects.all()
     groups_user = Group.objects.filter(user=user)
-    permissions = Permission.objects.all()
-    permissions_user = Permission.objects.filter(user=user)
+    permissions = Permission.objects.all()  # Getting our user groups
+    permissions_user = Permission.objects.filter(user=user)  # Getting our user permissions
     context = {'permissions_user': permissions_user,
                'permissions': permissions, 'groups_user': groups_user,
                'groups': groups,
@@ -136,10 +138,11 @@ def panel_permissions(request, pk):
 def panel_add_group_user(request):
     if not request.user.is_staff:
         return redirect('index')
-
-    permissionss = Permission.objects.all()
-    groups = Group.objects.all()
+    # Group construction
+    permissions = Permission.objects.all()  # Get all permissions
+    groups = Group.objects.all()  # Get all groups
     if request.method == 'POST':
+        # Create a new group with the desired permissions
         name_group = request.POST.get('name_group')
         perms = request.POST.getlist('perms')
         perms_obj = Permission.objects.filter(pk__in=perms)
@@ -148,7 +151,7 @@ def panel_add_group_user(request):
         new_group.permissions.add(*perms_obj)
         new_group.save()
         return redirect('panel_add_group_user')
-    context = {'permissions': permissionss, 'groups': groups}
+    context = {'permissions': permissions, 'groups': groups}
     return render(request, 'back/PanelUser/panel_add_group_user.html', context=context)
 
 

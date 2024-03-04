@@ -1,5 +1,5 @@
 from Main.models import MainModel, Menu, ChatNew, ChatRoom, Footer, CatFooter, SubCatFooter, Trend
-from Shop.models import Cart, ProductCart, Product
+from Shop.models import Cart, ProductCart, Product, Group, Category, SubCategory
 from ipware import get_client_ip
 
 
@@ -10,15 +10,19 @@ def context_processor(request):
     trend = Trend.objects.all().first()
     catfooters = CatFooter.objects.all()
     subcatfooters = SubCatFooter.objects.all()
+    groups = Group.objects.using('shop').all()
+    categories = Category.objects.using('shop').all()
+    subcategories = SubCategory.objects.using('shop').all()
     context = {'main': main, 'menus': menus, 'footer': footer, 'trend': trend, 'catfooters': catfooters,
-               'subcatfooters': subcatfooters}
+               'subcatfooters': subcatfooters, 'groups': groups, 'categories': categories,
+               'subcategories': subcategories}
     try:
-        carts = Cart.objects.filter(user_id=request.user.pk, status=False).first()
-        product_carts = ProductCart.objects.filter(cart_id=carts.pk)
-        products = Product.objects.filter(pk__in=product_carts.values('product_id'))
-        context['carts']=carts
-        context['product_carts']=product_carts
-        context['products']=products
+        context_processor_carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
+        product_carts = ProductCart.objects.using('shop').filter(cart_id=context_processor_carts.pk)
+        products = Product.objects.using('shop').filter(pk__in=product_carts.values('product_id'))
+        context['context_processor_carts'] = context_processor_carts
+        context['product_carts'] = product_carts
+        context['products'] = products
     except:
         pass
     return context
