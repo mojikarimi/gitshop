@@ -377,7 +377,7 @@ def panel_comments_delete(request, pk):
     return redirect(request.META['HTTP_REFERER'])
 
 
-################# ajax def ########################3
+# The first Ajax code is very busy and complicated #
 
 def like_system(request):
     if request.method == 'POST':
