@@ -46,13 +46,13 @@ def new_chat(request):
         room = ChatRoom.objects.filter(user=request.user, ip_client=get_client_ip(request)[0])
         # Among all the rooms, it takes the room that has the same IP and username user
         if len(room) == 0:  # We will check the number of members so that if there is no room, one will be created
-            room = ChatRoom(user=request.user, ip_client=get_client_ip(request)[0])  # creat room
+            room = ChatRoom(user=request.user, ip_client=get_client_ip(request)[0], status='اعلام نشده')  # creat room
             room.save()
         else:
             room = room[0]  # get a room
+
         date_active = datetime.now() + timedelta(days=1)  # A date that can be displayed to anonymous users
-        chatnew = ChatNew(room=room, text=message, type='client', date_active=date_active,
-                          status='اعلام نشده')  # Creating a message model
+        chatnew = ChatNew(room=room, text=message, type='client', date_active=date_active)  # Creating a message model
         chatnew.save()
         message = ChatNew.objects.filter(pk=chatnew.pk)
         message = serializers.serialize('json', message)  # Convert message models to json file

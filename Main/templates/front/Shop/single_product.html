@@ -553,13 +553,12 @@
                                 <p class="count-comment">پرسش خود را در مورد محصول مطرح نمایید</p>
                             </div>
                             <div class="form-question-answer dt-sl mb-3">
-                                <form action="">
-                                    <textarea class="form-control mb-3" rows="5"></textarea>
-                                    <button class="btn btn-dark float-right ml-3" disabled="">ثبت پرسش</button>
+                                <form action="{% url 'add_questions' %}" method="post">
+                                    {% csrf_token %}
+                                    <textarea name="text" class="form-control mb-3" rows="5"></textarea>
+                                    <button class="btn btn-dark float-right ml-3" type="submit">ثبت پرسش</button>
                                     <div class="custom-control custom-checkbox float-right mt-2">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                        <label class="custom-control-label" for="customCheck3">اولین پاسخی که به
-                                            پرسش من داده شد، از طریق ایمیل به من اطلاع دهید.</label>
+                                        <input type="hidden" name="product_id" value="{{ product.pk }}" class="custom-control-input" id="customCheck3">
                                     </div>
                                 </form>
                             </div>

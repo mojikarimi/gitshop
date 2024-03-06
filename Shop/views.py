@@ -3,7 +3,7 @@ from django.core.signing import Signer
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from Profile.models import Address
-from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct
+from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct, Question
 from jdatetime import datetime
 from django.db.models import Q
 from django.contrib import messages
@@ -255,6 +255,17 @@ def shopping_complete_buy(request):
         number = len(ProductCart.objects.filter(cart_id=carts.pk))
         context = {'cart': carts, 'number': number, 'address': address}
         return render(request, 'front/Shop/shopping_complete_buy.html', context=context)
+
+
+def add_questions(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(pk=product_id)
+        question = Question(product_id=product.pk, user_id=request.user.pk, user=request.user, text=text)
+        question.save(using='shop')
+
+        return redirect('single_product', product.name_product)
 
 
 #########################################  Panel  #################################################################
@@ -648,9 +659,9 @@ def panel_details_comments(request, pk_comment):
 
 def panel_delete_comment(request, pk_comment):
     delete_comment = CommentsProduct.objects.using('shop').get(pk=pk_comment)
-    pk_product=delete_comment.pk_product
+    pk_product = delete_comment.pk_product
     delete_comment.delete(using='shop')
-    return redirect('panel_comments_product',pk_product)
+    return redirect('panel_comments_product', pk_product)
 
 
 @login_required
@@ -741,3 +752,50 @@ def panel_details_cart(request, pk):
         panel_cart.save(using='shop')
         return redirect('panel_details_cart', pk=pk)
     return render(request, 'back/PanelShop/details_cart.html', context=context)
+
+
+@login_required
+@permission_required(perm='Shop.view_question')
+def panel_questions_list(request):
+    questions = Question.objects.using('shop').order_by('sort')
+    return render(request, 'back/PanelShop/questions_list.html', {'questions': questions})
+
+
+@login_required
+@permission_required(perm='Shop.change_question')
+def panel_sort_question(request):
+    if request.method == 'POST':
+        questions = Question.objects.all()
+        sorts = request.POST.getlist('sort')
+        for i, x in enumerate(sorts):
+            question = questions.get(pk=x)
+            question.sort = i+1
+            question.save(using='shop')
+        return redirect('panel_questions_list')
+
+
+@login_required
+@permission_required(perm='Shop.change_question')
+def panel_details_question(request, pk):
+    question = Question.objects.get(pk=pk)
+    if request.method == 'POST':
+        answer_text = request.POST.get('answer_text')
+        faq = request.POST.get('faq')
+        status = request.POST.get('status')
+        if faq:
+            faq = True
+        else:
+            faq = False
+        if status:
+            status = True
+        else:
+            status = False
+        question.answer_text = answer_text
+        question.faq = faq
+        question.status = status
+        if not question.answer_date:
+            question.answer_date = datetime.now()
+        question.save(using='shop')
+        return redirect('panel_details_question', pk)
+
+    return render(request, 'back/PanelShop/details_questions.html', {'question': question})

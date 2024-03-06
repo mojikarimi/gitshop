@@ -232,11 +232,14 @@
                                                 </div>`
 
                 }
+
+
                 document.querySelector('#admin_sender').innerText = data.admin;
                 document.querySelector('#chat_status').innerText = data.status;
-            }
+            },
+            error:{}
         })
-    }, 10000000000);
+    }, 10000);
 
     function send() {
         const text = document.querySelector('#text');

@@ -10,5 +10,7 @@ admin.site.register(CommentsProduct)
 admin.site.register(Cart)
 admin.site.register(ProductCart)
 admin.site.register(FavoriteProduct)
+admin.site.register(Question)
+
 
 

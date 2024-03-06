@@ -1,0 +1,145 @@
+{% extends 'back/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load custom_tag %}
+{% block excss %}
+    <link href="{% static 'back/assets/node_modules/bootstrap-switch/bootstrap-switch.min.css' %}" rel="stylesheet">
+    <link href="{% static 'back/dist/css/pages/bootstrap-switch.css' %}" rel="stylesheet">
+{% endblock excss %}
+{% block content %}
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">FAQ Details</h4>
+                            <div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <h4 class="card-title">Question Details</h4>
+                                                    <hr>
+                                                    <div class="col-lg-4 bt-switch">
+
+                                                        <label for="exit">
+                                                            <h5>Status</h5>
+                                                            <input form="update_question" {% if question.status %}
+                                                                   checked {% endif %} id="exit"
+                                                                   name="status" type="checkbox"
+                                                                   data-on-color="info"
+                                                                   data-off-color="primary"
+                                                                   data-on-text="<i class='fa fa-check'></i>"
+                                                                   data-off-text="<i class='fa fa-times'></i>">
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-4 bt-switch">
+
+                                                        <label for="exit">
+                                                            <h5>FAQ</h5>
+                                                            <input form="update_question" {% if question.faq %}
+                                                                   checked {% endif %} id="exit"
+                                                                   name="faq" type="checkbox"
+                                                                   data-on-color="info"
+                                                                   data-off-color="primary"
+                                                                   data-on-text="<i class='fa fa-check'></i>"
+                                                                   data-off-text="<i class='fa fa-times'></i>">
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+
+                                                        <h5>Date</h5>
+                                                        <p>{{ question.date |filter_date:19 }}</p>
+                                                    </div>
+                                                    <hr style="margin-top: 5px">
+                                                    <div class="col-lg-12">
+                                                        <h5>Question:</h5>
+                                                        <p dir="rtl">{{ question.text }}</p>
+                                                    </div>
+                                                    <hr>
+                                                    <form id="update_question"
+                                                              action="{% url 'panel_details_question' question.pk %}"
+                                                              method="post">
+                                                            {% csrf_token %}
+                                                    <div class="col-lg-12">
+                                                        <h4>Answer:</h4>
+                                                            <textarea id="answer_text" name="answer_text"
+                                                                      placeholder="Type your message here" class="form-control border-0">{{ question.answer_text|safe }}</textarea>
+
+                                                    </div>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-dark">Update</button>
+                                                </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+{% endblock content %}
+{% block Escript %}
+{# ckeditor   #}
+      <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+
+
+    {#  chekbox  #}
+    <script src="{% static 'back/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/sparkline/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/bootstrap-switch/bootstrap-switch.min.js' %}"></script>
+    <script type="text/javascript">
+        $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+        var radioswitch = function () {
+            var bt = function () {
+                $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
+                }), $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+                }), $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+                })
+            };
+            return {
+                init: function () {
+                    bt()
+                }
+            }
+        }();
+        $(document).ready(function () {
+            radioswitch.init()
+        });
+    </script>
+    <!-- Magnific popup JavaScript -->
+    <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup-init.js' %}"></script>
+
+                                                            <script>CKEDITOR.replace('answer_text');</script>
+
+
+{% endblock %}
