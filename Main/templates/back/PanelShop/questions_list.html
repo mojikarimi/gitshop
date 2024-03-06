@@ -105,7 +105,7 @@
                                             <th style="text-align: center;width: 30%">Action</th>
                                             <th>
                                                 <form id="myform" method="post"
-                                                      action="{% url 'panel_sort_question' %}">
+                                                      action="{% url 'panel_sort_question' pk_faq %}">
                                                     {% csrf_token %}
                                                     <div class="ms-auto mt-3 mt-md-0">
                                                         <button
@@ -190,7 +190,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <a class="btn btn-danger text-white"
-                                                                   href="{% url 'panel_delete_menu' question.pk %}">Delete</a>
+                                                                   href="{% url 'panel_delete_question' question.pk %}">Delete</a>
                                                                 <button type="button"
                                                                         class="btn btn-info text-white"
                                                                         data-bs-dismiss="modal">Cancel

@@ -146,7 +146,7 @@ class Question(models.Model):
     text = models.TextField(blank=True)
     date = models.CharField(max_length=50, default=datetime.now)
     status = models.BooleanField(default=False)
-    answer_text = models.TextField(blank=True,null=True)
+    answer_text = models.TextField(blank=True,default='')
     answer_date = models.CharField(max_length=50, default='')
     faq = models.BooleanField(default=False)
     sort = models.IntegerField(default=0)

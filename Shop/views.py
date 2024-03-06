@@ -16,10 +16,12 @@ def single_product(request, title):
     product = Product.objects.using('shop').get(name_product=title)  # Getting the product from the Shop database
     product.view += 1  # Increased product visit
     product.save(using='shop')
+    questions = Question.objects.using('shop').filter(product_id=product.pk).order_by('-date')  # for questions user
     context = {'product': product, 'colors': eval(product.color), 'sizes': eval(product.size),
                'attrs': dict(zip(eval(product.attribute_title), eval(product.attribute_value))),
                # Send related features of each other
-               'texts': zip(eval(product.title_text), eval(product.full_text))}  # Send text and Title together
+               'texts': zip(eval(product.title_text), eval(product.full_text)),
+               'questions': questions}  # Send text and Title together
     product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
 
     if product_comments:
@@ -756,22 +758,22 @@ def panel_details_cart(request, pk):
 
 @login_required
 @permission_required(perm='Shop.view_question')
-def panel_questions_list(request):
-    questions = Question.objects.using('shop').order_by('sort')
-    return render(request, 'back/PanelShop/questions_list.html', {'questions': questions})
+def panel_questions_list(request, pk):
+    questions = Question.objects.using('shop').filter(product_id=pk).order_by('sort')
+    return render(request, 'back/PanelShop/questions_list.html', {'questions': questions,'pk_faq':pk})
 
 
 @login_required
 @permission_required(perm='Shop.change_question')
-def panel_sort_question(request):
+def panel_sort_question(request,pk):
     if request.method == 'POST':
         questions = Question.objects.all()
         sorts = request.POST.getlist('sort')
         for i, x in enumerate(sorts):
             question = questions.get(pk=x)
-            question.sort = i+1
+            question.sort = i + 1
             question.save(using='shop')
-        return redirect('panel_questions_list')
+        return redirect('panel_questions_list',pk=pk)
 
 
 @login_required
@@ -799,3 +801,10 @@ def panel_details_question(request, pk):
         return redirect('panel_details_question', pk)
 
     return render(request, 'back/PanelShop/details_questions.html', {'question': question})
+@login_required
+@permission_required(perm='Shop.delete_question')
+def panel_delete_question(request,pk):
+    question=Question.objects.using('shop').get(pk=pk)
+    pk_product=question.product_id
+    question.delete(using='shop')
+    return redirect('panel_questions_list',pk=pk_product)

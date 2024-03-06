@@ -499,7 +499,8 @@
                                                                 </div>
                                                                 <div class="comment-author">
                                                                     توسط {{ product_comment.user }} در
-                                                                    تاریخ<span dir="rtl">{{ product_comment.date |filter_date:10 }}</span>
+                                                                    تاریخ<span
+                                                                        dir="rtl">{{ product_comment.date |filter_date:10 }}</span>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-md-4 col-sm-6 col-12">
@@ -507,11 +508,11 @@
                                                                             <span>نقاط قوت</span>
                                                                             <ul>
                                                                                 {% for pk,product_comments_strength in product_comments_strengths %}
-                                                                                        {% if pk == product_comment.pk %}
-                                                                                            {% for product_comments_strengt in product_comments_strength %}
+                                                                                    {% if pk == product_comment.pk %}
+                                                                                        {% for product_comments_strengt in product_comments_strength %}
                                                                                             <li>{{ product_comments_strengt }}</li>
-                                                                                            {% endfor %}
-                                                                                        {% endif %}
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
                                                                                 {% endfor %}
 
                                                                             </ul>
@@ -522,11 +523,11 @@
                                                                             <span>نقاط ضعف</span>
                                                                             <ul>
                                                                                 {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
-                                                                                        {% if pk == product_comment.pk %}
-                                                                                            {% for product_comments_weakness in product_comments_weaknesse %}
+                                                                                    {% if pk == product_comment.pk %}
+                                                                                        {% for product_comments_weakness in product_comments_weaknesse %}
                                                                                             <li>{{ product_comments_weakness }}</li>
-                                                                                            {% endfor %}
-                                                                                        {% endif %}
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
                                                                                 {% endfor %}
                                                                             </ul>
                                                                         </div>
@@ -558,7 +559,8 @@
                                     <textarea name="text" class="form-control mb-3" rows="5"></textarea>
                                     <button class="btn btn-dark float-right ml-3" type="submit">ثبت پرسش</button>
                                     <div class="custom-control custom-checkbox float-right mt-2">
-                                        <input type="hidden" name="product_id" value="{{ product.pk }}" class="custom-control-input" id="customCheck3">
+                                        <input type="hidden" name="product_id" value="{{ product.pk }}"
+                                               class="custom-control-input" id="customCheck3">
                                     </div>
                                 </form>
                             </div>
@@ -566,138 +568,56 @@
                                 <div
                                         class="section-title text-sm-title title-wide no-after-title-wide mt-5 mb-0 dt-sl">
                                     <h2>پرسش ها و پاسخ ها</h2>
-                                    <p class="count-comment">123 پرسش</p>
+
                                 </div>
                                 <ol class="comment-list">
-                                    <!-- #comment-## -->
-                                    <li>
-                                        <div class="comment-body">
-                                            <div class="comment-author">
-                                                <span class="icon-comment">?</span>
-                                                <cite class="fn">حسن</cite>
-                                                <span class="says">گفت:</span>
-                                                <div class="commentmetadata">
-                                                    <a href="#">
-                                                        اسفند ۲۰, ۱۳۹۶ در ۹:۴۱ ب.ظ
-                                                    </a>
-                                                </div>
-                                            </div>
-
-
-                                            <p>لورم ایپسوم متن ساختگی</p>
-
-                                            <div class="reply"><a class="comment-reply-link" href="#">پاسخ</a></div>
-                                        </div>
-                                    </li>
-                                    <!-- #comment-## -->
-                                    <li>
-                                        <div class="comment-body">
-                                            <div class="comment-author">
-                                                <span class="icon-comment">?</span>
-                                                <cite class="fn">رضا</cite>
-                                                <span class="says">گفت:</span>
-                                                <div class="commentmetadata">
-                                                    <a href="#">
-                                                        اسفند ۲۰, ۱۳۹۶ در ۹:۴۲ ب.ظ
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <p>
-                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                                                صنعت چاپ و با استفاده از طراحان گرافیک است.
-                                            </p>
-
-                                            <div class="reply"><a class="comment-reply-link" href="#">پاسخ</a></div>
-                                        </div>
-                                        <ol class="children">
-                                            <li>
-                                                <div class="comment-body">
-                                                    <div class="comment-author">
-                                                            <span
-                                                                    class="icon-comment mdi mdi-lightbulb-on-outline"></span>
-                                                        <cite class="fn">بهرامی راد</cite> <span
-                                                            class="says">گفت:</span>
-                                                        <div class="commentmetadata">
-                                                            <a href="#">
-                                                                اسفند ۲۰, ۱۳۹۶ در ۹:۴۷ ب.ظ
-                                                            </a>
-                                                        </div>
+                                    {% for question in questions %}
+                                        <li>
+                                            <div class="comment-body">
+                                                <div class="comment-author">
+                                                    <span class="icon-comment">?</span>
+                                                    <cite class="fn">{{ question.user }}</cite>
+                                                    <span class="says">گفت:</span>
+                                                    <div class="commentmetadata">
+                                                        <a href="#" dir="ltr">
+                                                            {{ question.date |filter_date:19 }}
+                                                        </a>
                                                     </div>
-                                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی
-                                                        نامفهوم از صنعت چاپ و با استفاده از
-                                                        طراحان گرافیک است.
-                                                        چاپگرها و متون بلکه روزنامه و مجله در
-                                                        ستون و سطرآنچنان که لازم است و برای
-                                                        شرایط فعلی تکنولوژی
-                                                        مورد نیاز و کاربردهای متنوع با هدف بهبود
-                                                        ابزارهای کاربردی می باشد.</p>
-
-                                                    <div class="reply"><a class="comment-reply-link"
-                                                                          href="#">پاسخ</a></div>
                                                 </div>
+                                                <p>
+                                                    {{ question.text }}</p>
+
+                                            </div>
+                                            {% if question.answer_text %}
                                                 <ol class="children">
                                                     <li>
                                                         <div class="comment-body">
                                                             <div class="comment-author">
-                                                                <span class="icon-comment">?</span>
-                                                                <cite class="fn">محمد</cite>
-                                                                <span class="says">گفت:</span>
+                                                            <span
+                                                                    class="icon-comment mdi mdi-lightbulb-on-outline"></span>
+                                                                <cite class="fn">ادمین</cite> <span
+                                                                    class="says">گفت:</span>
                                                                 <div class="commentmetadata">
-                                                                    <a href="#">
-                                                                        خرداد ۳۰, ۱۳۹۷ در ۸:۵۳ ق.ظ
+                                                                    <a dir="ltr" href="#">
+                                                                        {{ question.answer_date|filter_date:19 }}
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            <p>عالیه</p>
+                                                            {{ question.answer_text|safe }}
 
-                                                            <div class="reply"><a class="comment-reply-link"
-                                                                                  href="#">پاسخ</a></div>
                                                         </div>
-                                                        <ol class="children">
-                                                            <li>
-                                                                <div class="comment-body">
-                                                                    <div class="comment-author">
-                                                                            <span
-                                                                                    class="icon-comment mdi mdi-lightbulb-on-outline"></span>
-                                                                        <cite class="fn">اشکان</cite>
-                                                                        <span class="says">گفت:</span>
-                                                                        <div class="commentmetadata">
-                                                                            <a href="#">
-                                                                                خرداد ۳۰, ۱۳۹۷ در ۸:۵۳ ق.ظ
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p>لورم ایپسوم متن ساختگی با
-                                                                        تولید سادگی نامفهوم از
-                                                                        صنعت چاپ و با استفاده از
-                                                                        طراحان
-                                                                        گرافیک است. چاپگرها و
-                                                                        متون بلکه روزنامه و مجله
-                                                                        در ستون و سطرآنچنان که
-                                                                        لازم است و
-                                                                        برای شرایط فعلی تکنولوژی
-                                                                        مورد نیاز و کاربردهای
-                                                                        متنوع با هدف بهبود
-                                                                        ابزارهای
-                                                                        کاربردی می باشد.</p>
-
-                                                                    <div class="reply"><a class="comment-reply-link"
-                                                                                          href="#">پاسخ</a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <!-- #comment-## -->
-                                                        </ol>
                                                         <!-- .children -->
                                                     </li>
                                                     <!-- #comment-## -->
                                                 </ol>
-                                                <!-- .children -->
-                                            </li>
-                                            <!-- #comment-## -->
-                                        </ol>
-                                        <!-- .children -->
-                                    </li>
+                                            {% endif %}
+
+                                            <!-- .children -->
+                                        </li>
+                                    {% endfor %}
+
+                                    <!-- #comment-## -->
+
                                 </ol>
                             </div>
                         </div>

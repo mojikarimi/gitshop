@@ -66,10 +66,12 @@ urlpatterns = [
             name='panel_details_comments'),
     re_path(r'^panel_delete_comment/(?P<pk_comment>\d+)$', shopview.panel_delete_comment,
             name='panel_delete_comment'),
-    re_path('^panel_questions_list/$', shopview.panel_questions_list, name='panel_questions_list'),
-    re_path('^panel_sort_question/$', shopview.panel_sort_question, name='panel_sort_question'),
+    re_path(r'^panel_questions_list/(?P<pk>\d+)$', shopview.panel_questions_list, name='panel_questions_list'),
+    re_path(r'^panel_sort_question/(?P<pk>\d+)$', shopview.panel_sort_question, name='panel_sort_question'),
     re_path(r'^panel_details_question/(?P<pk>\d+)$', shopview.panel_details_question,
             name='panel_details_question'),
+re_path(r'^panel_delete_question/(?P<pk>\d+)$', shopview.panel_delete_question,
+            name='panel_delete_question'),
 
     # APP Main Panel URLs
     re_path(r'^panel_tickets_lists$', mainview.panel_tickets_lists, name='panel_tickets_lists'),

@@ -12,16 +12,17 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 def blog(request):
-    posts = Post.objects.using('blog').order_by('-date')
-    cats = Category.objects.using('blog').all()
-    sub_cats = SubCategory.objects.using('blog').all()
-    visit_posts = Post.objects.using('blog').order_by('view')[:5]
+    # Function to display the list of posts
+    posts = Post.objects.using('blog').order_by('-date')  # Get all posts to display
+    cats = Category.objects.using('blog').all()  # get cats
+    sub_cats = SubCategory.objects.using('blog').all()  # get sun category
+    visit_posts = Post.objects.using('blog').order_by('view')[:5]  # Getting five of the most visited
     post_tags = ''
-    for post in posts:
+    for post in posts:  # Show tags
         post_tags += f'{post.tags},'
-    post_tags = list(set(post_tags.split(',')))[:20]
+    post_tags = list(set(post_tags.split(',')))[:20]  # Creating a list of tags without duplicate tags
     if '' in post_tags:
-        post_tags.remove('')
+        post_tags.remove('')  # Remove the empty string from our tag
     context = {
         'posts': posts,
         'cats': cats,
@@ -33,7 +34,9 @@ def blog(request):
 
 
 def post(request, title):
-    my_post = Post.objects.using('blog').get(title=title)
+    # Function to display the post
+    my_post = Post.objects.using('blog').get(title=title)  # Getting posts from the blog database
+    # Getting blog comments
     comments = Comments.objects.using('blog').filter(post_id=my_post.pk, status=True).order_by('-date')
     comments_score = comments.values('score')
     comments_score_list = []
