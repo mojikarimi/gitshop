@@ -30,6 +30,7 @@ class SubCategory(models.Model):
 
 
 class Post(models.Model):
+    # model for create a post for blog
     class Meta:
         verbose_name_plural = 'Post details'
 
@@ -45,7 +46,7 @@ class Post(models.Model):
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0, blank=True)
     tags = models.TextField(blank=True)
-    score=models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
     usrer_id = models.IntegerField(default=0)
 
     def __str__(self):
@@ -53,6 +54,7 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
+    # post comments
     class Meta:
         verbose_name_plural = 'Comments For Posts '
 
@@ -61,22 +63,27 @@ class Comments(models.Model):
     post_id = models.IntegerField(default=0, blank=True)
     date = models.CharField(max_length=10, blank=True)
     status = models.BooleanField(default=False)
-    score=models.IntegerField(default=0)
-    user=models.TextField(blank=True)
-    user_id=models.IntegerField(default=0)
-    like=models.IntegerField(default=0)
-    dis_like=models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
+    user = models.TextField(blank=True)
+    user_id = models.IntegerField(default=0)
+    like = models.IntegerField(default=0)
+    dis_like = models.IntegerField(default=0)
+
     def __str__(self):
         return self.title
 
 
 class OpinionComment(models.Model):
+    # like and dislike for comment
     opinion = models.IntegerField(default=0, blank=True)
     comment_id = models.IntegerField(default=0, blank=True)
-    user_id = models.IntegerField(default=0,blank=True)
-    user=models.TextField(blank=True)
+    user_id = models.IntegerField(default=0, blank=True)
+    user = models.TextField(blank=True)
+
     def __str__(self):
         if self.opinion == 1:
             return 'Like'
-        else:
+        elif self.opinion == -1:
             return 'Dis Like'
+        else:
+            return 'No Opinion'

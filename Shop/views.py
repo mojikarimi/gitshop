@@ -20,8 +20,8 @@ def single_product(request, title):
     context = {'product': product, 'colors': eval(product.color), 'sizes': eval(product.size),
                'attrs': dict(zip(eval(product.attribute_title), eval(product.attribute_value))),
                # Send related features of each other
-               'texts': zip(eval(product.title_text), eval(product.full_text)),
-               'questions': questions}  # Send text and Title together
+               'texts': zip(eval(product.title_text), eval(product.full_text)),  # Send text and Title together
+               'questions': questions}
     product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
 
     if product_comments:
@@ -199,15 +199,21 @@ def cart_number_plus(request):
 
 @login_required
 def cart_number_minus(request):
+    # Reduce the number of products ordered
     if request.method == 'POST':
+        # A shopping cart whose purchase process has not yet been completed
         carts = Cart.objects.using('shop').filter(user_id=request.user.pk, status=False).first()
         cart_product_pk = request.POST['product_id'][8:]
         cart_product = ProductCart.objects.get(pk=cart_product_pk)
         product = Product.objects.get(pk=cart_product.product_id)
         if (cart_product.number > 1) and (product.order_number > 0):
+            # The number in the shopping cart should be more than one and the number of orders should be more than zero
             cart_product.number -= 1
+            # Reduce the number of products
             cart_product.save(using='shop')
+            # Reduction of the total price in the shopping cart
             carts.price -= product.discounted_price
+            # Reduce the number of orders in the product model
             product.order_number -= 1
             product.save(using='shop')
             carts.save(using='shop')
@@ -216,8 +222,10 @@ def cart_number_minus(request):
 
 @login_required
 def shopping(request):
+    # Determining the address and delivery method
     addresses = Address.objects.filter(user=request.user, user_id=request.user.pk)
     if request.method == 'POST':
+        # Change the selected address
         address = request.POST.get('address')
         x = addresses.get(pk=address)
         addresses.update(status=False)
@@ -234,6 +242,7 @@ def shopping(request):
 
 @login_required
 def shopping_peyment(request):
+    # Address registration and shipping method(sending_method,address,...)
     if request.method == 'POST':
         sending_method = request.POST.get('sending_method')
         address = request.POST.get('address')
@@ -246,12 +255,13 @@ def shopping_peyment(request):
 
 @login_required
 def shopping_complete_buy(request):
+    # The last step is to complete the shopping cart
     if request.method == 'POST':
         try:
             carts = Cart.objects.get(user_id=request.user.pk, user=request.user, status=False)
         except:
             return redirect('index')
-        carts.status = True
+        carts.status = True  # change status cart to True
         carts.save(using='shop')
         address = Address.objects.get(pk=carts.address_id)
         number = len(ProductCart.objects.filter(cart_id=carts.pk))
@@ -260,6 +270,7 @@ def shopping_complete_buy(request):
 
 
 def add_questions(request):
+    # User questions about a product
     if request.method == 'POST':
         text = request.POST.get('text')
         product_id = request.POST.get('product_id')
@@ -275,6 +286,7 @@ def add_questions(request):
 @login_required
 @permission_required(perm='Shop.add_group')
 def panel_add_group_product(request):
+    # for add group product
     if not request.user.is_staff:
         return redirect('index')
     groups = Group.objects.using('shop').all()
@@ -287,7 +299,7 @@ def panel_add_group_product(request):
         image = request.FILES.get('image')
         if image:
             if str(image.content_type).startswith('image'):
-                if image.size <= 5242880:
+                if image.size <= 5242880:  # The size of the photo must be less than 5 MB
                     Group.objects.create(image=image, name=group)
                     messages.success(request, 'Successfully added')
                     return redirect('panel_add_group_product')
@@ -308,6 +320,7 @@ def panel_add_group_product(request):
 @login_required
 @permission_required(perm='Shop.change_group')
 def panel_edit_group_product(request, pk):
+    # for edit group product
     if not request.user.is_staff:
         return redirect('index')
 
@@ -318,8 +331,9 @@ def panel_edit_group_product(request, pk):
             # messages.error(request, 'There is a category with this title')
             return redirect('panel_add_group_product')
         group_edit = Group.objects.using('shop').get(pk=pk)
+        # edit image group
         image = request.FILES.get('new_image')
-        if image:
+        if image:  # update image
             if str(image.content_type).startswith('image'):
                 if image.size <= 5242880:
                     group_edit.image = image
@@ -338,6 +352,7 @@ def panel_edit_group_product(request, pk):
 @login_required
 @permission_required(perm='Shop.delete_group')
 def panel_delete_group_product(request, pk):
+    # for delete group product
     if not request.user.is_staff:
         return redirect('index')
     Group.objects.using('shop').get(pk=pk).delete()
@@ -347,6 +362,7 @@ def panel_delete_group_product(request, pk):
 @login_required
 @permission_required(perm='Shop.add_category')
 def panel_add_category_product(request):
+    # for add category product
     if not request.user.is_staff:
         return redirect('index')
 
@@ -369,6 +385,7 @@ def panel_add_category_product(request):
 @login_required
 @permission_required(perm='Shop.delete_category')
 def panel_delete_category_product(request, pk):
+    # for delete category product
     if not request.user.is_staff:
         return redirect('index')
     Category.objects.using('shop').get(pk=pk).delete()
@@ -378,6 +395,7 @@ def panel_delete_category_product(request, pk):
 @login_required
 @permission_required(perm='Shop.change_category')
 def panel_edit_category_product(request, pk):
+    # for edit category product
     if not request.user.is_staff:
         return redirect('index')
 
@@ -400,6 +418,7 @@ def panel_edit_category_product(request, pk):
 @login_required
 @permission_required(perm='Shop.add_subcategory')
 def panel_add_subcategory_product(request):
+    # for add new sub category
     if not request.user.is_staff:
         return redirect('index')
     groups = Group.objects.using('shop').all()
@@ -425,6 +444,7 @@ def panel_add_subcategory_product(request):
 @login_required
 @permission_required(perm='Shop.delete_subcategory')
 def panel_delete_subcategory_product(request, pk):
+    # for delete sub category product
     if not request.user.is_staff:
         return redirect('index')
     SubCategory.objects.using('shop').get(pk=pk).delete()
@@ -434,11 +454,12 @@ def panel_delete_subcategory_product(request, pk):
 @login_required
 @permission_required(perm='Shop.add_product')
 def panel_add_product(request):
+    # for add product
     if not request.user.is_staff:
         return redirect('index')
-    groups = Group.objects.using('shop').all()
-    categories = Category.objects.using('shop').all()
-    subcategories = SubCategory.objects.using('shop').all()
+    groups = Group.objects.using('shop').all()  # get gruops
+    categories = Category.objects.using('shop').all()  # get categories
+    subcategories = SubCategory.objects.using('shop').all()  # get sub categories
     if request.method == 'POST':
         title = request.POST.get('title')
         title_english = request.POST.get('title_english')
@@ -447,14 +468,16 @@ def panel_add_product(request):
         subcategory = request.POST.get('subcategory')
         GCS = subcategories.using('shop').filter(category=category, group=group,
                                                  name=subcategory)  # G=group C=category S=subcategory
-        print(GCS, group, category, subcategory, subcategories)
-        if len(GCS) == 0:
+        if len(GCS) == 0:  # match  G=group, C=category, S=subcategory
             return redirect('panel_add_product')
+        # get images
         image1 = request.FILES.get('image1')
         image2 = request.FILES.get('image2')
         image3 = request.FILES.get('image3')
         image4 = request.FILES.get('image4')
+        # get video
         video = request.FILES.get('video')
+        # get another details
         number = request.POST.get('number')
         price = request.POST.get('price')
         percent = request.POST.get('percent')
@@ -470,6 +493,7 @@ def panel_add_product(request):
         our_suggestion = request.POST.get('our_suggestion')
         instant_sale = request.POST.get('instant_sale')
         available = request.POST.get('available')
+        # set time for product
         now = datetime.now()
         year = now.year
         month = now.month
@@ -494,6 +518,7 @@ def panel_add_product(request):
             instant_sale = True
         else:
             instant_sale = False
+        # add new product
         Product.objects.using('shop').create(description=description, name_product=title,
                                              name_product_english=title_english, group=GCS[0].group,
                                              group_id=GCS[0].group_id, category=GCS[0].category,
@@ -522,14 +547,13 @@ def panel_add_product(request):
 @login_required
 @permission_required(perm='Shop.change_product')
 def panel_edit_product(request, pk):
+    # for edit details a product
     if not request.user.is_staff:
         return redirect('index')
-    if not request.user.is_authenticated or not request.user.is_staff or not request.user.is_active:
-        return redirect('index')
-    product = Product.objects.using('shop').get(pk=pk)
-    groups = Group.objects.using('shop').all()
-    categories = Category.objects.using('shop').all()
-    subcategories = SubCategory.objects.using('shop').all()
+    product = Product.objects.using('shop').get(pk=pk)  # get product
+    groups = Group.objects.using('shop').all()  # get groups
+    categories = Category.objects.using('shop').all()  # get categories
+    subcategories = SubCategory.objects.using('shop').all()  # get sub categories
     if request.method == 'POST':
         subcategories = SubCategory.objects.using('shop').all()
         title = request.POST.get('new_title')
@@ -538,13 +562,16 @@ def panel_edit_product(request, pk):
         category = request.POST.get('new_category')
         subcategory = request.POST.get('new_subcategory')
         GCS = subcategories.filter(category=category, group=group, name=subcategory)  # G=group C=category S=subcategory
-        if len(GCS) == 0:
+        if len(GCS) == 0:  # match category, group, subcategory
             return redirect('panel_add_product')
+        # get image product
         image1 = request.FILES.get('new_image1')
         image2 = request.FILES.get('new_image2')
         image3 = request.FILES.get('new_image3')
         image4 = request.FILES.get('new_image4')
+        # get video product
         video = request.FILES.get('new_video')
+        # get another details for update
         number = request.POST.get('new_number')
         price = request.POST.get('new_price')
         percent = request.POST.get('new_percent')
@@ -595,6 +622,7 @@ def panel_edit_product(request, pk):
         edit_product.discount_percent = int(float(percent))
         edit_product.name_product_english = title_english
         edit_product.name_product = title
+        # If there is a photo or video, it will be changed
         if image1:
             edit_product.image1 = image1
         if image2:
@@ -608,7 +636,7 @@ def panel_edit_product(request, pk):
 
         edit_product.save(using='shop')
         return redirect('panel_list_product')
-    title_text = eval(product.title_text)
+    title_text = eval(product.title_text)  # eval('[1,2,3]')=> [1,2,3]-> List not STR
     full_text = eval(product.full_text)
     colors = eval(product.color)
     sizes = eval(product.size)
@@ -631,6 +659,7 @@ def panel_edit_product(request, pk):
 @login_required
 @permission_required(perm='Shop.view_product')
 def panel_list_product(request):
+    # see list product
     if not request.user.is_staff:
         return redirect('index')
     panel_list_products = Product.objects.using('shop').order_by('-date')
@@ -638,18 +667,24 @@ def panel_list_product(request):
     return render(request, 'back/PanelShop/list_product.html', context=context)
 
 
+@login_required
+@permission_required(perm='Shop.view_commentsproduct')
 def panel_comments_product(request, pk_product):
+    # see comments product list
     panel_comments = CommentsProduct.objects.filter(pk_product=pk_product)
     product_comment = Product.objects.get(pk=pk_product)
     return render(request, 'back/PanelShop/comments_product.html',
                   {'panel_comments': panel_comments, 'product_comment': product_comment})
 
 
+@login_required
+@permission_required(perm='Shop.view_commentsproduct')
 def panel_details_comments(request, pk_comment):
+    # see details comment product
     panel_comment = CommentsProduct.objects.using('shop').get(pk=pk_comment)
     if request.method == 'POST':
         confirmed = request.POST.get('confirmed')
-        if confirmed:
+        if confirmed:  # update status
             confirmed = True
         else:
             confirmed = False
@@ -659,7 +694,10 @@ def panel_details_comments(request, pk_comment):
     return render(request, 'back/PanelShop/details_comment.html', {'panel_comment': panel_comment})
 
 
+@login_required
+@permission_required(perm='Shop.delete_commentsproduct')
 def panel_delete_comment(request, pk_comment):
+    # for delete comment product with pk
     delete_comment = CommentsProduct.objects.using('shop').get(pk=pk_comment)
     pk_product = delete_comment.pk_product
     delete_comment.delete(using='shop')
@@ -669,6 +707,7 @@ def panel_delete_comment(request, pk_comment):
 @login_required
 @permission_required(perm='Shop.delete_product')
 def panel_delete_product(request, pk):
+    # for delete a product
     if not request.user.is_staff:
         return redirect('index')
     product = Product.objects.using('shop').get(pk=pk)
@@ -679,6 +718,7 @@ def panel_delete_product(request, pk):
 @login_required
 @permission_required(perm='Shop.change_subcategory')
 def panel_edit_subcategory_product(request, pk):
+    # for edit sub category product
     if not request.user.is_staff:
         return redirect('index')
     if request.method == 'POST':
@@ -705,6 +745,7 @@ def panel_edit_subcategory_product(request, pk):
 @login_required
 @permission_required(perm='Shop.view_cart')
 def panel_view_cart(request):
+    # see shopping carts
     panel_carts = Cart.objects.order_by('-date')
     context = {'panel_carts': panel_carts}
     return render(request, 'back/PanelShop/list_cart.html', context=context)
@@ -713,6 +754,7 @@ def panel_view_cart(request):
 @login_required
 @permission_required(perm='Shop.view_cart')
 def panel_details_cart(request, pk):
+    # see details shoppin cart
     panel_cart = Cart.objects.get(pk=pk)
     panel_products_cart = ProductCart.objects.filter(cart_id=panel_cart.pk).order_by('product_id')
     panel_products = Product.objects.filter(pk__in=panel_products_cart.values('product_id'))
@@ -720,6 +762,7 @@ def panel_details_cart(request, pk):
     context = {'panel_cart': panel_cart, 'panel_products_cart': panel_products_cart, 'panel_products': panel_products,
                'panel_address': panel_address}
     if request.method == 'POST':
+        # Updating product delivery procedures
         preparation = request.POST.get('preparation')
         exit_ = request.POST.get('exit')
         delivery = request.POST.get('delivery')
@@ -759,26 +802,29 @@ def panel_details_cart(request, pk):
 @login_required
 @permission_required(perm='Shop.view_question')
 def panel_questions_list(request, pk):
+    # see questions list
     questions = Question.objects.using('shop').filter(product_id=pk).order_by('sort')
-    return render(request, 'back/PanelShop/questions_list.html', {'questions': questions,'pk_faq':pk})
+    return render(request, 'back/PanelShop/questions_list.html', {'questions': questions, 'pk_faq': pk})
 
 
 @login_required
 @permission_required(perm='Shop.change_question')
-def panel_sort_question(request,pk):
+def panel_sort_question(request, pk):
+    # for sort questions
     if request.method == 'POST':
         questions = Question.objects.all()
         sorts = request.POST.getlist('sort')
-        for i, x in enumerate(sorts):
+        for i, x in enumerate(sorts):  # [5,4,6] => 0->5, 1->4, 2->6
             question = questions.get(pk=x)
             question.sort = i + 1
             question.save(using='shop')
-        return redirect('panel_questions_list',pk=pk)
+        return redirect('panel_questions_list', pk=pk)
 
 
 @login_required
 @permission_required(perm='Shop.change_question')
 def panel_details_question(request, pk):
+    # See the details of the questions end edit(status, FAQ)
     question = Question.objects.get(pk=pk)
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
@@ -792,19 +838,22 @@ def panel_details_question(request, pk):
             status = True
         else:
             status = False
-        question.answer_text = answer_text
+        question.answer_text = answer_text  # Record the answer to the question
         question.faq = faq
         question.status = status
-        if not question.answer_date:
+        if not question.answer_date:  # To record the time for the first time an answer is given
             question.answer_date = datetime.now()
         question.save(using='shop')
         return redirect('panel_details_question', pk)
 
     return render(request, 'back/PanelShop/details_questions.html', {'question': question})
+
+
 @login_required
 @permission_required(perm='Shop.delete_question')
-def panel_delete_question(request,pk):
-    question=Question.objects.using('shop').get(pk=pk)
-    pk_product=question.product_id
+def panel_delete_question(request, pk):
+    # for delete Question
+    question = Question.objects.using('shop').get(pk=pk)
+    pk_product = question.product_id
     question.delete(using='shop')
-    return redirect('panel_questions_list',pk=pk_product)
+    return redirect('panel_questions_list', pk=pk_product)
