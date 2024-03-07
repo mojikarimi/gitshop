@@ -27,19 +27,19 @@ class Footer(models.Model):
     text = models.TextField(blank=True)
     copy_right = models.TextField(blank=True)
     image1 = models.ImageField(upload_to='footer/', blank=True)
-    link1=models.TextField(blank=True)
+    link1 = models.TextField(blank=True)
     image1_text = models.CharField(max_length=150, blank=True)
     image2 = models.ImageField(upload_to='footer/', blank=True)
-    link2=models.TextField(blank=True)
+    link2 = models.TextField(blank=True)
     image2_text = models.CharField(max_length=150, blank=True)
     image3 = models.ImageField(upload_to='footer/', blank=True)
-    link3=models.TextField(blank=True)
+    link3 = models.TextField(blank=True)
     image3_text = models.CharField(max_length=150, blank=True)
     image4 = models.ImageField(upload_to='footer/', blank=True)
-    link4=models.TextField(blank=True)
+    link4 = models.TextField(blank=True)
     image4_text = models.CharField(max_length=150, blank=True)
     image5 = models.ImageField(upload_to='footer/', blank=True)
-    link5=models.TextField(blank=True)
+    link5 = models.TextField(blank=True)
     image5_text = models.CharField(max_length=150, blank=True)
 
     def __str__(self):
@@ -118,8 +118,3 @@ class Trend(models.Model):
 
     def __str__(self):
         return 'trend image'
-class PictureIndex(models.Model):
-    image = models.TextField(blank=True)
-    image_url = models.TextField(blank=True)
-    link = models.TextField(blank=True)
-    size=models.CharField(choices=(('بزرگ', 'بزرگ'), ('کوچک', 'کوچک')),max_length=50,blank=True)

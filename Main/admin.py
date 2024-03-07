@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 from django.contrib.sessions.models import Session
 
+
 # Register your models here.
 class NoDeleteAdminMixin:
     def has_delete_permission(self, request, obj=None):
@@ -24,6 +25,5 @@ admin.site.register(ChatNew)
 admin.site.register(Slider)
 admin.site.register(Gif)
 admin.site.register(Trend)
-
 
 admin.site.register(Session)

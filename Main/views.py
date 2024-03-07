@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 def index(request):
+    # for index page
     gif = Gif.objects.all().first()
     sliders = Slider.objects.all()
     instant_sales = Product.objects.using('shop').filter(instant_sale=True).order_by('instant_sale')[:5]
@@ -46,13 +47,13 @@ def new_chat(request):
         room = ChatRoom.objects.filter(user=request.user, ip_client=get_client_ip(request)[0])
         # Among all the rooms, it takes the room that has the same IP and username user
         if len(room) == 0:  # We will check the number of members so that if there is no room, one will be created
-            room = ChatRoom(user=request.user, ip_client=get_client_ip(request)[0])  # creat room
+            room = ChatRoom(user=request.user, ip_client=get_client_ip(request)[0], status='اعلام نشده')  # creat room
             room.save()
         else:
             room = room[0]  # get a room
+
         date_active = datetime.now() + timedelta(days=1)  # A date that can be displayed to anonymous users
-        chatnew = ChatNew(room=room, text=message, type='client', date_active=date_active,
-                          status='اعلام نشده')  # Creating a message model
+        chatnew = ChatNew(room=room, text=message, type='client', date_active=date_active)  # Creating a message model
         chatnew.save()
         message = ChatNew.objects.filter(pk=chatnew.pk)
         message = serializers.serialize('json', message)  # Convert message models to json file
@@ -145,6 +146,7 @@ def panel_massages(request, pk):
 @login_required
 @permission_required(perm='Main.add_catfooter')
 def panel_add_cat_footer(request):
+    # for add category footer
     cats = CatFooter.objects.all()
     context = {'cats': cats}
     if request.method == 'POST':
@@ -158,6 +160,7 @@ def panel_add_cat_footer(request):
 @login_required
 @permission_required(perm='Main.change_chatfooter')
 def panel_edit_cat_footer(request, pk):
+    # for edit category footer
     if request.method == 'POST':
         cat = CatFooter.objects.get(pk=pk)
         subcats = SubCatFooter.objects.filter(cat_id=pk)
@@ -165,6 +168,7 @@ def panel_edit_cat_footer(request, pk):
         cat.title = title
         cat.save()
         for i in subcats:
+            # for update sub category
             i.cat = title
             i.save()
         return redirect('panel_add_cat_footer')
@@ -173,6 +177,7 @@ def panel_edit_cat_footer(request, pk):
 @login_required
 @permission_required(perm='Main.delete_chatfooter')
 def panel_delete_cat_footer(request, pk):
+    # for delete category footer
     cat = CatFooter.objects.get(pk=pk)
     subcats = SubCatFooter.objects.filter(cat_id=pk)
     subcats.delete()
@@ -183,6 +188,7 @@ def panel_delete_cat_footer(request, pk):
 @login_required
 @permission_required(perm='Main.add_subchatfooter')
 def panel_add_subcat_footer(request, pk):
+    # for add new sub category footer and show list sub category footer
     subcats = SubCatFooter.objects.filter(cat_id=pk)
     cat = CatFooter.objects.get(pk=pk)
     context = {'subcats': subcats, 'cat': cat}
@@ -198,6 +204,7 @@ def panel_add_subcat_footer(request, pk):
 @login_required
 @permission_required(perm='Main.delete_subchatfooter')
 def panel_delete_subcat_footer(request, pk):
+    # for delete sub category footer
     subcat = SubCatFooter.objects.get(pk=pk)
     subcat.delete()
     return redirect('panel_add_subcat_footer', pk=pk)
@@ -206,6 +213,7 @@ def panel_delete_subcat_footer(request, pk):
 @login_required
 @permission_required(perm='Main.change_subchatfooter')
 def panel_edit_subcat_footer(request, pk):
+    # for edit sub category footer
     if request.method == 'POST':
         subcat = SubCatFooter.objects.get(pk=pk)
         title = request.POST.get('title')
@@ -219,6 +227,7 @@ def panel_edit_subcat_footer(request, pk):
 @login_required
 @permission_required(perm='Main.add_menu')
 def panel_add_menu(request):
+    # for add new menu and show list menu
     menus = Menu.objects.order_by('number')
     context = {'menus': menus}
     if request.method == 'POST':
@@ -233,6 +242,7 @@ def panel_add_menu(request):
 @login_required
 @permission_required(perm='Main.change_menu')
 def panel_edit_menu(request, pk):
+    # for edit menu
     if request.method == 'POST':
         menu = Menu.objects.get(pk=pk)
         menu_name = request.POST.get('menu_name')
@@ -246,6 +256,7 @@ def panel_edit_menu(request, pk):
 @login_required
 @permission_required(perm='Main.delete_menu')
 def panel_delete_menu(request, pk):
+    # for delete menu
     menu = Menu.objects.get(pk=pk)
     menu.delete()
     return redirect('panel_add_menu')
@@ -254,10 +265,11 @@ def panel_delete_menu(request, pk):
 @login_required
 @permission_required(perm='Main.add_menu')
 def panel_sort_menu(request):
+    # for sort menu
     if request.method == 'POST':
         menus = Menu.objects.all()
         sorts = request.POST.getlist('sort')
-        for i, x in enumerate(sorts):
+        for i, x in enumerate(sorts):  # sorts=[2,3,5] => 0->2 , 1->3 , 2->5
             menu = menus.get(pk=x)
             menu.number = i
             menu.save()
@@ -267,6 +279,7 @@ def panel_sort_menu(request):
 @login_required
 @permission_required(perm='Main.add_footer')
 def panel_footer(request):
+    # for footer main details(image,text,copy_right)
     footer_view = Footer.objects.all().first()
     if request.method == 'POST':
         footer = Footer.objects.all().first()
@@ -287,7 +300,7 @@ def panel_footer(request):
         link3 = request.POST.get('link3')
         link4 = request.POST.get('link4')
         link5 = request.POST.get('link5')
-        if image1:
+        if image1:  # If the photo is sent or not, change it
             footer.image1 = image1
         if image2:
             footer.image2 = image2
@@ -317,6 +330,7 @@ def panel_footer(request):
 @login_required
 @permission_required(perm='Main.add_mainmodel')
 def panel_main_model(request):
+    # for logo, icon, title panel and title panel
     main = MainModel.objects.all().first()
     if request.method == 'POST':
         icon = request.FILES.get('icon')
@@ -338,28 +352,32 @@ def panel_main_model(request):
 @login_required
 @permission_required(perm='Main.add_tickets')
 def panel_tickets_lists(request):
+    # show tickets user
     tickets = Tickets.objects.using('profile').order_by('-date')
     context = {'tickets': tickets, 'closed': len(tickets.filter(status='بسته شده')),
-               'invalid': len(tickets.filter(status='غیر قابل قبول')),
-               'answered': len(tickets.filter(status='پاسخ داده شده')),
-               'pending': len(tickets.filter(status='درحال بررسی')), }
+               'invalid': len(tickets.filter(status='غیر قابل قبول')),  # Impossible number
+               'answered': len(tickets.filter(status='پاسخ داده شده')),  # Number not answered
+               'pending': len(tickets.filter(status='درحال بررسی')), }  # Number under review
     return render(request, "back/PanelMain/panel_tickets.html", context=context)
 
 
 @login_required
 @permission_required(perm='Main.add_answerticket')
 def panel_answer_tickets(request, pk):
-    ticket = Tickets.objects.using('profile').get(pk=pk)
-    answers_tickets = AnswerTicket.objects.using('profile').order_by('-date').filter(ticket=ticket)
+    # To respond to tickets
+    ticket = Tickets.objects.using('profile').get(pk=pk)  # get ticket
+    answers_tickets = AnswerTicket.objects.using('profile').order_by('-date').filter(
+        ticket=ticket)  # get answers tocket
     context = {'ticket': ticket, 'answers_tickets': answers_tickets, }
     if request.method == 'POST':
+        # for send answer ticket
         type_user = request.POST.get('type_user')
         text = request.POST.get('text')
         answerticket = AnswerTicket(ticket=ticket, type_user=type_user, text=text, user_id=request.user.pk,
                                     user=request.user.username)
         answerticket.save(using='profile')
         ticket.date_update = datetime.now()
-        ticket.status = 'پاسخ داده شده'
+        ticket.status = 'پاسخ داده شده'  # change status into answered
         ticket.save(using='profile')
         return redirect('panel_tickets_lists')
     return render(request, "back/PanelMain/panel_answer_tickets.html", context=context)
@@ -368,6 +386,7 @@ def panel_answer_tickets(request, pk):
 @login_required
 @permission_required(perm='Main.view_tickets')
 def panel_change_status_ticket(request, pk):
+    # for change status tickets
     if request.method == 'POST':
         status = request.POST.get('status')
         ticket = Tickets.objects.get(pk=pk)
@@ -380,6 +399,7 @@ def panel_change_status_ticket(request, pk):
 @login_required
 @permission_required(perm='Main.add_gif')
 def panel_gif(request):
+    # for add and edit gif in index page
     if request.method == 'POST':
         main_gif = Gif.objects.all().first()
         gif = request.FILES.get('gif')
@@ -396,16 +416,17 @@ def panel_gif(request):
 @login_required
 @permission_required(perm='Main.add_slider')
 def panel_add_slider(request):
+    # for add new slider to index page
     if request.method == 'POST':
         link = request.POST.get('link')
         image = request.FILES.get('image')
-        try:
-            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/slider/')
+        try:  # use FileSystemStorage for upload image
+            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/slider/')  # Give the path to save the photo
             filename = fs.save(image.name, image)
             if str(image.content_type).startswith('image'):
                 if image.size <= 5242880:
                     image = filename
-                    image_url = f'{settings.MEDIA_URL}' + 'Main/slider/' + image
+                    image_url = f'{settings.MEDIA_URL}' + 'Main/slider/' + image  # Give the path to save the photo
                     slider = Slider(image=image, image_url=image_url, link=link)
                     slider.save()
                     messages.success(request, 'Added successfully')
@@ -424,17 +445,18 @@ def panel_add_slider(request):
 @login_required
 @permission_required(perm='Main.change_slider')
 def panel_edit_slider(request, pk):
+    # for edit slider in index page
     slider = Slider.objects.get(pk=pk)
     if request.method == 'POST':
         link = request.POST.get('link')
-        try:
+        try:  # use FileSystemStorage for upload image
             image = request.FILES.get('image')
-            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/slider/')
+            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/slider/')  # Give the path to save the photo
             filename = fs.save(image.name, image)
             if str(image.content_type).startswith('image'):
                 if image.size <= 5242880:
                     image = filename
-                    image_url = f'{settings.MEDIA_URL}' + 'Main/slider/' + image
+                    image_url = f'{settings.MEDIA_URL}' + 'Main/slider/' + image  # Give the path to save the photo
                     slider.image = image
                     slider.image_url = image_url
                 else:
@@ -446,6 +468,7 @@ def panel_edit_slider(request, pk):
                 messages.error(request, 'The file format is not correct')
                 return redirect('panel_edit_slider', pk=pk)
         finally:
+            # set link for slider
             slider.link = link
             slider.save()
             messages.success(request, 'Changes applied successfully')
@@ -456,6 +479,7 @@ def panel_edit_slider(request, pk):
 @login_required
 @permission_required(perm='Main.delete_slider')
 def panel_delete_slider(request, pk):
+    # for delete slider
     slider = Slider.objects.get(pk=pk)
     slider.delete()
     return redirect('panel_add_slider')
@@ -464,22 +488,24 @@ def panel_delete_slider(request, pk):
 @login_required
 @permission_required(perm='Main.add_trend')
 def panel_trend(request):
+    # for add trend and edit its
     trend = Trend.objects.all().first()
     if request.method == 'POST':
         status = request.POST.get('status')
         link = request.POST.get('link')
+        # To be displayed or not
         if status == 'on':
             status = 1
         else:
             status = 0
-        try:
+        try:  # use FileSystemStorage for upload image
             image = request.FILES.get('image')
-            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/trend/')
+            fs = FileSystemStorage(location=f'{settings.MEDIA_ROOT}/Main/trend/')  # Give the path to save the photo
             filename = fs.save(image.name, image)
             if str(image.content_type).startswith('image'):
                 if image.size <= 5242880:
                     image = filename
-                    image_url = f'{settings.MEDIA_URL}' + 'Main/trend/' + image
+                    image_url = f'{settings.MEDIA_URL}' + 'Main/trend/' + image  # Give the path to save the photo
                     trend.image = image
                     trend.image_url = image_url
                 else:
@@ -491,6 +517,7 @@ def panel_trend(request):
                 messages.error(request, 'The file format is not correct')
                 return redirect('panel_trend')
         finally:
+            # set link and status to trend
             trend.link = link
             trend.status = status
             trend.save()

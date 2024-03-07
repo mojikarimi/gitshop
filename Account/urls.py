@@ -1,7 +1,6 @@
 from .views import *
-from django.urls import re_path, path
-from django.contrib.auth.views import LogoutView
-from django.conf import settings
+from django.urls import re_path
+
 
 urlpatterns = [
     re_path(r'^signup$', signup, name='signup'),
