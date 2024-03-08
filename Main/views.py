@@ -300,6 +300,9 @@ def panel_footer(request):
         link3 = request.POST.get('link3')
         link4 = request.POST.get('link4')
         link5 = request.POST.get('link5')
+        if not footer:
+            # To run the code the first time
+            footer = Footer.objects.create()
         if image1:  # If the photo is sent or not, change it
             footer.image1 = image1
         if image2:
@@ -339,12 +342,12 @@ def panel_main_model(request):
         title_panel = request.POST.get('title_panel')
         if icon:
             main.icon = icon
-            main.save()
         if logo:
             main.logo = logo
-            main.save()
         main.title_website = title_website
         main.title_panel = title_panel
+        main.save()
+
         return redirect('panel_main_model')
     return render(request, 'back/PanelMain/panel_main_model.html')
 
@@ -401,13 +404,16 @@ def panel_change_status_ticket(request, pk):
 def panel_gif(request):
     # for add and edit gif in index page
     if request.method == 'POST':
-        main_gif = Gif.objects.all().first()
+        main_gif = Gif.objects.all()
         gif = request.FILES.get('gif')
         link = request.POST.get('link')
-        if gif:
-            main_gif.gif = gif
-        main_gif.link = link
-        main_gif.save()
+        if main_gif:
+            if gif:
+                main_gif[0].gif = gif
+            main_gif[0].link = link
+            main_gif.save()
+        else:
+            main_gif.create(gif=gif, link=link)
         return redirect('panel_gif')
     main_gif = Gif.objects.all().first()
     return render(request, 'back/PanelMain/panel_gif.html', {'main_gif': main_gif})
@@ -493,6 +499,9 @@ def panel_trend(request):
     if request.method == 'POST':
         status = request.POST.get('status')
         link = request.POST.get('link')
+        if not trend:
+            # To run the code the first time
+            trend = Trend.objects.create()
         # To be displayed or not
         if status == 'on':
             status = 1

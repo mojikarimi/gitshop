@@ -21,7 +21,6 @@
                         </div>
 
                         <div class="card-body">
-                            {% include 'back/partials/_alert.html' %}
                             <div class="row">
                                 <form action="{% url 'panel_add_sub_category' %}" method="post">
                                     {% csrf_token %}
