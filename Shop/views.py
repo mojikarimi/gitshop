@@ -408,7 +408,7 @@ def panel_edit_category_product(request, pk):
             # messages.error(request, 'There is a category with this title')
             return redirect('panel_add_category_product')
         category_edit = Category.objects.using('shop').get(pk=pk)
-        category_edit.group = category_new
+        category_edit.group = group_new
         category_edit.group_id = group_id
         category_edit.name = category_new
         category_edit.save(using='shop')

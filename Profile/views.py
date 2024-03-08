@@ -74,7 +74,7 @@ def profile_personal_info(request):
             myuser.email = email
             myuser.save()
             send_mail(subject='moji', message='hi moji ' + x, from_email=settings.EMAIL_HOST_USER,
-                      recipient_list=[request.user.email])  # Send email
+                      recipient_list=[email])  # Send email
             return redirect('verify_email')
         else:
             myuser.save()
