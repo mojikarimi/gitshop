@@ -1,0 +1,201 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <main class="main-content dt-sl mb-3">
+        <div class="container main-container">
+            <div class="row">
+                <!-- Start Sidebar -->
+                <div class="col-lg-3 col-md-12 col-sm-12 sticky-sidebar filter-options-sidebar">
+                    <div class="d-md-none">
+                        <div class="header-filter-options">
+                            <span>جستجوی پیشرفته <i class="fad fa-sliders-h"></i></span>
+                            <button class="btn-close-filter-sidebar"><i class="fal fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="dt-sn dt-sn--box mb-3">
+                        <form action="{% url 'search_filter' %}" method="post">
+                        {% csrf_token %}
+                            <div class="col-12">
+                                <div class="section-title text-sm-title title-wide mb-1 no-after-title-wide">
+                                    <h2>فیلتر محصولات</h2>
+                                </div>
+                            </div>
+
+                            <div class="col-12 filter-product mb-3">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-block text-right collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseOne"
+                                                        aria-expanded="false" aria-controls="collapseOne">
+                                                    گروه ها
+                                                    <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                {% for group in groups %}
+                                                <div class="custom-control custom-checkbox">
+                                                    <input value="{{ group.name }}" type="checkbox" name="group_filter" class="custom-control-input"
+                                                           id="group-{{ group.pk }}">
+                                                    <label class="custom-control-label" for="group-{{ group.pk }}">
+                                                        {{ group.name }}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-block text-right collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseThree"
+                                                        aria-expanded="false" aria-controls="collapseThree">
+                                                     دسته ها
+                                                    <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                {% for category in categories %}
+                                                 <div class="custom-control custom-checkbox">
+                                                    <input value="{{ category.name }}" name="category_filter" type="checkbox" class="custom-control-input"
+                                                           id="category_filter-{{ category.pk }}">
+                                                    <label class="custom-control-label"
+                                                           for="category_filter-{{ category.pk }}">{{ category.name }}</label>
+                                                </div>
+                                                {% endfor %}
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-block text-right collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseTwo"
+                                                        aria-expanded="false" aria-controls="collapseTwo">
+                                                    زیر دسته ها
+                                                    <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                {% for subcategory in subcategories %}
+                                                 <div class="custom-control custom-checkbox">
+                                                    <input value="{{ subcategory.name }}" name="subcategory_filter" type="checkbox" class="custom-control-input"
+                                                           id="subcategory_filter-{{ subcategory.pk }}">
+                                                    <label class="custom-control-label"
+                                                           for="subcategory_filter-{{ subcategory.pk }}">{{ subcategory.name }}</label>
+                                                </div>
+                                                {% endfor %}
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingFour">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-block text-right collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseFour"
+                                                        aria-expanded="false" aria-controls="collapseFour">
+                                                    رنگها
+                                                    <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                {% for color in colors %}
+                                                <div class="custom-control custom-checkbox">
+                                                    <input value="{{ color }}" name="color_filter" type="checkbox" class="custom-control-input"
+                                                           id="color_filter-{{ forloop.counter }}">
+                                                    <label class="custom-control-label" for="color_filter-{{ forloop.counter }}">
+                                                        <span  class="filter-color"
+                                                          style="margin-top: 0px ;padding:10px;margin-left: -15px ;background-color: {{ color }}"></span></label>
+
+                                                </div>
+                                                {% endfor %}
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-info btn-block" type="submit">
+                                    فیلتر
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- End Sidebar -->
+                <!-- Start Content -->
+                <div class="col-lg-9 col-md-12 col-sm-12 search-card-res">
+                    <div class="d-md-none">
+                        <button class="btn-filter-sidebar">
+                            جستجوی پیشرفته <i class="fad fa-sliders-h"></i>
+                        </button>
+                    </div>
+                    <div class="dt-sl dt-sn px-0 search-amazing-tab">
+
+                        <div class="ah-tab-content-wrapper dt-sl px-res-0">
+                            <div class="ah-tab-content dt-sl" data-ah-tab-active="true">
+                                <div class="row mb-3 mx-0 px-res-0">
+                                    {% for products_search in products_searchs %}
+                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
+                                            <div class="product-card mb-2 mx-res-0">
+                                                <div class="product-head">
+                                                    <div class="rating-stars">
+                                                        <i class="mdi mdi-star active"></i>
+                                                        <i class="mdi mdi-star active"></i>
+                                                        <i class="mdi mdi-star active"></i>
+                                                        <i class="mdi mdi-star active"></i>
+                                                        <i class="mdi mdi-star active"></i>
+                                                    </div>
+                                                </div>
+                                                <a class="product-thumb"
+                                                   href="{% url 'single_product' products_search.name_product %}">
+                                                    <img src="{{ products_search.image1.url }}"
+                                                         alt="{{ products_search.image1 }}">
+                                                </a>
+                                                <div class="product-card-body">
+                                                    <h5 class="product-title">
+                                                        <a href="{% url 'single_product' products_search.name_product %}">{{ products_search.name_product }}</a>
+                                                    </h5>
+                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <span class="product-price">{{ products_search.discounted_price |intcomma }} تومان</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}

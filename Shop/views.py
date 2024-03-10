@@ -94,13 +94,41 @@ def products(request):
     products_expensives = Product.objects.using('shop').order_by('price')  # Based on the price of products (expensive)
     products_inexpensives = Product.objects.using('shop').order_by(
         '-price')  # Based on the price of products(inexpensive)
+    colors = list(set([s for product in Product.objects.all() for s in eval(product.color)]))  # get colors
     context = {'products_news': products_news, 'products_views': products_views, 'products_sales': products_sales,
-               'products_expensives': products_expensives, 'products_inexpensives': products_inexpensives, }
+               'products_expensives': products_expensives, 'products_inexpensives': products_inexpensives,
+               'colors': colors}
     return render(request, 'front/Shop/products.html', context=context)
 
 
-def search(request):
-    return render(request, 'front/Shop/products.html')
+def products_searchs(request):
+    # Search with search box
+    if request.method == 'POST':
+        search = request.POST.get('search')
+        products_searchs = Product.objects.filter(
+            Q(name_product__icontains=search) | Q(description__icontains=search))  # Taking queries
+        colors = list(set([s for product in Product.objects.all() for s in eval(product.color)]))  # get colors
+        return render(request, 'front/Shop/products_searchs.html',
+                      {'products_searchs': products_searchs, 'search': search, 'colors': colors})
+
+
+def search_filter(request):
+    # Search with search box
+    if request.method == 'POST':
+        group_filter = request.POST.getlist('group_filter')
+        category_filter = request.POST.getlist('category_filter')
+        subcategory_filter = request.POST.getlist('subcategory_filter')
+        color_filter = request.POST.getlist('color_filter')
+        color_filter = str(color_filter).replace(', ', '|')[1:-1]
+        # [1:-1]=> color_filter =['#ddcsds','#ccxddf','#dkwdds'] -> '#ddcsds','#ccxddf','#dkwdds'
+        if not color_filter:
+            color_filter = ' '  # To prevent the regex from crashing
+        products_searchs = Product.objects.filter(
+            Q(group__in=group_filter) | Q(category__in=category_filter) | Q(sub_category__in=subcategory_filter) | Q(
+                color__regex=color_filter))  # get queries
+        colors = list(set([s for product in Product.objects.all() for s in eval(product.color)]))  # get colors
+        return render(request, 'front/Shop/products_searchs.html',
+                      {'products_searchs': products_searchs, 'colors': colors})
 
 
 @login_required
@@ -469,6 +497,7 @@ def panel_add_product(request):
         GCS = subcategories.using('shop').filter(category=category, group=group,
                                                  name=subcategory)  # G=group C=category S=subcategory
         if len(GCS) == 0:  # match  G=group, C=category, S=subcategory
+            messages.error(request, 'not macht category & group & subcategory!! ')
             return redirect('panel_add_product')
         # get images
         image1 = request.FILES.get('image1')

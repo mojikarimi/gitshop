@@ -64,11 +64,11 @@
                         </div>
                         <ul class="category-list">
                             {% for cat in cats %}
-                                <li><a href="#">{{ cat.title }}</a>
+                                <li><a href="{% url 'post_cat_subcat' cat.title %}">{{ cat.title }}</a>
                                 {% for sub_cat in sub_cats %}
                                     {% if cat.title == sub_cat.category %}
                                         <ul>
-                                            <li><a href="#">{{ sub_cat.title }}</a></li>
+                                            <li><a href="{% url 'post_cat_subcat' sub_cat.title %}">{{ sub_cat.title }}</a></li>
                                         </ul>
                                     {% endif %}
                                 {% endfor %}
@@ -88,7 +88,7 @@
                         </div>
                         <ul class="tag-list">
                             {% for post_tag in post_tags %}
-                            <li><a href="#">{{ post_tag }}</a></li>
+                            <li><a href="{% url 'post_tags' post_tag %}">{{ post_tag }}</a></li>
                             {% endfor %}
 
 

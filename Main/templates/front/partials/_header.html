@@ -25,33 +25,36 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-5 hidden-sm">
+            {% if 'blog' in request.path %}
+            <div class="col-lg-6 col-md-5 hidden-sm">
                     <div class="search-area dt-sl">
-                        <form action="" class="search">
-                            <input type="text"
-                                   placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
-                            <i class="far fa-search search-icon"></i>
-                            <button class="close-search-result" type="button"><i
+                        <form action="{% url 'post_search' %}" id="search" method="post" class="search">
+                            {% csrf_token %}
+                            <input id="search_input" value="{{ search }}" name="search" type="text"
+                                   placeholder="مطلب خود را جستجو کنید…">
+                            <i onclick="javascript:document.getElementById('search').submit()" class="far fa-search search-icon"></i>
+
+                            <button onclick="javascript:document.getElementById('search_input').value=''" class="close-search-result" type="button"><i
                                     class="mdi mdi-close"></i></button>
-                            <div class="search-result">
-                                <ul>
-                                    <li>
-                                        <a href="#">موبایل</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">مد و پوشاک</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">میکروفن</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">میز تلویزیون</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </form>
                     </div>
                 </div>
+                {% else %}
+                <div class="col-lg-6 col-md-5 hidden-sm">
+                    <div class="search-area dt-sl">
+                        <form action="{% url 'products_searchs' %}" id="search" method="post" class="search">
+                            {% csrf_token %}
+                            <input id="search_input" value="{{ search }}" name="search" type="text"
+                                   placeholder="مورد دلخواه خود را جستجو کنید…">
+                            <i onclick="javascript:document.getElementById('search').submit()" class="far fa-search search-icon"></i>
+
+                            <button onclick="javascript:document.getElementById('search_input').value=''" class="close-search-result" type="button"><i
+                                    class="mdi mdi-close"></i></button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+
                 <div class="col-md-4 col-6 topbar-left">
                     <ul class="nav float-left">
                         {% if user.is_authenticated %}
@@ -109,246 +112,23 @@
 
                         <a href="#"><i class="fal fa-bars ml-1"></i>دسته بندی کالاها</a>
                         <ul>
-                            <li>
-                                <a href="#">کالای دیجیتال</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">اسپیکر بلوتوث و با سیم</a></li>
-                                    <li class="sublist--title"><a href="#">هارد، فلش و SSD</a></li>
-                                    <li class="sublist--title"><a href="#">دوربین</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین‌ چاپ سریع</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی دوربین</a></li>
-                                    <li class="sublist--item"><a href="#">لنز</a></li>
-                                    <li class="sublist--item"><a href="#">کیف</a></li>
-                                    <li class="sublist--item"><a href="#">کارت حافظه</a></li>
-                                    <li class="sublist--item"><a href="#">کاغذ چاپ عکس</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین دوچشمی و شکاری</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">اسپیکر بلوتوث و با سیم</a></li>
-                                    <li class="sublist--title"><a href="#">هارد، فلش و SSD</a></li>
-                                    <li class="sublist--title"><a href="#">دوربین</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین‌ چاپ سریع</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی دوربین</a></li>
-                                    <li class="sublist--item"><a href="#">لنز</a></li>
-                                    <li class="sublist--item"><a href="#">کیف</a></li>
-                                    <li class="sublist--item"><a href="#">کارت حافظه</a></li>
-                                    <li class="sublist--item"><a href="#">کاغذ چاپ عکس</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین دوچشمی و شکاری</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">خودرو، ابزار و تجهیزات صنعتی</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">مد و پوشاک</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">زیبایی و سلامت</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">خانه و آشپزخانه</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">لنز</a></li>
-                                    <li class="sublist--item"><a href="#">کیف</a></li>
-                                    <li class="sublist--item"><a href="#">کارت حافظه</a></li>
-                                    <li class="sublist--item"><a href="#">کاغذ چاپ عکس</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین دوچشمی و شکاری</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">کتاب، لوازم تحریر و هنر</a>
-                                <ul class="row">
-                                    <li class="sublist--item"><a href="#">کارت حافظه</a></li>
-                                    <li class="sublist--item"><a href="#">کاغذ چاپ عکس</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین دوچشمی و شکاری</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">اسباب بازی، کودک و نوزاد</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">لنز</a></li>
-                                    <li class="sublist--item"><a href="#">کیف</a></li>
-                                    <li class="sublist--item"><a href="#">کارت حافظه</a></li>
-                                    <li class="sublist--item"><a href="#">کاغذ چاپ عکس</a></li>
-                                    <li class="sublist--item"><a href="#">دوربین دوچشمی و شکاری</a></li>
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">واقعیت مجازی</a></li>
-                                    <li class="sublist--title"><a href="#">مچ‌بند و ساعت هوشمند</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">ورزش و سفر</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--item"><a href="#">پایه نگهدارنده گوشی</a></li>
-                                    <li class="sublist--title"><a href="#">گوشی موبایل</a></li>
-                                    <li class="sublist--item"><a href="#">سامسونگ</a></li>
-                                    <li class="sublist--item"><a href="#">هوآوی</a></li>
-                                    <li class="sublist--item"><a href="#">اپل</a></li>
-                                    <li class="sublist--item"><a href="#">شیائومی</a></li>
-                                    <li class="sublist--item"><a href="#">آنر</a></li>
-                                    <li class="sublist--item"><a href="#">نوکیا</a></li>
-                                    <li class="sublist--title"><a href="#">هدفون، هدست، هندزفری</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">خوردنی و آشامیدنی</a>
-                                <ul class="row">
-                                    <li class="sublist--title"><a href="#">لوازم جانبی گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">کیف و کاور گوشی</a></li>
-                                    <li class="sublist--item"><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li class="sublist--title"><a href="#">برندها</a></li>
-                                </ul>
-                            </li>
+                            {% for group in groups %}
+                                <li>
+                                    <a href="#">{{ group.name }}</a>
+                                    <ul class="row">
+                                        {% for category in categories %}
+                                            {% if group.pk == category.group_id %}
+                                                <li class="sublist--title"><a href="#">{{ category.name }}</a></li>
+                                                {% for subcategory in subcategories %}
+                                                    {% if category.pk == subcategory.category_id %}
+                                                        <li class="sublist--item"><a href="#">{{ subcategory.name }}</a></li>
+                                                    {% endif %}{% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+
                         </ul>
                     </li>
                     <!-- mega menu 3 column -->
@@ -374,67 +154,67 @@
                                     <span>مشاهده سبد خرید</span>
                                 </a>
                             </div>
-                        {% if context_processor_carts %}
-                        <ul class="header-basket-list do-nice-scroll">
-                                {% for product_cart in product_carts %}
-                                    {% for product in products %}
-                                        {% if product.pk == product_cart.product_id %}
-                                            <li class="cart-item">
-                                                <a href="#" class="header-basket-list-item">
-                                                    <div class="header-basket-list-item-image">
-                                                        <img src="{{ product.image1.url }}" alt="">
-                                                    </div>
-                                                    <div class="header-basket-list-item-content">
-                                                        <p class="header-basket-list-item-title">
-                                                            {{ product.name_product }}
-                                                        </p>
-                                                        <div class="header-basket-list-item-footer">
-                                                            <div class="header-basket-list-item-props">
+                            {% if context_processor_carts %}
+                                <ul class="header-basket-list do-nice-scroll">
+                                    {% for product_cart in product_carts %}
+                                        {% for product in products %}
+                                            {% if product.pk == product_cart.product_id %}
+                                                <li class="cart-item">
+                                                    <a href="#" class="header-basket-list-item">
+                                                        <div class="header-basket-list-item-image">
+                                                            <img src="{{ product.image1.url }}" alt="">
+                                                        </div>
+                                                        <div class="header-basket-list-item-content">
+                                                            <p class="header-basket-list-item-title">
+                                                                {{ product.name_product }}
+                                                            </p>
+                                                            <div class="header-basket-list-item-footer">
+                                                                <div class="header-basket-list-item-props">
                                                             <span class="header-basket-list-item-props-item">
                                                                 {{ product_cart.number }} x
                                                             </span>
 
-                                                                <span class="header-basket-list-item-props-item">
+                                                                    <span class="header-basket-list-item-props-item">
                                                                 <div class="header-basket-list-item-color-badge"
                                                                      style="background: {{ product_cart.color }}"></div>
                                                             </span>
-                                                                {% if product_cart.size %}
-                                                                <span class="header-basket-list-item-props-item">
+                                                                    {% if product_cart.size %}
+                                                                        <span class="header-basket-list-item-props-item">
                                                                 {{ product_cart.size }}
                                                             </span>
-                                                                {% endif %}
+                                                                    {% endif %}
 
+                                                                </div>
+                                                                <button class="header-basket-list-item-remove">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
                                                             </div>
-                                                            <button class="header-basket-list-item-remove">
-                                                                <i class="far fa-trash-alt"></i>
-                                                            </button>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
 
+                                        {% endfor %}
                                     {% endfor %}
-                                {% endfor %}
 
 
-                            </ul>
-                            <div class="header-cart-info-footer">
-                                <div class="header-cart-info-total">
-                                    <span class="header-cart-info-total-text">مبلغ قابل پرداخت:</span>
-                                    <p class="header-cart-info-total-amount">
+                                </ul>
+                                <div class="header-cart-info-footer">
+                                    <div class="header-cart-info-total">
+                                        <span class="header-cart-info-total-text">مبلغ قابل پرداخت:</span>
+                                        <p class="header-cart-info-total-amount">
                                                 <span class="header-cart-info-total-amount-number">
                                                     {{ context_processor_carts.price | intcomma }} <span>تومان</span></span>
-                                    </p>
-                                </div>
+                                        </p>
+                                    </div>
 
-                                <div>
-                                    <a href="#" class="header-cart-info-submit">
-                                        ثبت سفارش
-                                    </a>
+                                    <div>
+                                        <a href="#" class="header-cart-info-submit">
+                                            ثبت سفارش
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endif %}
+                            {% endif %}
 
 
                         </div>
@@ -540,4 +320,3 @@
     <!-- End bottom-header -->
 
 </header>
-

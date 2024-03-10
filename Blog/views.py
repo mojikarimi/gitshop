@@ -1,6 +1,7 @@
 # Create your views here.
 from __future__ import unicode_literals
 from statistics import mean
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import Category, SubCategory, Post, Comments, OpinionComment
 from django.contrib import messages
@@ -11,6 +12,63 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 
 # Create your views here.
+def post_search(request):
+    # Search with search box
+    if request.method == 'POST':
+        search = request.POST.get('search')
+        posts = Post.objects.filter(Q(full_text__icontains=search) | Q(title__icontains=search))  # Taking queries
+        cats = Category.objects.using('blog').all()  # get cats
+        sub_cats = SubCategory.objects.using('blog').all()  # get sun category
+        visit_posts = Post.objects.using('blog').order_by('view')[:5]  # Getting five of the most visited
+        post_tags = ''
+        for post in posts:  # Show tags
+            post_tags += f'{post.tags},'
+        post_tags = list(set(post_tags.split(',')))[:20]  # Creating a list of tags without duplicate tags
+        if '' in post_tags:
+            post_tags.remove('')  # Remove the empty string from our tag
+        return render(request, 'front/Blog/post_search.html',
+                      {'posts': posts, 'search': search, 'cats': cats, 'sub_cats': sub_cats, 'post_tags': post_tags,
+                       'visit_posts': visit_posts, })
+
+
+def post_tags(request, tag):
+    # Search with tags
+    posts = Post.objects.filter(Q(tags__icontains=tag))  # Taking queries
+    cats = Category.objects.using('blog').all()  # get cats
+    sub_cats = SubCategory.objects.using('blog').all()  # get sun category
+    visit_posts = Post.objects.using('blog').order_by('view')[:5]  # Getting five of the most visited
+    post_tags = ''
+    for post in posts:  # Show tags
+        post_tags += f'{post.tags},'
+    post_tags = list(set(post_tags.split(',')))[:20]  # Creating a list of tags without duplicate tags
+    if '' in post_tags:
+        post_tags.remove('')  # Remove the empty string from our tag
+    return render(request, 'front/Blog/post_search.html',
+                  {'posts': posts, 'cats': cats,
+                   'sub_cats': sub_cats,
+                   'post_tags': post_tags,
+                   'visit_posts': visit_posts, })
+
+
+def post_cat_subcat(request, title):
+    # Search by category and subcategory
+    posts = Post.objects.filter(Q(category__iexact=title) | Q(subcategory__iexact=title))  # Taking queries
+    cats = Category.objects.using('blog').all()  # get cats
+    sub_cats = SubCategory.objects.using('blog').all()  # get sun category
+    visit_posts = Post.objects.using('blog').order_by('view')[:5]  # Getting five of the most visited
+    post_tags = ''
+    for post in posts:  # Show tags
+        post_tags += f'{post.tags},'
+    post_tags = list(set(post_tags.split(',')))[:20]  # Creating a list of tags without duplicate tags
+    if '' in post_tags:
+        post_tags.remove('')  # Remove the empty string from our tag
+    return render(request, 'front/Blog/post_search.html',
+                  {'posts': posts, 'cats': cats,
+                   'sub_cats': sub_cats,
+                   'post_tags': post_tags,
+                   'visit_posts': visit_posts, })
+
+
 def blog(request):
     # Function to display the list of posts
     posts = Post.objects.using('blog').order_by('-date')  # Get all posts to display
