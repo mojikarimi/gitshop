@@ -2,10 +2,12 @@ from __future__ import unicode_literals
 from django.core.signing import Signer
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from ipware import get_client_ip
 
 from Main.models import FAQCategory
 from Profile.models import Address
-from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct, Question
+from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct, \
+    Question, StarProduct
 from jdatetime import datetime
 from django.db.models import Q
 from django.contrib import messages
@@ -24,6 +26,11 @@ def single_product(request, title):
                # Send related features of each other
                'texts': zip(eval(product.title_text), eval(product.full_text)),  # Send text and Title together
                'questions': questions}
+    my_star = StarProduct.objects.filter(user=request.user.username, product_id=product.pk,
+                                         user_ip=get_client_ip(request)[0])  # for star
+    if my_star:
+        # for star rating
+        context['my_star'] = my_star[0]
     product_comments = CommentsProduct.objects.using('shop').filter(pk_product=product.pk, confirmed=True)
 
     if product_comments:
@@ -69,6 +76,30 @@ def single_product(request, title):
         context['my_favorite'] = None
 
     return render(request, 'front/Shop/single_product.html', context=context)
+
+
+def star_product(request):
+    # To rate products
+    if request.method == "POST":
+        product_id = request.POST.get('product_id')
+        value = request.POST.get('value')
+        my_star, _ = StarProduct.objects.get_or_create(product_id=product_id, user=request.user.username,
+                                                       user_ip=get_client_ip(request)[0])
+        product = Product.objects.get(pk=product_id)
+        if _ == False:  # If the privilege was available
+            # To get the sum of numbers by subtracting the previous score
+            sum_star = (float(value) - float(my_star.star)) + (product.star * product.star_number)
+            product.star = sum_star / product.star_number
+            product.save(using='shop')
+        else:  # If the privilege is not available
+            # To get the sum of numbers by subtracting the previous score
+            sum_star = (float(value) - float(my_star.star)) + (product.star * product.star_number)
+            product.star_number += 1
+            product.star = sum_star / product.star_number
+            product.save(using='shop')
+        my_star.star = value
+        my_star.save(using='shop')
+        return JsonResponse({})
 
 
 @login_required
@@ -174,7 +205,7 @@ def product_comments(request, title):
                                           worth_buying=worth_buying, title=title, strengths=strengths,
                                           weaknesses=weaknesses, text=text, tender=tender)
         product_comment.save(using='shop')
-        return redirect('single_product', title=product.name_product)
+        return redirect('single_product', title=product.slug_name_product)
     return render(request, 'front/Shop/product_comments.html', context=context)
 
 
@@ -629,8 +660,10 @@ def panel_edit_product(request, pk):
         group = request.POST.get('new_group')
         category = request.POST.get('new_category')
         subcategory = request.POST.get('new_subcategory')
+        print('s1' * 50)
         GCS = subcategories.filter(category=category, group=group, name=subcategory)  # G=group C=category S=subcategory
         if len(GCS) == 0:  # match category, group, subcategory
+            print('s' * 50)
             return redirect('panel_add_product')
         # get image product
         image1 = request.FILES.get('new_image1')
@@ -690,6 +723,14 @@ def panel_edit_product(request, pk):
         edit_product.discount_percent = int(float(percent))
         edit_product.name_product_english = title_english
         edit_product.name_product = title
+        edit_product.group = GCS[0].group
+        edit_product.group_id = GCS[0].group_id
+        edit_product.category = GCS[0].category
+        edit_product.category_id = GCS[0].category_id
+        edit_product.sub_category = GCS[0].name
+        edit_product.sub_category_id = GCS[0].pk
+        # If there is a photo or video, it will be changed
+
         # If there is a photo or video, it will be changed
         if image1:
             edit_product.image1 = image1
@@ -703,6 +744,7 @@ def panel_edit_product(request, pk):
             edit_product.video = video
 
         edit_product.save(using='shop')
+        print('s2' * 50)
         return redirect('panel_list_product')
     title_text = eval(product.title_text)  # eval('[1,2,3]')=> [1,2,3]-> List not STR
     full_text = eval(product.full_text)
@@ -806,7 +848,7 @@ def panel_edit_subcategory_product(request, pk):
         subcategory_edit.category = category_new
         subcategory_edit.category_id = category_id
         subcategory_edit.name = subcategory_new
-        subcategory_edit.save(using='blog')
+        subcategory_edit.save(using='shop')
         return redirect('panel_add_subcategory_product')
 
 

@@ -9,7 +9,7 @@ from django.conf import settings
 from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
-from Shop.models import Product, FavoriteProduct, Cart, ProductCart, CommentsProduct
+from Shop.models import Product, FavoriteProduct, Cart, ProductCart, CommentsProduct, StarProduct
 from ipware import get_client_ip
 
 
@@ -54,8 +54,9 @@ def profile_comments(request):
     # for see all comments user
     comments = CommentsProduct.objects.filter(user_id=request.user.pk, user=request.user)
     products_comment = Product.objects.filter(pk__in=comments.values_list('pk_product', flat=True))
+    my_stars=StarProduct.objects.filter(user=request.user.username)
     myuser = CustomUser.objects.get(pk=request.user.pk)
-    context = {'myuser': myuser, 'comments': comments, 'products_comment': products_comment}
+    context = {'myuser': myuser, 'comments': comments, 'products_comment': products_comment,'my_stars':my_stars}
     return render(request, 'front/Profile/profile_comments.html', context=context)
 
 

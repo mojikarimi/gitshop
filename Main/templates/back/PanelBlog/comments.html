@@ -17,12 +17,11 @@
                 <div class="col-md-7 align-self-center text-end">
                     <div class="d-flex justify-content-end align-items-center">
                         <ol class="breadcrumb justify-content-end">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Tickets</li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_index' '' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_post_lists' %}">List Posts</a></li>
+                            <li class="breadcrumb-item active">Comments</li>
                         </ol>
-                        <button type="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"><i
-                                class="fa fa-plus-circle"></i> Create New
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -33,9 +32,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Page Comments Post</h4>
-                                <a style="margin: 5px 0px 10px 0px" class="btn waves-effect waves-light btn-outline-dark"
-                                                       href="{% url 'panel_post_lists' %}">
-                                                        <i class="fa fa-back"></i>View Posts</a>
+                                <br>
+
                                 <div class="table-responsive">
                                     <table class="table color-table success-table">
                                         <thead>

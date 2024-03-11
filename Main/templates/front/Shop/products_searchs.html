@@ -163,11 +163,13 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_search.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -177,7 +179,7 @@
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="{% url 'single_product' products_search.slog_name_product %}">{{ products_search.name_product }}</a>
+                                                        <a href="{% url 'single_product' products_search.slug_name_product %}">{{ products_search.name_product }}</a>
                                                     </h5>
                                                     <a class="product-meta" href="{% url 'product_group_category_subcategory' products_search.category %}">{{ products_search.category }}</a>
                                                     <span class="product-price">{{ products_search.discounted_price |intcomma }} تومان</span>

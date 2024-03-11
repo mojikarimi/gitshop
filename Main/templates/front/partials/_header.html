@@ -114,14 +114,14 @@
                         <ul>
                             {% for group in groups %}
                                 <li>
-                                    <a href="#">{{ group.name }}</a>
+                                    <a href="{% url 'product_group_category_subcategory' group.name %}">{{ group.name }}</a>
                                     <ul class="row">
                                         {% for category in categories %}
                                             {% if group.pk == category.group_id %}
-                                                <li class="sublist--title"><a href="#">{{ category.name }}</a></li>
+                                                <li class="sublist--title"><a href="{% url 'product_group_category_subcategory' category.name %}">{{ category.name }}</a></li>
                                                 {% for subcategory in subcategories %}
                                                     {% if category.pk == subcategory.category_id %}
-                                                        <li class="sublist--item"><a href="#">{{ subcategory.name }}</a></li>
+                                                        <li class="sublist--item"><a href="{% url 'product_group_category_subcategory' subcategory.name %}">{{ subcategory.name }}</a></li>
                                                     {% endif %}{% endfor %}
                                             {% endif %}
                                         {% endfor %}

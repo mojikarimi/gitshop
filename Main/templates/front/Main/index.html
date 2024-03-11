@@ -52,6 +52,7 @@
                     <section id="main-slider-res"
                              class="main-slider carousel slide carousel-fade card d-none show-sm" data-ride="carousel">
                         <ol class="carousel-indicators">
+
                             <li data-target="#main-slider-res" data-slide-to="0" class="active"></li>
                             <li data-target="#main-slider-res" data-slide-to="1"></li>
                             <li data-target="#main-slider-res" data-slide-to="2"></li>
@@ -126,6 +127,17 @@
                                 <div class="product-carousel carousel-md owl-carousel owl-theme">
                                     {% for best_seller in best_sellers %}
                                         <div class="item">
+                                            <div class="product-head">
+                                                <div class="rating-stars">
+                                                    {% for i in '12345' %}
+                                                        {% if forloop.counter <= best_seller.star %}
+                                                            <i class="mdi mdi-star active"></i>
+                                                        {% else %}
+                                                            <i class="mdi mdi-star"></i>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
                                             <div class="product-card mb-3 shadow-unset">
                                                 {% if best_seller.discount_percent != 0 %}
                                                     <div class="product-head">
@@ -170,6 +182,17 @@
                         <div id="suggestion-slider" class="owl-carousel owl-theme">
                             {% for instant_sale in instant_sales %}
                                 <div class="item">
+                                <div class="product-head">
+                                                    <div class="rating-stars">
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= instant_sale.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
                                     <div class="product-card mb-3 shadow-unset">
                                         {% if instant_sale.discount_percent != 0 %}
                                             <div class="product-head">
@@ -188,7 +211,7 @@
                                                 <a href="{% url 'single_product' instant_sale.slug_name_product %}">{{ instant_sale.name_product }}</a>
                                             </h5>
                                             <a class="product-meta"
-                                               href="{% url 'product_group_category_subcategory' best_seller.sub_category %}">{{ instant_sale.sub_category }}</a>
+                                               href="{% url 'product_group_category_subcategory' instant_sale.sub_category %}">{{ instant_sale.sub_category }}</a>
                                             <span class="product-price">{{ instant_sale.discounted_price|intcomma }} تومان</span>
                                         </div>
                                     </div>
@@ -241,6 +264,17 @@
                         <div class="product-carousel carousel-lg owl-carousel owl-theme">
                             {% for best_sellers_revers in best_sellers_reverse %}
                                 <div class="item">
+                                <div class="product-head">
+                                                    <div class="rating-stars">
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= best_sellers_revers.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
                                     <div class="product-card mb-3 shadow-unset">
                                         {% if best_sellers_revers.discount_percent != 0 %}
                                             <div class="product-head">
@@ -259,7 +293,7 @@
                                                 <a href="{% url 'single_product' best_sellers_revers.slug_name_product %}">{{ best_sellers_revers.name_product }}</a>
                                             </h5>
                                             <a class="product-meta"
-                                               href="{% url 'product_group_category_subcategory' best_seller.sub_category %}">{{ best_sellers_revers.sub_category }}</a>
+                                               href="{% url 'product_group_category_subcategory' best_sellers_revers.sub_category %}">{{ best_sellers_revers.sub_category }}</a>
                                             <span class="product-price">{{ best_sellers_revers.discounted_price|intcomma }} تومان</span>
                                         </div>
                                     </div>

@@ -15,7 +15,7 @@
                     </div>
                     <div class="dt-sn dt-sn--box mb-3">
                         <form action="{% url 'search_filter' %}" method="post">
-                        {% csrf_token %}
+                            {% csrf_token %}
                             <div class="col-12">
                                 <div class="section-title text-sm-title title-wide mb-1 no-after-title-wide">
                                     <h2>فیلتر محصولات</h2>
@@ -39,23 +39,24 @@
                                              data-parent="#accordionExample">
                                             <div class="card-body">
                                                 {% for group in groups %}
-                                                <div class="custom-control custom-checkbox">
-                                                    <input value="{{ group.name }}" type="checkbox" name="group_filter" class="custom-control-input"
-                                                           id="group-{{ group.pk }}">
-                                                    <label class="custom-control-label" for="group-{{ group.pk }}">
-                                                        {{ group.name }}</label>
-                                                </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input value="{{ group.name }}" type="checkbox"
+                                                               name="group_filter" class="custom-control-input"
+                                                               id="group-{{ group.pk }}">
+                                                        <label class="custom-control-label" for="group-{{ group.pk }}">
+                                                            {{ group.name }}</label>
+                                                    </div>
                                                 {% endfor %}
                                             </div>
                                         </div>
                                     </div>
-                                <div class="card">
+                                    <div class="card">
                                         <div class="card-header" id="headingThree">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-block text-right collapsed" type="button"
                                                         data-toggle="collapse" data-target="#collapseThree"
                                                         aria-expanded="false" aria-controls="collapseThree">
-                                                     دسته ها
+                                                    دسته ها
                                                     <i class="mdi mdi-chevron-down"></i>
                                                 </button>
                                             </h2>
@@ -64,12 +65,13 @@
                                              data-parent="#accordionExample">
                                             <div class="card-body">
                                                 {% for category in categories %}
-                                                 <div class="custom-control custom-checkbox">
-                                                    <input value="{{ category.name }}" name="category_filter" type="checkbox" class="custom-control-input"
-                                                           id="category_filter-{{ category.pk }}">
-                                                    <label class="custom-control-label"
-                                                           for="category_filter-{{ category.pk }}">{{ category.name }}</label>
-                                                </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input value="{{ category.name }}" name="category_filter"
+                                                               type="checkbox" class="custom-control-input"
+                                                               id="category_filter-{{ category.pk }}">
+                                                        <label class="custom-control-label"
+                                                               for="category_filter-{{ category.pk }}">{{ category.name }}</label>
+                                                    </div>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -89,14 +91,14 @@
                                              data-parent="#accordionExample">
                                             <div class="card-body">
                                                 {% for subcategory in subcategories %}
-                                                 <div class="custom-control custom-checkbox">
-                                                    <input value="{{ subcategory.name }}" name="subcategory_filter" type="checkbox" class="custom-control-input"
-                                                           id="subcategory_filter-{{ subcategory.pk }}">
-                                                    <label class="custom-control-label"
-                                                           for="subcategory_filter-{{ subcategory.pk }}">{{ subcategory.name }}</label>
-                                                </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input value="{{ subcategory.name }}" name="subcategory_filter"
+                                                               type="checkbox" class="custom-control-input"
+                                                               id="subcategory_filter-{{ subcategory.pk }}">
+                                                        <label class="custom-control-label"
+                                                               for="subcategory_filter-{{ subcategory.pk }}">{{ subcategory.name }}</label>
+                                                    </div>
                                                 {% endfor %}
-
 
 
                                             </div>
@@ -117,16 +119,17 @@
                                              data-parent="#accordionExample">
                                             <div class="card-body">
                                                 {% for color in colors %}
-                                                <div class="custom-control custom-checkbox">
-                                                    <input value="{{ color }}" name="color_filter" type="checkbox" class="custom-control-input"
-                                                           id="color_filter-{{ forloop.counter }}">
-                                                    <label class="custom-control-label" for="color_filter-{{ forloop.counter }}">
-                                                        <span  class="filter-color"
-                                                          style="margin-top: 0px ;padding:10px;margin-left: -15px ;background-color: {{ color }}"></span></label>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input value="{{ color }}" name="color_filter" type="checkbox"
+                                                               class="custom-control-input"
+                                                               id="color_filter-{{ forloop.counter }}">
+                                                        <label class="custom-control-label"
+                                                               for="color_filter-{{ forloop.counter }}">
+                                                        <span class="filter-color"
+                                                              style="margin-top: 0px ;padding:10px;margin-left: -15px ;background-color: {{ color }}"></span></label>
 
-                                                </div>
+                                                    </div>
                                                 {% endfor %}
-
 
 
                                             </div>
@@ -172,11 +175,14 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_new.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -188,7 +194,8 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_new.slug_name_product %}">{{ products_new.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_new.category %}">{{ products_new.category }}</a>
+                                                    <a class="product-meta"
+                                                       href="{% url 'product_group_category_subcategory' products_new.category %}">{{ products_new.category }}</a>
                                                     <span class="product-price">{{ products_new.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -206,11 +213,13 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_view.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -222,7 +231,8 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_view.slug_name_product %}">{{ products_view.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_view.category %}">{{ products_view.category }}</a>
+                                                    <a class="product-meta"
+                                                       href="{% url 'product_group_category_subcategory' products_view.category %}">{{ products_view.category }}</a>
                                                     <span class="product-price">{{ products_view.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -240,11 +250,13 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_sal.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -256,7 +268,8 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_sal.slug_name_product %}">{{ products_sal.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_sal.category %}">{{ products_sal.category }}</a>
+                                                    <a class="product-meta"
+                                                       href="{% url 'product_group_category_subcategory' products_sal.category %}">{{ products_sal.category }}</a>
                                                     <span class="product-price">{{ products_sal.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -274,11 +287,13 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_expensive.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -290,7 +305,8 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_expensive.slug_name_product %}">{{ products_expensive.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_expensive.category %}">{{ products_expensive.category }}</a>
+                                                    <a class="product-meta"
+                                                       href="{% url 'product_group_category_subcategory' products_expensive.category %}">{{ products_expensive.category }}</a>
                                                     <span class="product-price">{{ products_expensive.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -308,11 +324,13 @@
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                        {% for i in '12345' %}
+                                                            {% if forloop.counter <= products_inexpensive.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
@@ -324,7 +342,8 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_inexpensive.slug_name_product %}">{{ products_inexpensive.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_inexpensive.category %}">{{ products_inexpensive.category }}</a>
+                                                    <a class="product-meta"
+                                                       href="{% url 'product_group_category_subcategory' products_inexpensive.category %}">{{ products_inexpensive.category }}</a>
                                                     <span class="product-price">{{ products_inexpensive.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>

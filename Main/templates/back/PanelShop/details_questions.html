@@ -22,12 +22,13 @@
                 <div class="col-md-7 align-self-center text-end">
                     <div class="d-flex justify-content-end align-items-center">
                         <ol class="breadcrumb justify-content-end">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Tickets</li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_index' '' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_list_product' %}">Product List</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_questions_list' question.product_id %}">Questions List</a></li>
+                            <li class="breadcrumb-item active">Question (pk:{{ question.pk }})</li>
+
                         </ol>
-                        <button type="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"><i
-                                class="fa fa-plus-circle"></i> Create New
-                        </button>
+
                     </div>
                 </div>
             </div>

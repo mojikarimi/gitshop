@@ -30,11 +30,17 @@
                                                     </a>
                                                     <small class="font-weight-bold">امتیاز من به محصول</small>
                                                     <div class="rating-stars">
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star"></i>
+                                                        {% for my_star in my_stars %}
+                                                            {% if my_star.product_id == product_comment.pk %}
+                                                                {% for i in '12345' %}
+                                                            {% if forloop.counter <= my_star.star %}
+                                                                <i class="mdi mdi-star active"></i>
+                                                            {% else %}
+                                                                <i class="mdi mdi-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                                 <div class="card-horizontal-product-content">

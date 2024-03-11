@@ -81,6 +81,8 @@ class Product(models.Model):
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0)
     order_number = models.IntegerField(default=0)
+    star=models.FloatField(default=0)
+    star_number=models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         self.slug_name_product = slugify(self.name_product, allow_unicode=True)
@@ -88,6 +90,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name_product
+
+
+class StarProduct(models.Model):
+    product_id = models.IntegerField(default=0)
+    user = models.CharField(max_length=150, blank=True)
+    user_ip=models.CharField(max_length=50,blank=True)
+    star = models.IntegerField(default=0)
 
 
 class CommentsProduct(models.Model):

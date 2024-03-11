@@ -20,5 +20,5 @@ urlpatterns = [
     re_path('^products_order/(?P<order>.+?)$', products_order,
             name='products_order'),
     re_path('^delete_product_from_cart/$', delete_product_from_cart, name='delete_product_from_cart'),
-
+re_path('^star_product/$', star_product, name='star_product'),
 ]

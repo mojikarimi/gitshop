@@ -2,6 +2,10 @@
 {% load static %}
 {% load humanize %}
 {% load custom_tag %}
+{% block excss %}
+    <link rel="stylesheet" href="{% static 'front/assets/css/star-rating.css' %}">
+
+{% endblock %}
 {% block content %}
     <main class="main-content dt-sl mb-3">
         <div class="container main-container">
@@ -172,7 +176,6 @@
                                                         <span> {{ attr_value }} </span>
                                                     </li>
                                                 {% endif %}
-
                                             {% endfor %}
 
 
@@ -201,20 +204,10 @@
                                                                 فروشنده:
                                                                 <span class="product-seller-name">دیدیکالا</span>
                                                             </div>
-                                                            <div class="product-seller-second-line">
-                                                                عملکرد:
-                                                                <span class="font-weight-bold">۵</span>
-                                                                از ۵
-                                                                <span>
-                                                                        <span class="u-divider"></span>
-                                                                        <span class="font-weight-bold">۸۶.۶٪</span>
-                                                                        رضایت از کالا
-                                                                    </span>
-                                                            </div>
+
                                                         </div>
                                                     </a>
                                                 </li>
-
                                                 <li>
                                                     <a href="#">
                                                         <i class="far fa-box-check product-delivery-warehouse"></i>
@@ -457,6 +450,81 @@
                                                     افزودن نظر جدید
                                                 </a>
                                             </div>
+                                            <div class="dt-sl mt-2">
+                                                <div class="row">
+                                                    <label style="padding: 20px 20px 0px 45px;!important;"
+                                                           class="col-2">امتیاز:</label>
+                                                    <div class="star-source">
+                                                        <svg>
+                                                            <linearGradient x1="50%" y1="5.41294643%"
+                                                                            x2="87.5527344%" y2="65.4921875%"
+                                                                            id="grad">
+                                                                <stop stop-color="#ffd505" offset="0%"></stop>
+                                                                <stop stop-color="#ffd505" offset="60%"></stop>
+                                                                <stop stop-color="#ffd505" offset="100%"></stop>
+                                                            </linearGradient>
+                                                            <symbol id="star" viewBox="153 89 106 108">
+                                                                <polygon id="star-shape" stroke="url(#grad)"
+                                                                         stroke-width="5" fill="currentColor"
+                                                                         points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085"></polygon>
+                                                            </symbol>
+                                                        </svg>
+
+                                                    </div>
+                                                    <div style="padding: 15px 0px 10px 10px;!important;"
+                                                         class="star-container">
+                                                        <input  {% if my_star.star == 5 %}
+                                                            checked="checked"
+                                                        {% endif %} onclick="star(5)" type="radio" value="5" name="star"
+                                                            id="five">
+                                                        <label for="five">
+                                                            <svg class="star">
+                                                                <use xlink:href="#star"/>
+                                                            </svg>
+                                                        </label>
+                                                        <input {% if my_star.star == 4 %}
+                                                            checked="checked"
+                                                        {% endif %} onclick="star(4)" type="radio" value="4" name="star"
+                                                            id="four">
+                                                        <label for="four">
+                                                            <svg class="star">
+                                                                <use xlink:href="#star"/>
+                                                            </svg>
+                                                        </label>
+                                                        <input {% if my_star.star == 3 %}
+                                                            checked="checked"
+                                                        {% endif %} onclick="star(3)" type="radio" value="3" name="star"
+                                                            id="three">
+                                                        <label for="three">
+                                                            <svg class="star">
+                                                                <use xlink:href="#star"/>
+                                                            </svg>
+                                                        </label>
+                                                        <input {% if my_star.star == 2 %}
+                                                            checked="checked"
+                                                        {% endif %} onclick="star(2)" type="radio" value="2" name="star"
+                                                            id="two">
+                                                        <label for="two">
+                                                            <svg class="star">
+                                                                <use xlink:href="#star"/>
+                                                            </svg>
+                                                        </label>
+                                                        <input {% if my_star.star == 1 %}
+                                                            checked="checked"
+                                                        {% endif %} onclick="star(1)" type="radio" name="star" value="1"
+                                                            id="one">
+                                                        <label for="one">
+                                                            <svg class="star">
+                                                                <use xlink:href="#star"/>
+                                                            </svg>
+                                                        </label>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -467,6 +535,7 @@
                                         <h2>نظرات کاربران</h2>
                                         <p class="count-comment">{{ len_product_comments }} نظر</p>
                                     </div>
+
                                     <ol class="comment-list">
                                         {% if product_comments %}
                                             {% for product_comment in product_comments %}
@@ -649,4 +718,17 @@
 
             })
         }</script>
+    <script>
+        function star(value) {
+            $.ajax({
+                url: '{% url 'star_product' %}',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'product_id': '{{ product.pk }}',
+                    'value': value,
+                }
+            })
+        }
+    </script>
 {% endblock %}
