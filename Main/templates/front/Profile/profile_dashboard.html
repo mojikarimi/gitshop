@@ -82,7 +82,7 @@
                                         {% if my_favorites %}
                                             {% for my_favorite in my_favorites %}
                                                 <li>
-                                                    <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                    <a href="{% url 'single_product' my_favorite.slug_name_product %}">
                                                         <img src="{{ my_favorite.image1.url }}" alt="">
                                                         <span>{{ my_favorite.name_product }}</span>
                                                     </a>

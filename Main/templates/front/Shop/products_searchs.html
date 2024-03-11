@@ -171,13 +171,13 @@
                                                     </div>
                                                 </div>
                                                 <a class="product-thumb"
-                                                   href="{% url 'single_product' products_search.name_product %}">
+                                                   href="{% url 'single_product' products_search.slug_name_product %}">
                                                     <img src="{{ products_search.image1.url }}"
                                                          alt="{{ products_search.image1 }}">
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="{% url 'single_product' products_search.name_product %}">{{ products_search.name_product }}</a>
+                                                        <a href="{% url 'single_product' products_search.slog_name_product %}">{{ products_search.name_product }}</a>
                                                     </h5>
                                                     <a class="product-meta" href="{% url 'product_group_category_subcategory' products_search.category %}">{{ products_search.category }}</a>
                                                     <span class="product-price">{{ products_search.discounted_price |intcomma }} تومان</span>

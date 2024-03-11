@@ -26,13 +26,13 @@
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="card-horizontal-product border-bottom rounded-0">
                                                     <div class="card-horizontal-product-thumb">
-                                                        <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                        <a href="{% url 'single_product' my_favorite.slug_name_product %}">
                                                             <img src="{{ my_favorite.image1.url }}" alt="">
                                                         </a>
                                                     </div>
                                                     <div class="card-horizontal-product-content">
                                                         <div class="card-horizontal-product-title">
-                                                            <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                            <a href="{% url 'single_product' my_favorite.slug_name_product %}">
                                                                 <h3>{{ my_favorite.name_product }}</h3>
                                                             </a>
                                                         </div>
@@ -40,7 +40,7 @@
                                                             <span>{{ my_favorite.discounted_price|intcomma }} تومان</span>
                                                         </div>
                                                         <div class="card-horizontal-product-buttons">
-                                                            <a href="{% url 'single_product' my_favorite.name_product %}"
+                                                            <a href="{% url 'single_product' my_favorite.slug_name_product %}"
                                                                class="btn">مشاهده محصول</a>
                                                             <form method="post" style="display:inline;" action="{% url 'profile_delete_my_favorite' my_favorite.pk %}">
                                                                 {% csrf_token %}

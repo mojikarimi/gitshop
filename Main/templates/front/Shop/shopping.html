@@ -676,13 +676,13 @@
                                             <div class="item">
                                                 <div class="product-card mb-3">
                                                     <a class="product-thumb"
-                                                       href="{% url 'single_product' product.name_product %}">
+                                                       href="{% url 'single_product' product.slug_name_product %}">
                                                         <img src="{{ product.image1.url }}"
                                                              alt="Product Thumbnail">
                                                     </a>
                                                     <div class="product-card-body">
                                                         <h5 class="product-title">
-                                                            <a href="{% url 'single_product' product.name_product %}">{{ product.name_product }}</a>
+                                                            <a href="{% url 'single_product' product.slug_name_product %}">{{ product.name_product }}</a>
                                                         </h5>
                                                     </div>
                                                 </div>

@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.utils.text import slugify
 from jdatetime import datetime
 
 
@@ -46,6 +47,7 @@ class Product(models.Model):
         verbose_name_plural = 'Product'
 
     name_product = models.TextField(blank=True)
+    slug_name_product = models.TextField(blank=True)
     name_product_english = models.TextField(blank=True)
     group = models.CharField(max_length=150, blank=True)
     group_id = models.IntegerField(default=0)
@@ -79,6 +81,10 @@ class Product(models.Model):
     date = models.CharField(max_length=10, blank=True)
     view = models.IntegerField(default=0)
     order_number = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.slug_name_product = slugify(self.name_product, allow_unicode=True)
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name_product
@@ -146,8 +152,8 @@ class Question(models.Model):
     text = models.TextField(blank=True)
     date = models.CharField(max_length=50, default=datetime.now)
     status = models.BooleanField(default=False)
-    answer_text = models.TextField(blank=True,default='')
+    answer_text = models.TextField(blank=True, default='')
     answer_date = models.CharField(max_length=50, default='')
     faq = models.BooleanField(default=False)
     sort = models.IntegerField(default=0)
-    category=models.CharField(max_length=50,blank=True)
+    category = models.CharField(max_length=50, blank=True)

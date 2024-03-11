@@ -40,3 +40,6 @@ class Address(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     name = models.CharField(max_length=250, blank=True)
     status = models.IntegerField(default=1)
+
+
+

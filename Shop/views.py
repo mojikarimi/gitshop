@@ -15,7 +15,7 @@ from statistics import mean
 
 def single_product(request, title):
     # Function to display a product
-    product = Product.objects.using('shop').get(name_product=title)  # Getting the product from the Shop database
+    product = Product.objects.using('shop').get(slug_name_product=title)  # Getting the product from the Shop database
     product.view += 1  # Increased product visit
     product.save(using='shop')
     questions = Question.objects.using('shop').filter(product_id=product.pk).order_by('-date')  # for questions user

@@ -146,7 +146,7 @@
                                                 <td>{{ products_order_cart.discount_percent }}</td>
                                                 <td>{{ products_order_cart.discounted_price|intcomma }} تومان</td>
                                                 <td>
-                                                    <a href="{% url 'single_product' products_order_cart.name_product %}"
+                                                    <a href="{% url 'single_product' products_order_cart.slug_name_product %}"
                                                        class="btn btn-info d-block w-100 mb-2">خرید
                                                         مجدد
                                                     </a>

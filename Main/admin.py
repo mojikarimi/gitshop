@@ -28,5 +28,4 @@ admin.site.register(Trend)
 admin.site.register(EmailShare)
 admin.site.register(Symbol)
 
-
 admin.site.register(Session)

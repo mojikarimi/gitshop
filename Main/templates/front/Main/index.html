@@ -136,15 +136,15 @@
                                                     </div>
                                                 {% endif %}
                                                 <a class="product-thumb"
-                                                   href="{% url 'single_product' best_seller.name_product %}">
+                                                   href="{% url 'single_product' best_seller.slug_name_product %}">
                                                     <img src="{{ best_seller.image1.url }}" alt="Product Thumbnail">
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="{% url 'single_product' best_seller.name_product %}">{{ best_seller.name_product }}</a>
+                                                        <a href="{% url 'single_product' best_seller.slug_name_product %}">{{ best_seller.name_product }}</a>
                                                     </h5>
                                                     <a class="product-meta"
-                                                       href="{% url 'single_product' best_seller.name_product %}">{{ best_seller.sub_category }}</a>
+                                                       href="{% url 'product_group_category_subcategory' best_seller.sub_category %}">{{ best_seller.sub_category }}</a>
                                                     <span class="product-price">{{ best_seller.discounted_price|intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -180,15 +180,15 @@
                                             </div>
                                         {% endif %}
                                         <a class="product-thumb"
-                                           href="{% url 'single_product' instant_sale.name_product %}">
+                                           href="{% url 'single_product' instant_sale.slug_name_product %}">
                                             <img src="{{ instant_sale.image1.url }}" alt="Product Thumbnail">
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="{% url 'single_product' instant_sale.name_product %}">{{ instant_sale.name_product }}</a>
+                                                <a href="{% url 'single_product' instant_sale.slug_name_product %}">{{ instant_sale.name_product }}</a>
                                             </h5>
                                             <a class="product-meta"
-                                               href="shop-categories.html">{{ instant_sale.sub_category }}</a>
+                                               href="{% url 'product_group_category_subcategory' best_seller.sub_category %}">{{ instant_sale.sub_category }}</a>
                                             <span class="product-price">{{ instant_sale.discounted_price|intcomma }} تومان</span>
                                         </div>
                                     </div>
@@ -251,15 +251,15 @@
                                             </div>
                                         {% endif %}
                                         <a class="product-thumb"
-                                           href="{% url 'single_product' best_sellers_revers.name_product %}">
+                                           href="{% url 'single_product' best_sellers_revers.slug_name_product %}">
                                             <img src="{{ best_sellers_revers.image1.url }}" alt="Product Thumbnail">
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="{% url 'single_product' best_sellers_revers.name_product %}">{{ best_sellers_revers.name_product }}</a>
+                                                <a href="{% url 'single_product' best_sellers_revers.slug_name_product %}">{{ best_sellers_revers.name_product }}</a>
                                             </h5>
                                             <a class="product-meta"
-                                               href="{% url 'single_product' best_sellers_revers.name_product %}">{{ best_sellers_revers.sub_category }}</a>
+                                               href="{% url 'product_group_category_subcategory' best_seller.sub_category %}">{{ best_sellers_revers.sub_category }}</a>
                                             <span class="product-price">{{ best_sellers_revers.discounted_price|intcomma }} تومان</span>
                                         </div>
                                     </div>
@@ -288,13 +288,13 @@
                             <div class="col-4">
                                 <div class="card-horizontal-product border-bottom rounded-0">
                                     <div class="card-horizontal-product-thumb">
-                                        <a href="{% url 'single_product' our_suggestion.name_product %}">
+                                        <a href="{% url 'single_product' our_suggestion.slug_name_product %}">
                                             <img src="{{ our_suggestion.image1.url }}" alt="">
                                         </a>
                                     </div>
                                     <div class="card-horizontal-product-content">
                                         <div class="card-horizontal-product-title">
-                                            <a href="{% url 'single_product' our_suggestion.name_product %}">
+                                            <a href="{% url 'single_product' our_suggestion.slug_name_product %}">
                                                 <h3>{{ our_suggestion.name_product }}</h3>
                                             </a>
                                         </div>
@@ -303,7 +303,7 @@
                                             <span>{{ our_suggestion.discounted_price|intcomma }} تومان</span>
                                         </div>
                                         <div class="card-horizontal-product-buttons">
-                                            <a href="{% url 'single_product' our_suggestion.name_product %}" class="btn btn-outline-info">جزئیات محصول</a>
+                                            <a href="{% url 'single_product' our_suggestion.slug_name_product %}" class="btn btn-outline-info">جزئیات محصول</a>
                                         </div>
                                     </div>
                                 </div>

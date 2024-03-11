@@ -52,7 +52,7 @@
                                             <td>{{ forloop.counter }}</td>
 
                                             <td style=" text-align: center"><a
-                                                    href="{% url 'single_product' product_comment.name_product %}">{{ product_comment.name_product }} </a></td>
+                                                    href="{% url 'single_product' product_comment.slug_name_product %}">{{ product_comment.name_product }} </a></td>
                                             <td style=" text-align: center">{{ panel_comment.user }}</td>
                                             <td style="text-align: center">
                                                 {% if panel_comment.confirmed %}
