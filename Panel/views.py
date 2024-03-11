@@ -4,7 +4,6 @@ from django.shortcuts import render
 from jdatetime import datetime
 from Main.models import Visit
 from django.contrib.auth.decorators import login_required
-from functools import wraps
 
 
 # Create your views here.

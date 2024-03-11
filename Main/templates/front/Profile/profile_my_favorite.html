@@ -22,34 +22,37 @@
                             <div class="dt-sl">
                                 <div class="row">
                                     {% if my_favorites %}
-{% for my_favorite in my_favorites %}
-                                    <div class="col-lg-6 col-md-12">
-                                        <div class="card-horizontal-product border-bottom rounded-0">
-                                            <div class="card-horizontal-product-thumb">
-                                                <a href="{% url 'single_product' my_favorite.name_product %}">
-                                                    <img src="{{ my_favorite.image1.url }}" alt="">
-                                                </a>
+                                        {% for my_favorite in my_favorites %}
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="card-horizontal-product border-bottom rounded-0">
+                                                    <div class="card-horizontal-product-thumb">
+                                                        <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                            <img src="{{ my_favorite.image1.url }}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-horizontal-product-content">
+                                                        <div class="card-horizontal-product-title">
+                                                            <a href="{% url 'single_product' my_favorite.name_product %}">
+                                                                <h3>{{ my_favorite.name_product }}</h3>
+                                                            </a>
+                                                        </div>
+                                                        <div class="card-horizontal-product-price">
+                                                            <span>{{ my_favorite.discounted_price|intcomma }} تومان</span>
+                                                        </div>
+                                                        <div class="card-horizontal-product-buttons">
+                                                            <a href="{% url 'single_product' my_favorite.name_product %}"
+                                                               class="btn">مشاهده محصول</a>
+                                                            <form method="post" style="display:inline;" action="{% url 'profile_delete_my_favorite' my_favorite.pk %}">
+                                                                {% csrf_token %}
+                                                            <button type="submit" class="remove-btn">
+                                                                <i class="mdi mdi-trash-can-outline"></i>
+                                                            </button></form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="card-horizontal-product-content">
-                                                <div class="card-horizontal-product-title">
-                                                    <a href="{% url 'single_product' my_favorite.name_product %}">
-                                                        <h3>{{ my_favorite.name_product }}</h3>
-                                                    </a>
-                                                </div>
-                                                <div class="card-horizontal-product-price">
-                                                    <span>{{ my_favorite.discounted_price|intcomma }} تومان</span>
-                                                </div>
-                                                <div class="card-horizontal-product-buttons">
-                                                    <a href="{% url 'single_product' my_favorite.name_product %}" class="btn">مشاهده محصول</a>
-                                                    <button class="remove-btn">
-                                                        <i class="mdi mdi-trash-can-outline"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-{% endfor %}
+                                        {% endfor %}
 
                                     {% endif %}
 

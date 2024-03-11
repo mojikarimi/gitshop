@@ -74,13 +74,13 @@
                                                 <span class="text-highlight text-highlight-success">تکمیل شده</span>
                                                 است.
                                                 جزئیات این سفارش را می‌توانید با کلیک بر روی دکمه
-                                                <a href="#" class="border-bottom-dt">پیگیری سفارش</a>
+                                                <a href="{% url 'profile_details_order' cart.order_code %}" class="border-bottom-dt">پیگیری سفارش</a>
                                                 مشاهده نمایید.
                                             </p>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-sm-12">
-                                        <a href="#"
+                                        <a href="{% url 'profile_details_order' cart.order_code %}"
                                             class="btn-primary-cm bg-secondary btn-with-icon d-block text-center pr-0">
                                             <i class="mdi mdi-shopping"></i>
                                             پیگیری سفارش

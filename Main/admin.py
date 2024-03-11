@@ -25,5 +25,8 @@ admin.site.register(ChatNew)
 admin.site.register(Slider)
 admin.site.register(Gif)
 admin.site.register(Trend)
+admin.site.register(EmailShare)
+admin.site.register(Symbol)
+
 
 admin.site.register(Session)

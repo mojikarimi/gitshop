@@ -9,7 +9,7 @@ from django.conf import settings
 from Profile.models import Tickets, AnswerTicket, Address
 from Account.models import CustomUser
 from django.contrib.auth.decorators import login_required
-from Shop.models import Product, FavoriteProduct, Cart, ProductCart
+from Shop.models import Product, FavoriteProduct, Cart, ProductCart, CommentsProduct
 from ipware import get_client_ip
 
 
@@ -37,13 +37,26 @@ def profile_dashboard(request):
     return render(request, 'front/Profile/profile_dashboard.html', context=context)
 
 
+@login_required
 def profile_user_history(request):
-    context = None  # Because he may not have seen a product
+    # for see user history
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    context = {'myuser': myuser}
     if 'product_view' in request.session:  # Getting hits from sessions
         product_view = request.session['product_view']
         products_view = Product.objects.filter(name_product__in=product_view)
-        context = {'products_view': products_view}
+        context['products_view'] = products_view
     return render(request, 'front/Profile/profile_user_history.html', context=context)
+
+
+@login_required
+def profile_comments(request):
+    # for see all comments user
+    comments = CommentsProduct.objects.filter(user_id=request.user.pk, user=request.user)
+    products_comment = Product.objects.filter(pk__in=comments.values_list('pk_product', flat=True))
+    myuser = CustomUser.objects.get(pk=request.user.pk)
+    context = {'myuser': myuser, 'comments': comments, 'products_comment': products_comment}
+    return render(request, 'front/Profile/profile_comments.html', context=context)
 
 
 @login_required
@@ -224,3 +237,13 @@ def profile_my_favorite(request):
     myuser = CustomUser.objects.get(pk=request.user.pk)
     context = {'myuser': myuser, 'my_favorites': my_favorites}
     return render(request, 'front/Profile/profile_my_favorite.html', context=context)
+
+
+@login_required
+def profile_delete_my_favorite(request, pk):
+    # for delete my favorites
+    if request.method == 'POST':
+        my_favorites = FavoriteProduct.objects.using('shop').get(user_id=request.user.pk, user=request.user,
+                                                                 product_id=pk)
+        my_favorites.delete(using='shop')
+        return redirect('profile_dashboard')

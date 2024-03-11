@@ -5,29 +5,7 @@
         <div class="user-profile">
             <div class="user-pro-body">
                 <div><img src="{{ request.user.image.url }}" alt="user-img" class="img-circle"></div>
-                <div class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu"
-                       data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave Gection
-                        <span class="caret"></span></a>
-                    <div class="dropdown-menu animated flipInY">
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-                        <!-- text-->
-                        <div class="dropdown-divider"></div>
-                        <!-- text-->
-                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings"></i> Account
-                            Setting</a>
-                        <!-- text-->
-                        <div class="dropdown-divider"></div>
-                        <!-- text-->
-                        <a href="pages-login.html" class="dropdown-item"><i class="fas fa-power-off"></i> Logout</a>
-                        <!-- text-->
-                    </div>
-                </div>
+
             </div>
         </div>
         <!-- Sidebar navigation-->
@@ -53,6 +31,9 @@
                         <li><a href="{% url 'panel_gif' %}">Add Gif</a></li>
                         <li><a href="{% url 'panel_trend' %}">Add Trend</a></li>
                         <li><a href="{% url 'panel_add_slider' %}">Add Slider</a></li>
+                        <li><a href="{% url 'panel_add_faq_category' %}">Add Category FAQ</a></li>
+                        <li><a href="{% url 'panel_add_symbol' %}">Add Symbol</a></li>
+                        <li><a href="{% url 'panel_add_social_networks' %}">Add Social NetWorks</a></li>
                     </ul>
                 </li>
 

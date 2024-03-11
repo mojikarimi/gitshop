@@ -9,10 +9,9 @@
             <div class="title-breadcrumb-special dt-sl mb-3">
                 <div class="breadcrumb dt-sl">
                     <nav>
-
-                        <a href="#">{{ product.group }}</a>
-                        <a href="#">{{ product.category }}</a>
-                        <a href="#">{{ product.sub_category }}</a>
+                        <a href="{% url 'product_group_category_subcategory' product.group %}">{{ product.group }}</a>
+                        <a href="{% url 'product_group_category_subcategory' product.category %}">{{ product.category }}</a>
+                        <a href="{% url 'product_group_category_subcategory' product.sub_category %}">{{ product.sub_category }}</a>
                     </nav>
                 </div>
             </div>

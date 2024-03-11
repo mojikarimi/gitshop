@@ -14,6 +14,17 @@ class MainModel(models.Model):
         return self.title_website + ' | ' + self.title_panel
 
 
+class FAQCategory(models.Model):
+    class Meta:
+        verbose_name_plural = 'FAQ'
+
+    name = models.CharField(max_length=150, blank=True)
+    image = models.ImageField(blank=True, upload_to='FAQ/ImageFAQ/%y/%m/%d/')
+
+    def __str__(self):
+        return self.name
+
+
 class Menu(models.Model):
     menu_name = models.CharField(max_length=150, blank=True)
     menu_link = models.TextField(blank=True)
@@ -58,6 +69,22 @@ class EmailShare(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Social_Networks(models.Model):
+    icon = models.CharField(max_length=20, blank=True)
+    link = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.icon + '  ||||||||||  ' + self.link
+
+
+class Symbol(models.Model):
+    image = models.ImageField(blank=True, upload_to='Main/Symbol/')
+    link = models.TextField(blank=True)
+
+    def __str__(self):
+        return 'Symbol Footer'
 
 
 class SubCatFooter(models.Model):

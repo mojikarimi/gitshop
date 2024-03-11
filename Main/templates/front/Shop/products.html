@@ -14,21 +14,14 @@
                         </div>
                     </div>
                     <div class="dt-sn dt-sn--box mb-3">
-                        <form action="">
+                        <form action="{% url 'search_filter' %}" method="post">
+                        {% csrf_token %}
                             <div class="col-12">
                                 <div class="section-title text-sm-title title-wide mb-1 no-after-title-wide">
                                     <h2>فیلتر محصولات</h2>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <div class="widget-search">
-                                    <input type="text" name="s"
-                                           placeholder="نام محصول یا برند مورد نظر را بنویسید...">
-                                    <button class="btn-search-widget">
-                                        <img src="./assets/img/theme/search.png" alt="">
-                                    </button>
-                                </div>
-                            </div>
+
                             <div class="col-12 filter-product mb-3">
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
@@ -37,7 +30,7 @@
                                                 <button class="btn btn-block text-right collapsed" type="button"
                                                         data-toggle="collapse" data-target="#collapseOne"
                                                         aria-expanded="false" aria-controls="collapseOne">
-                                                    دسته بندی
+                                                    گروه ها
                                                     <i class="mdi mdi-chevron-down"></i>
                                                 </button>
                                             </h2>
@@ -47,10 +40,35 @@
                                             <div class="card-body">
                                                 {% for group in groups %}
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="group" class="custom-control-input"
+                                                    <input value="{{ group.name }}" type="checkbox" name="group_filter" class="custom-control-input"
                                                            id="group-{{ group.pk }}">
                                                     <label class="custom-control-label" for="group-{{ group.pk }}">
                                                         {{ group.name }}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-block text-right collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseThree"
+                                                        aria-expanded="false" aria-controls="collapseThree">
+                                                     دسته ها
+                                                    <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                {% for category in categories %}
+                                                 <div class="custom-control custom-checkbox">
+                                                    <input value="{{ category.name }}" name="category_filter" type="checkbox" class="custom-control-input"
+                                                           id="category_filter-{{ category.pk }}">
+                                                    <label class="custom-control-label"
+                                                           for="category_filter-{{ category.pk }}">{{ category.name }}</label>
                                                 </div>
                                                 {% endfor %}
                                             </div>
@@ -62,7 +80,7 @@
                                                 <button class="btn btn-block text-right collapsed" type="button"
                                                         data-toggle="collapse" data-target="#collapseTwo"
                                                         aria-expanded="false" aria-controls="collapseTwo">
-                                                    برند
+                                                    زیر دسته ها
                                                     <i class="mdi mdi-chevron-down"></i>
                                                 </button>
                                             </h2>
@@ -72,10 +90,10 @@
                                             <div class="card-body">
                                                 {% for subcategory in subcategories %}
                                                  <div class="custom-control custom-checkbox">
-                                                    <input name="sub_cat" type="checkbox" class="custom-control-input"
-                                                           id="sub_cat-{{ subcategory.pk }}">
+                                                    <input value="{{ subcategory.name }}" name="subcategory_filter" type="checkbox" class="custom-control-input"
+                                                           id="subcategory_filter-{{ subcategory.pk }}">
                                                     <label class="custom-control-label"
-                                                           for="sub_cat-{{ subcategory.pk }}">{{ subcategory.name }}</label>
+                                                           for="subcategory_filter-{{ subcategory.pk }}">{{ subcategory.name }}</label>
                                                 </div>
                                                 {% endfor %}
 
@@ -100,9 +118,9 @@
                                             <div class="card-body">
                                                 {% for color in colors %}
                                                 <div class="custom-control custom-checkbox">
-                                                    <input name="color" type="checkbox" class="custom-control-input"
-                                                           id="color-{{ forloop.counter }}">
-                                                    <label class="custom-control-label" for="color-{{ forloop.counter }}">
+                                                    <input value="{{ color }}" name="color_filter" type="checkbox" class="custom-control-input"
+                                                           id="color_filter-{{ forloop.counter }}">
+                                                    <label class="custom-control-label" for="color_filter-{{ forloop.counter }}">
                                                         <span  class="filter-color"
                                                           style="margin-top: 0px ;padding:10px;margin-left: -15px ;background-color: {{ color }}"></span></label>
 
@@ -170,7 +188,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_new.name_product %}">{{ products_new.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_new.category %}">{{ products_new.category }}</a>
                                                     <span class="product-price">{{ products_new.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -180,42 +198,7 @@
 
                                 </div>
                             </div>
-                            {% if 'search' in request.path %}
-                                <div class="ah-tab-content dt-sl">
-                                    <div class="row mb-3 mx-0 px-res-0">
-                                        {% for products_new in products_news %}
-                                            <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
-                                                <div class="product-card mb-2 mx-res-0">
-                                                    <div class="product-head">
-                                                        <div class="rating-stars">
-                                                            <i class="mdi mdi-star active"></i>
-                                                            <i class="mdi mdi-star active"></i>
-                                                            <i class="mdi mdi-star active"></i>
-                                                            <i class="mdi mdi-star active"></i>
-                                                            <i class="mdi mdi-star active"></i>
-                                                        </div>
-                                                    </div>
-                                                    <a class="product-thumb"
-                                                       href="{% url 'single_product' products_new.name_product %}">
-                                                        <img src="{{ products_new.image1.url }}"
-                                                             alt="{{ products_new.image1 }}">
-                                                    </a>
-                                                    <div class="product-card-body">
-                                                        <h5 class="product-title">
-                                                            <a href="{% url 'single_product' products_new.name_product %}">{{ products_new.name_product }}</a>
-                                                        </h5>
-                                                        <a class="product-meta" href="shop-categories.html">لباس
-                                                            زنانه</a>
-                                                        <span class="product-price">{{ products_new.discounted_price |intcomma }} تومان</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
 
-
-                                    </div>
-                                </div>
-                            {% endif %}
                             <div class="ah-tab-content dt-sl">
                                 <div class="row mb-3 mx-0 px-res-0">
                                     {% for products_view in products_views %}
@@ -239,7 +222,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_view.name_product %}">{{ products_view.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_view.category %}">{{ products_view.category }}</a>
                                                     <span class="product-price">{{ products_view.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -273,7 +256,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_sal.name_product %}">{{ products_sal.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_sal.category %}">{{ products_sal.category }}</a>
                                                     <span class="product-price">{{ products_sal.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -307,7 +290,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_expensive.name_product %}">{{ products_expensive.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_expensive.category %}">{{ products_expensive.category }}</a>
                                                     <span class="product-price">{{ products_expensive.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>
@@ -341,7 +324,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_inexpensive.name_product %}">{{ products_inexpensive.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_inexpensive.category %}">{{ products_inexpensive.category }}</a>
                                                     <span class="product-price">{{ products_inexpensive.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>

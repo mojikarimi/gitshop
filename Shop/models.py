@@ -150,3 +150,4 @@ class Question(models.Model):
     answer_date = models.CharField(max_length=50, default='')
     faq = models.BooleanField(default=False)
     sort = models.IntegerField(default=0)
+    category=models.CharField(max_length=50,blank=True)

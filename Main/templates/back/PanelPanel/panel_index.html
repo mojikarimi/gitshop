@@ -11,75 +11,65 @@
             <!-- Bread crumb and right sidebar toggle -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">Dashboard 4</h4>
+                    <h4 class="text-themecolor">Main Page</h4>
                 </div>
-                <div class="col-md-7 align-self-center text-end">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <ol class="breadcrumb justify-content-end">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard 4</li>
-                        </ol>
-                        <button type="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"><i
-                                class="fa fa-plus-circle"></i> Create New
-                        </button>
-                    </div>
-                </div>
+
             </div>
             <div class="row">
                 <!-- Column -->
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" dir="rtl">بازدید های سال 1402</h5>
+                            <h5 class="card-title" dir="rtl">Visits in 1402</h5>
                             <div class="row">
-                                <a href="{% url 'panel_index' '03' %}" style="margin-left: 1.25rem"
+                                <a  href="{% url 'panel_index' '03' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/03' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %} ">خرداد</a>
-                                <a href="{% url 'panel_index' '02' %}" style="margin-left: 1.25rem"
+                                   {% endif %} ">Khordad</a>
+                                <a href="{% url 'panel_index' '02' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/02' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">اردیبهشت</a>
-                                <a href="{% url 'panel_index' '01' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Ordibehesht</a>
+                                <a href="{% url 'panel_index' '01' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/01' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">فروردین</a>
-                                <a href="{% url 'panel_index' '06' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Farvardin</a>
+                                <a href="{% url 'panel_index' '06' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/06' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">شهریور</a>
-                                <a href="{% url 'panel_index' '05' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Shahrivar</a>
+                                <a href="{% url 'panel_index' '05' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/05' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">مرداد</a>
-                                <a href="{% url 'panel_index' '04' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Mordad</a>
+                                <a href="{% url 'panel_index' '04' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/04' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">تیر</a>
-                                <a href="{% url 'panel_index' '09' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Tir</a>
+                                <a href="{% url 'panel_index' '09' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/09' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">آذر</a>
-                                <a href="{% url 'panel_index' '08' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Azar</a>
+                                <a href="{% url 'panel_index' '08' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/08' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">آبان</a>
-                                <a href="{% url 'panel_index' '07' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Aban</a>
+                                <a href="{% url 'panel_index' '07' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/07' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">مهر</a>
-                                <a href="{% url 'panel_index' '12' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Mehr</a>
+                                <a href="{% url 'panel_index' '12' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/12' in request.path %}dark  active
                                    {% else %}info
-                                   {% endif %}">اسفند</a>
-                                <a href="{% url 'panel_index' '11' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Esfand</a>
+                                <a href="{% url 'panel_index' '11' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/11' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">بهمن</a>
-                                <a href="{% url 'panel_index' '10' %}" style="margin-left: 1.25rem"
+                                   {% endif %}">Bahman</a>
+                                <a href="{% url 'panel_index' '10' %}" style="font-size: 13px; margin-left: 1.25rem"
                                    class=" mt-1 col-md-3 btn btn-outline-{% if 'panel/10' in request.path %}dark  active
                                     {% else %}info
-                                   {% endif %}">دی</a>
+                                   {% endif %}">Dey</a>
                             </div>
                         </div>
 
@@ -113,19 +103,19 @@
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 title: {
-                    text: "بازدید های ماهانه"
+                    text: "Monthly visit"
                 },
                 axisX: {
                     valueFormatString: "##"
                 },
                 axisY: {
-                    title: "تعداد بازدید",
+                    title: "number of visits",
                 },
                 data: [{
                     type: "splineArea",
                     xValueType: "Other",
                     xValueFormatString: "##",
-                    yValueFormatString: "#,##0 بازدید",
+                    yValueFormatString: "#,##0 visits",
                     dataPoints: {{ website_visit_data|safe }}
                 }]
             });

@@ -179,7 +179,7 @@
                                                     <h5 class="product-title">
                                                         <a href="{% url 'single_product' products_search.name_product %}">{{ products_search.name_product }}</a>
                                                     </h5>
-                                                    <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
+                                                    <a class="product-meta" href="{% url 'product_group_category_subcategory' products_search.category %}">{{ products_search.category }}</a>
                                                     <span class="product-price">{{ products_search.discounted_price |intcomma }} تومان</span>
                                                 </div>
                                             </div>

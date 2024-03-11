@@ -14,5 +14,6 @@ urlpatterns = [
     re_path(r'^profile_orders/$', profile_orders, name='profile_orders'),
     re_path(r'^profile_details_order/(?P<order_code>.+?)$', profile_details_order, name='profile_details_order'),
     re_path(r'^profile_my_favorite/$', profile_my_favorite, name='profile_my_favorite'),
-
+    re_path(r'^profile_comments/$', profile_comments, name='profile_comments'),
+    re_path(r'^profile_delete_my_favorite/(?P<pk>\d+)$', profile_delete_my_favorite, name='profile_delete_my_favorite'),
 ]

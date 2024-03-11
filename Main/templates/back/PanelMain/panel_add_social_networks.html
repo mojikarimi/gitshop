@@ -1,0 +1,216 @@
+{% extends 'back/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+        <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h4 class="text-themecolor">Add Social NetWork</h4>
+                </div>
+                <div class="col-md-7 align-self-center text-end">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <ol class="breadcrumb justify-content-end">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Tickets</li>
+                        </ol>
+                        <button type="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"><i
+                                class="fa fa-plus-circle"></i> Create New
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+
+
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Social NetWork</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <form action="{% url 'panel_add_social_networks' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="link" class="form-label">Link</label>
+                                                <input id="link" required type="text" name="link"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-3">
+                                            <div class="card" style="padding: 5px">
+
+                                                <label for="icon" class="form-label"><h4 class="card-title">Icon</h4></label>
+                                                <input id="icon" required type="text" name="icon"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="ms-auto mt-3 mt-md-0">
+                                            <button
+                                                    class="btn btn-danger text-white">Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">List of Social NetWork</h4>
+                            <h6 class="card-subtitle">Your built-in Social NetWork</h6>
+                            <div class="table-responsive">
+                                <table class="table color-table success-table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th style="text-align: center">Icon</th>
+                                        <th style="text-align: center">Link</th>
+                                        <th style="text-align: center">action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for social_network in social_networks %}
+                                        <tr>
+                                            <td style="width: 5%">{{ forloop.counter }}</td>
+                                            <td style="width: 15%; text-align: center"><i class="mdi mdi-{{ social_network.icon }}"></i> <-|-> {{ social_network.icon }}</td>
+                                            <td style="width: 60%; text-align: center">{{ social_network.link }}</td>
+                                            <td style="width: 20%;text-align: center"><a
+                                                    class="btn btn-info text-white" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-edit-{{ social_network.pk }}"> <i
+                                                    class="fa fa-edit"></i> Edit</a>
+
+                                                <a style="padding: 6px 7px;" class="btn btn-danger text-white"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#modal-delete-{{ social_network.pk }}">
+                                                    <i
+                                                            class="fa fa-trash"></i> Delete</a>
+                                            </td>
+                                            <!--########################################################### modal edit ######################################################################-->
+
+                                            <div id="modal-edit-{{ social_network.pk }}" class="modal" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true"
+                                                 style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit ({{ social_network.icon }})</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="post"
+                                                                  action="{% url 'panel_edit_social_networks' social_network.pk %}"
+                                                                  enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="link_new" class="form-label">
+                                                                        Social NetWork:</label>
+                                                                    <input name="link_new" type="text"
+                                                                           value="{{ social_network.link }}"
+                                                                           class="form-control"
+                                                                           id="link_new">
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-3">
+                                                                    <div class="card" style="padding: 5px">
+
+                                                                        <label for="icon_new" class="form-label"><h4
+                                                                                class="card-title">Icon
+                                                                            </h4></label>
+                                                                        <input name="icon_new" type="text"
+                                                                           value="{{ social_network.icon }}"
+                                                                           class="form-control"
+                                                                           id="icon_new"></div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn waves-effect waves-light btn-dark"
+                                                                            data-bs-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit"
+                                                                            class="btn waves-effect waves-light btn-success">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--########################################################### modal delete ######################################################################-->
+                                            <div id="modal-delete-{{ social_network.pk }}" class="modal" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel">Delete
+                                                                category</h4>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-hidden="true"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>Are you sure!!!</h4>
+                                                            <p>Are you sure you want to delete the <span
+                                                                    style="color: #e46a76">{{ social_network.name }}</span>
+                                                                Social NetWork?</p>
+                                                            <p>Icon: {{ social_network.icon }}</p>
+                                                            <p>Number: {{ forloop.counter }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="btn btn-danger text-white"
+                                                               href="{% url 'panel_delete_social_networks' social_network.pk %}">Delete</a>
+                                                            <button type="button"
+                                                                    class="btn btn-info text-white"
+                                                                    data-bs-dismiss="modal">Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+
+        </div>
+
+    </div>
+
+{% endblock content %}

@@ -65,8 +65,9 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="newsletter">
                         <p>از تخفیف‌ها و جدیدترین‌های فروشگاه باخبر شوید:</p>
-                        <form action="">
-                            <input type="email" class="form-control"
+                        <form action="{% url 'email_shair' %}" method="post">
+                            {% csrf_token %}
+                            <input type="email" name="email" class="form-control"
                                    placeholder="آدرس ایمیل خود را وارد کنید...">
                             <input type="submit" class="btn btn-primary" value="ارسال">
                         </form>
@@ -75,10 +76,12 @@
                         <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
                         <div class="footer-social">
                             <ul class="text-center">
-                                <li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
-                                <li><a href="#"><i class="mdi mdi-telegram"></i></a></li>
-                                <li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+                                {% for social_network in social_networks %}
+                                <li><a href="{{ social_network.link }}"><i class="mdi mdi-{{ social_network.icon }}"></i></a></li>
+                                {% endfor %}
+
+
+
                             </ul>
                         </div>
                     </div>
@@ -93,8 +96,9 @@
                     {{ footer.text |safe }}
                 </div>
                 <div class="symbol col-12 col-lg-5">
-                    <a href="#" target="_blank"><img src="{% static 'front/assets/img/symbol-01.png' %}" alt=""></a>
-                    <a href="#" target="_blank"><img src="{% static 'front/assets/img/symbol-02.png' %}" alt=""></a>
+                    {% for symbol in symbols %}
+                    <a href="{{ symbol.link }}" target="_blank"><img src="{{ symbol.image.url }}" alt=""></a>
+                    {% endfor %}
                 </div>
             </div>
         </div>

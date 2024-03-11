@@ -80,10 +80,14 @@
                                                                                               onclick="minus_func('product_{{ product_cart.pk }}')"></span>
                                                                                     </div>
                                                                                 </div>
+                                                                                <form action="{% url 'delete_product_from_cart' %}" method="post">
+                                                                                    {% csrf_token %}
+                                                                                    <input type="hidden" name="product_cart_pk" value="{{ product_cart.pk }}">
                                                                                 <button class="item-remove-btn mr-3">
                                                                                     <i class="far fa-trash-alt"></i>
                                                                                     حذف
                                                                                 </button>
+                                                                                    </form>
                                                                             </div>
                                                                             <div class="item-price">
                                                                                 {{ product.price |intcomma }}<span

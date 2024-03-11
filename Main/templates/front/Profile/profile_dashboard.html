@@ -86,9 +86,11 @@
                                                         <img src="{{ my_favorite.image1.url }}" alt="">
                                                         <span>{{ my_favorite.name_product }}</span>
                                                     </a>
-                                                    <button>
+                                                    <form action="{% url 'profile_delete_my_favorite' my_favorite.pk %}" method="post">
+                                                        {% csrf_token %}
+                                                    <button type="submit">
                                                         <i class="mdi mdi-trash-can-outline"></i>
-                                                    </button>
+                                                    </button></form>
                                                 </li>
                                             {% endfor %}
 
@@ -141,7 +143,7 @@
                                             {% endif %}
                                             </td>
                                             <td class="details-link">
-                                                <a href="#">
+                                                <a href="{% url 'profile_details_order' cart.order_code %}">
                                                     <i class="mdi mdi-chevron-left"></i>
                                                 </a>
                                             </td>

@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.core.signing import Signer
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+
+from Main.models import FAQCategory
 from Profile.models import Address
 from .models import Group, SubCategory, Category, Product, CommentsProduct, Cart, ProductCart, FavoriteProduct, Question
 from jdatetime import datetime
@@ -112,6 +114,22 @@ def products_searchs(request):
                       {'products_searchs': products_searchs, 'search': search, 'colors': colors})
 
 
+def product_group_category_subcategory(request, title):
+    # for search with Group , Category , Sub Category
+    products_search = Product.objects.filter(Q(category=title) | Q(group=title) | Q(sub_category=title))
+    colors = list(set([s for product in Product.objects.all() for s in eval(product.color)]))  # get colors
+    return render(request, 'front/Shop/products_searchs.html',
+                  {'products_searchs': products_search, 'colors': colors})
+
+
+def products_order(request, order):
+    # for See the best selling products
+    products_search = Product.objects.order_by(order)
+    colors = list(set([s for product in Product.objects.all() for s in eval(product.color)]))  # get colors
+    return render(request, 'front/Shop/products_searchs.html',
+                  {'products_searchs': products_search, 'colors': colors})
+
+
 def search_filter(request):
     # Search with search box
     if request.method == 'POST':
@@ -122,7 +140,7 @@ def search_filter(request):
         color_filter = str(color_filter).replace(', ', '|')[1:-1]
         # [1:-1]=> color_filter =['#ddcsds','#ccxddf','#dkwdds'] -> '#ddcsds','#ccxddf','#dkwdds'
         if not color_filter:
-            color_filter = ' '  # To prevent the regex from crashing
+            color_filter = '/'  # To prevent the regex from crashing
         products_searchs = Product.objects.filter(
             Q(group__in=group_filter) | Q(category__in=category_filter) | Q(sub_category__in=subcategory_filter) | Q(
                 color__regex=color_filter))  # get queries
@@ -200,6 +218,19 @@ def cart(request):
 
         return redirect(request.META['HTTP_REFERER'])
     return render(request, 'front/Shop/cart.html')
+
+
+def delete_product_from_cart(request):
+    # for delete a product from cart
+    if request.method == 'POST':
+        product_cart_pk = request.POST.get('product_cart_pk')
+        product_cart = ProductCart.objects.get(pk=product_cart_pk)
+        cart = Cart.objects.get(pk=product_cart.cart_id)
+        # Reducing the price of items removed from the shopping cart
+        cart.price -= (product_cart.number * Product.objects.get(pk=product_cart.product_id).discounted_price)
+        cart.save(using='shop')
+        product_cart.delete(using='shop')
+        return redirect('cart')
 
 
 @login_required
@@ -285,8 +316,16 @@ def shopping_peyment(request):
 def shopping_complete_buy(request):
     # The last step is to complete the shopping cart
     if request.method == 'POST':
+
         try:
             carts = Cart.objects.get(user_id=request.user.pk, user=request.user, status=False)
+            product_sales = ProductCart.objects.filter(cart_id=carts.pk)
+            product = Product.objects.filter(pk__in=product_sales.values_list('product_id', flat=True))
+            for i in product_sales:
+                f = product.get(pk=i.product_id)
+                f.sales_number += i.number
+                f.number -= i.number
+                f.save(using='shop')
         except:
             return redirect('index')
         carts.status = True  # change status cart to True
@@ -855,10 +894,13 @@ def panel_sort_question(request, pk):
 def panel_details_question(request, pk):
     # See the details of the questions end edit(status, FAQ)
     question = Question.objects.get(pk=pk)
+    faq_categories = FAQCategory.objects.all()
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
         faq = request.POST.get('faq')
         status = request.POST.get('status')
+        faq_category = request.POST.get('faq_category')
+        print(request.POST)
         if faq:
             faq = True
         else:
@@ -869,13 +911,15 @@ def panel_details_question(request, pk):
             status = False
         question.answer_text = answer_text  # Record the answer to the question
         question.faq = faq
+        question.category = faq_category
         question.status = status
         if not question.answer_date:  # To record the time for the first time an answer is given
             question.answer_date = datetime.now()
         question.save(using='shop')
         return redirect('panel_details_question', pk)
 
-    return render(request, 'back/PanelShop/details_questions.html', {'question': question})
+    return render(request, 'back/PanelShop/details_questions.html',
+                  {'question': question, 'faq_categories': faq_categories})
 
 
 @login_required
