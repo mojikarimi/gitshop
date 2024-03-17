@@ -50,12 +50,43 @@ This project is a store site that uses a variety of back-end technologies, inclu
 
 
 
-## Images
+## Number of Pages
 Tickets Image
 ![Tickets Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/tickets.png)
 
 
-# Site implementation steps
+Ticket Chat Image
+![Ticket Chat Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/ticketschat.png)
+
+Edit Product Image
+![Edit Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/panelEditProduct.png)
+
+Product List Image
+![TProduct List Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/productlist.png)
+
+Cart List Image
+![Cart List Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/CartList.png)
+
+Details List Image
+![Details List Imagee](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/detailscart.png)
+
+User Add Permissions and Group Image
+![User Add Permissions and Group Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/userperms.png)
+
+Single Product Image
+![Single Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/singleproductpage.png)
+
+Single Product Image
+![Single Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/singleproductpage.png)
+
+Blog Page Image
+![Blog Page Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/blogpage.png)
+
+Add Menu and Sort Image 
+![Add Menu and Sort Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/addMenu%20andSortMenu.png)
+
+Panel Main Image
+![Panel Main Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/PanelMainPage.png)# Site implementation steps
 ### Creating a virtual environment
 
 To run the first project, you must create a virtual environment to install the required packages
