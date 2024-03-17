@@ -660,10 +660,8 @@ def panel_edit_product(request, pk):
         group = request.POST.get('new_group')
         category = request.POST.get('new_category')
         subcategory = request.POST.get('new_subcategory')
-        print('s1' * 50)
         GCS = subcategories.filter(category=category, group=group, name=subcategory)  # G=group C=category S=subcategory
         if len(GCS) == 0:  # match category, group, subcategory
-            print('s' * 50)
             return redirect('panel_add_product')
         # get image product
         image1 = request.FILES.get('new_image1')
@@ -744,7 +742,6 @@ def panel_edit_product(request, pk):
             edit_product.video = video
 
         edit_product.save(using='shop')
-        print('s2' * 50)
         return redirect('panel_list_product')
     title_text = eval(product.title_text)  # eval('[1,2,3]')=> [1,2,3]-> List not STR
     full_text = eval(product.full_text)
@@ -942,7 +939,6 @@ def panel_details_question(request, pk):
         faq = request.POST.get('faq')
         status = request.POST.get('status')
         faq_category = request.POST.get('faq_category')
-        print(request.POST)
         if faq:
             faq = True
         else:
