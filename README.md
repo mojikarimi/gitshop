@@ -94,7 +94,7 @@ Panel Main Image
 To run the first project, you must create a virtual environment to install the required packages
 
 ```python
-pip install -m venv venv
+python -m venv venv
 ```
 ### Installing packages
 The next step is to install all the packages that are in the requirements file
