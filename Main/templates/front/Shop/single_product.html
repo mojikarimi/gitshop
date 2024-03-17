@@ -34,7 +34,8 @@
                                 <span class="tooltip-option">افزودن به علاقمندی</span>
                             </li>
                         </ul>
-                        <div class="product-timeout position-relative pt-5 mb-3">
+                    {% if product.amazing_offer == True %}
+ <div class="product-timeout position-relative pt-5 mb-3">
                             <div class="promotion-badge">
                                 فروش ویژه
                             </div>
@@ -46,6 +47,8 @@
                                 <span data-seconds>0</span>
                             </div>
                         </div>
+                    {% endif %}
+
                         <div class="product-gallery">
                             <span class="badge">پر فروش</span>
                             <div class="product-carousel owl-carousel" data-slider-id="1">

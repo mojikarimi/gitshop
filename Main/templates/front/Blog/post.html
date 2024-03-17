@@ -276,7 +276,7 @@
                             </div>
                             <ul class="category-list">
 
-                                <li><a href="{% url 'post_cat_subcat' cat.title %}">{{ my_post.category }}</a>
+                                <li><a href="{% url 'post_cat_subcat' my_post.title %}">{{ my_post.category }}</a>
                                     <ul>
                                         {% for sub_cat in sub_cats %}
                                             <li><a href="{% url 'post_cat_subcat' sub_cat.title %}">{{ sub_cat.title }}</a></li>
