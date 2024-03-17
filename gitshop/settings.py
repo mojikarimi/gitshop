@@ -211,6 +211,3 @@ RECAPTCHA_PRIVATE_KEY = recaptcha_private_key
 # URL login
 LOGIN_URL = 'signin'
 
-SLUGIFY_PROCESSORS = [
-    'project.app.slugify_processors.my_processor'
-]
