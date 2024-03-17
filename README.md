@@ -86,7 +86,9 @@ Add Menu and Sort Image
 ![Add Menu and Sort Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/addMenu%20andSortMenu.png)
 
 Panel Main Image
-![Panel Main Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/PanelMainPage.png)# Site implementation steps
+![Panel Main Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/PanelMainPage.png)
+
+# Site implementation steps
 ### Creating a virtual environment
 
 To run the first project, you must create a virtual environment to install the required packages
