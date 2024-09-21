@@ -35,7 +35,6 @@ nltk==3.8.1
 oauthlib==3.2.2
 packaging==23.2
 Pillow==10.1.0
-psycopg2==2.9.9
 pyasn1==0.5.1
 pyasn1-modules==0.3.0
 pycparser==2.21
@@ -56,8 +55,6 @@ social-auth-app-django==5.4.0
 social-auth-core==4.5.0
 sqlparse==0.4.4
 tqdm==4.66.1
-Twisted==23.10.0
-twisted-iocpsupport==1.0.4
 txaio==23.1.1
 typing_extensions==4.8.0
 tzdata==2023.3

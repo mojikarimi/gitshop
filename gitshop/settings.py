@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     # install app
     'django_recaptcha.apps.DjangoRecaptchaConfig',
     'widget_tweaks',
-    # 'rest_framework',
 ]
 
 CACHES = {
@@ -113,28 +112,13 @@ WSGI_APPLICATION = 'gitshop.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASE_ROUTERS = ['Shop.router.ShopRouter', 'Profile.router.ProfileRouter', 'Blog.router.BlogRouter']
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'gitshop.sqlite3',
-    # },
-    'default': {'ENGINE': 'django.db.backends.postgresql',
-                'NAME': defaultdb_NAME,
-                'USER': defaultdb_USER,
-                'PASSWORD': defaultdb_PASSWORD,
-                'HOST': defaultdb_HOST,
-                'PORT': '5432'},
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'gitshop.sqlite3',
+    },
     'blog': {
-        "ENGINE": "mssql",
-        "NAME": blogdb_NAME,
-        "USER": blogdb_USER,
-        "PASSWORD": blogdb_PASSWORD,
-        "HOST": blogdb_HOST,
-        "PORT": "1433",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
-                    },
-        'TEST': {
-            'MIRROR': 'blog',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'gitshop_blog.sqlite3',
     },
     'shop': {
         'ENGINE': 'django.db.backends.sqlite3',
