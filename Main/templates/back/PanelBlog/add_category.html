@@ -55,6 +55,7 @@
 
 
                     </div>
+                {% if cats %}
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Category Lists</h4>
@@ -68,6 +69,7 @@
                                         <th style="text-align: center">action</th>
                                     </tr>
                                     </thead>
+                                
                                     <tbody>
                                     {% for cat in cats %}
                                         <tr>
@@ -158,14 +160,14 @@
 
                                         </tr>
                                     {% endfor %}
-
+                                
 
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
+                {% endif %}
                 </div>
 
                 <!-- ============================================================== -->

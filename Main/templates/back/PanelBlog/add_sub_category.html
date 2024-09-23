@@ -37,7 +37,8 @@
                             <div class="row">
                                 <form action="{% url 'panel_add_sub_category' %}" method="post">
                                     {% csrf_token %}
-                                    <div class="col-md-12 ">
+                                {% if cats %}
+                                	<div class="col-md-12 ">
                                         <div class="form-group">
                                             <label for="category_title" class="form-label">Category</label>
 
@@ -53,6 +54,8 @@
 
                                         </div>
                                     </div>
+                                {% endif %} 
+                                    
 
                                     <div class="col-md-12 ">
                                         <div class="form-group">
@@ -74,7 +77,8 @@
 
 
                     </div>
-                    <div class="card">
+                {% if sub_cats %}
+                	<div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Sub Category Lists</h4>
                             <h6 class="card-subtitle">Your built-in sub categories</h6>
@@ -219,6 +223,8 @@
                             </div>
                         </div>
                     </div>
+                {% endif %} 
+                    
 
                 </div>
 

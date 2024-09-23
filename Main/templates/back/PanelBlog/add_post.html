@@ -14,7 +14,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-        <div class="row page-titles">
+            <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h4 class="text-themecolor">Add Post</h4>
                 </div>
@@ -45,7 +45,8 @@
                                     <div class="col-md-12 ">
                                         <div class="form-group">
                                             <label for="title" class="form-label">Title</label>
-                                            <input style="text-align: right;" required type="text" id="title" name="title" class="form-control">
+                                            <input style="text-align: right;" required type="text" id="title"
+                                                   name="title" class="form-control">
                                         </div>
 
                                     </div>
@@ -66,48 +67,52 @@
                                             <input required type="file" name="image" id="image" class="dropify"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 ">
-                                        <div class="form-group">
-                                            <label for="category" class="form-label">Category</label>
+                                    {% if cats %}
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <label for="category" class="form-label">Category</label>
 
-                                            <select required id="category" name="category"
-                                                    class="select2 form-control form-select"
-                                                    style="width: 100%; height:36px;">
+                                                <select required id="category" name="category"
+                                                        class="select2 form-control form-select"
+                                                        style="width: 100%; height:36px;">
                                                     {% for cat in cats %}
                                                         <option>{{ cat.title }}</option>
                                                     {% endfor %}
-                                            </select>
+                                                </select>
+
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if sub_cats %}
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <label for="sub_category" class="form-label">Sub Category</label>
+
+                                                <select required id="sub_category" name="sub_category"
+                                                        class="select2 form-control form-select"
+                                                        style="width: 100%; height:36px;">
+                                                    {% for cat in cats %}
+                                                        <optgroup label="{{ cat.title }}">
+                                                            {% for sub_cat in sub_cats %}
+                                                                {% if cat.title == sub_cat.category %}
+                                                                    <option><span
+                                                                            style="font-size: 14px">{{ sub_cat.title }}</span>
+                                                                    </option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </optgroup>
+                                                    {% endfor %}
+
+
+                                                </select>
+
+
+                                            </div>
 
 
                                         </div>
-                                    </div>
-                                    <div class="col-md-12 ">
-                                        <div class="form-group">
-                                            <label for="sub_category" class="form-label">Sub Category</label>
-
-                                            <select required id="sub_category" name="sub_category"
-                                                    class="select2 form-control form-select"
-                                                    style="width: 100%; height:36px;">
-                                                {% for cat in cats %}
-                                                    <optgroup label="{{ cat.title }}">
-                                                        {% for sub_cat in sub_cats %}
-                                                            {% if cat.title == sub_cat.category %}
-                                                                <option><span
-                                                                        style="font-size: 14px">{{ sub_cat.title }}</span>
-                                                                </option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </optgroup>
-                                                {% endfor %}
-
-
-                                            </select>
-
-
-                                        </div>
-
-
-                                    </div>
+                                    {% endif %}
                                     <div class="col-md-12 ">
                                         <div class="form-group">
                                             <label for="tags" class="form-label">Sub Category</label>
