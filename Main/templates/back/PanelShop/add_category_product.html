@@ -11,7 +11,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-        <div class="row page-titles">
+            <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h4 class="text-themecolor">Add Category</h4>
                 </div>
@@ -46,9 +46,12 @@
                                             <select id="group" name="group"
                                                     class="select2 form-control form-select"
                                                     style="width: 100%; height:36px;">
-                                                {% for group in groups %}
-                                                    <option>{{ group.name }}</option>
-                                                {% endfor %}
+                                                {% if groups %}
+                                                    {% for group in groups %}
+                                                        <option>{{ group.name }}</option>
+                                                    {% endfor %}
+
+                                                {% endif %}
 
                                             </select>
 
@@ -75,7 +78,8 @@
 
 
                     </div>
-                    <div class="card">
+                {% if categories %}
+                	<div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Category Lists</h4>
                             <h6 class="card-subtitle">Your built-in categories</h6>
@@ -141,7 +145,7 @@
 
                                                                     </select>
                                                                 </div>
-                                                            <div class="form-group" style="display: none">
+                                                                <div class="form-group" style="display: none">
                                                                     <label for="group_new"
                                                                            class="form-label"></label>
 
@@ -180,7 +184,8 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myModalLabel">Delete category</h4>
+                                                            <h4 class="modal-title" id="myModalLabel">Delete
+                                                                category</h4>
                                                             <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal"
                                                                     aria-hidden="true"></button>
@@ -217,6 +222,8 @@
                             </div>
                         </div>
                     </div>
+                {% endif %} 
+                    
 
                 </div>
 

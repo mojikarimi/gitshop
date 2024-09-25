@@ -15,7 +15,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-<div class="row page-titles">
+            <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h4 class="text-themecolor">Details Questions</h4>
                 </div>
@@ -24,7 +24,8 @@
                         <ol class="breadcrumb justify-content-end">
                             <li class="breadcrumb-item"><a href="{% url 'panel_index' '' %}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{% url 'panel_list_product' %}">Product List</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'panel_questions_list' question.product_id %}">Questions List</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'panel_questions_list' question.product_id %}">Questions
+                                List</a></li>
                             <li class="breadcrumb-item active">Question (pk:{{ question.pk }})</li>
 
                         </ol>
@@ -81,23 +82,27 @@
                                                         <p>{{ question.date |filter_date:19 }}</p>
                                                     </div>
                                                     <div class="col-md-3 ">
-                                        <div class="form-group">
-                                            <label for="faq_category" class="form-label">Subject</label>
+                                                        <div class="form-group">
+                                                            <label for="faq_category" class="form-label">Subject</label>
 
-                                            <select id="faq_category" form="update_question" name="faq_category"
-                                                    class="select2 form-control form-select"
-                                                    style="width: 100%; height:36px;">
-                                                {% for faq_categorie in faq_categories %}
-                                                    <option {% if question.category == faq_categorie.name %}
-                                                    selected
-                                                    {% endif %}  >{{ faq_categorie.name }}</option>
-                                                {% endfor %}
+                                                            <select id="faq_category" form="update_question"
+                                                                    name="faq_category"
+                                                                    class="select2 form-control form-select"
+                                                                    style="width: 100%; height:36px;">
+                                                                {% if faq_categories %}
+                                                                    {% for faq_categorie in faq_categories %}
+                                                                        <option
+                                                                                {% if question.category == faq_categorie.name %}
+                                                                                    selected
+                                                                                {% endif %}  >{{ faq_categorie.name }}</option>
+                                                                    {% endfor %}
+                                                                {% endif %}
 
-                                            </select>
+                                                            </select>
 
 
-                                        </div>
-                                    </div>
+                                                        </div>
+                                                    </div>
                                                     <hr style="margin-top: 5px">
                                                     <div class="col-lg-12">
                                                         <h5>Question:</h5>
@@ -105,18 +110,19 @@
                                                     </div>
                                                     <hr>
                                                     <form id="update_question"
-                                                              action="{% url 'panel_details_question' question.pk %}"
-                                                              method="post">
-                                                            {% csrf_token %}
-                                                    <div class="col-lg-12">
-                                                        <h4>Answer:</h4>
+                                                          action="{% url 'panel_details_question' question.pk %}"
+                                                          method="post">
+                                                        {% csrf_token %}
+                                                        <div class="col-lg-12">
+                                                            <h4>Answer:</h4>
                                                             <textarea id="answer_text" name="answer_text"
-                                                                      placeholder="Type your message here" class="form-control border-0">{{ question.answer_text|safe }}</textarea>
+                                                                      placeholder="Type your message here"
+                                                                      class="form-control border-0">{{ question.answer_text|safe }}</textarea>
 
-                                                    </div>
+                                                        </div>
                                                         <br>
                                                         <button type="submit" class="btn btn-dark">Update</button>
-                                                </form>
+                                                    </form>
 
                                                 </div>
                                             </div>
@@ -138,7 +144,7 @@
     </div>
 {% endblock content %}
 {% block Escript %}
-{#  select2  #}
+    {#  select2  #}
     <script src="{% static 'back/assets/node_modules/select2/dist/js/select2.full.min.js' %}"
             type="text/javascript"></script>
     <script src="{% static 'back/assets/node_modules/bootstrap-select/bootstrap-select.min.js' %}"
@@ -254,8 +260,8 @@
             });
         });
     </script>
-{# ckeditor   #}
-      <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
+    {# ckeditor   #}
+    <script src="{% static 'back/dist/js/helpers/ckeditor/ckeditor.js' %}"></script>
 
 
     {#  chekbox  #}
@@ -289,7 +295,7 @@
     <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'back/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup-init.js' %}"></script>
 
-                                                            <script>CKEDITOR.replace('answer_text');</script>
+    <script>CKEDITOR.replace('answer_text');</script>
 
 
 {% endblock %}

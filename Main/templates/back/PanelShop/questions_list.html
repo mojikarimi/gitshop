@@ -100,133 +100,137 @@
                             <h4 class="card-title">FAQ List</h4>
                         </div>
 
+                        {% if questions %}
+                            <div class="card">
+                                <div class="card-body">
 
-                        <div class="card">
-                            <div class="card-body">
+                                    <h4 class="card-title">Questions List</h4>
 
-                                <h4 class="card-title">Questions List</h4>
+                                    <div class="table-responsive">
 
-                                <div class="table-responsive">
-
-                                    <table id="table" class="draggable-table table color-table success-table">
-                                        <thead>
-                                        <tr>
-                                            <th style="text-align: center;width: 5%">#</th>
-                                            <th style="text-align: center;width: 5%">Sort</th>
-                                            <th style="text-align: center;width: 30%">User</th>
-                                            <th style="text-align: center;width: 10%">Date</th>
-                                            <th style="text-align: center;width: 10%">Status</th>
-                                            <th style="text-align: center;width: 10%">FAQ</th>
-                                            <th style="text-align: center;width: 30%">Action</th>
-                                            <th>
-                                                <form id="myform" method="post"
-                                                      action="{% url 'panel_sort_question' pk_faq %}">
-                                                    {% csrf_token %}
-                                                    <div class="ms-auto mt-3 mt-md-0">
-                                                        <button
-                                                                class="btn btn-dark text-white">Update
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-
-                                        {% for question in questions %}
-
-                                            <tr data-id="13">
-                                                <td style="text-align: center">{{ forloop.counter }}</td>
-                                                <td style="text-align: center">{{ question.sort }}</td>
-
-
-                                                <td style="text-align: center">{{ question.user }}</td>
-                                                <td style="text-align: center">{{ question.date|filter_date:19 }}</td>
-                                                <td style=" text-align: center">
-                                                    {% if question.status == True %}
-                                                        <a style="padding: 5px 9px;"
-                                                           href="#"
-                                                           class="btn btn-success text-white"><i
-                                                                class="fa fa-check"></i></a>
-                                                    {% else %}
-                                                        <a style="padding: 5px 11px;"
-                                                           href="#"
-                                                           class="btn btn-danger text-white"><i
-                                                                class="fa fa-times"></i></a>
-                                                    {% endif %}</td>
-                                                <td style=" text-align: center">
-
-                                                    {% if question.faq == True %}
-                                                        <a style="padding: 5px 9px;"
-                                                           href="#"
-                                                           class="btn btn-success text-white"><i
-                                                                class="fa fa-check"></i></a>
-                                                    {% else %}
-                                                        <a style="padding: 5px 11px;"
-                                                           href="#"
-                                                           class="btn btn-danger text-white"><i
-                                                                class="fa fa-times"></i></a>
-                                                    {% endif %}</td>
-                                                <td style="text-align: center">
-                                                    <input type="hidden" value="{{ question.pk }}" form="myform"
-                                                           name="sort"
-                                                           class="sort">
-
-                                                    <a style="padding: 6px 9px;"
-                                                       href="{% url 'panel_details_question' question.pk %}"
-                                                       class="btn btn-warning text-white"> <i
-                                                            class="fa fa-edit"></i></a>
-                                                    <a style="padding: 6px 11px;" class="btn btn-danger text-white"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#modal-delete-{{ question.pk }}">
-                                                        <i class="fa fa-trash"></i></a>
-                                                </td>
-                                                <td></td>
-
-                                                <!--########################################################### modal delete ######################################################################-->
-                                                <div id="modal-delete-{{ question.pk }}" class="modal" tabindex="-1"
-                                                     role="dialog"
-                                                     aria-labelledby="myModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" id="myModalLabel">Delete FAQ</h4>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-hidden="true"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <h4>Are you sure!!!</h4>
-                                                                <p>Are you sure you want to delete the questions?</p>
-                                                                <p>Text: {{ question.text }}</p>
-                                                                <p>Number: {{ forloop.counter }}</p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <a class="btn btn-danger text-white"
-                                                                   href="{% url 'panel_delete_question' question.pk %}">Delete</a>
-                                                                <button type="button"
-                                                                        class="btn btn-info text-white"
-                                                                        data-bs-dismiss="modal">Cancel
-                                                                </button>
-                                                            </div>
+                                        <table id="table" class="draggable-table table color-table success-table">
+                                            <thead>
+                                            <tr>
+                                                <th style="text-align: center;width: 5%">#</th>
+                                                <th style="text-align: center;width: 5%">Sort</th>
+                                                <th style="text-align: center;width: 30%">User</th>
+                                                <th style="text-align: center;width: 10%">Date</th>
+                                                <th style="text-align: center;width: 10%">Status</th>
+                                                <th style="text-align: center;width: 10%">FAQ</th>
+                                                <th style="text-align: center;width: 30%">Action</th>
+                                                <th>
+                                                    <form id="myform" method="post"
+                                                          action="{% url 'panel_sort_question' pk_faq %}">
+                                                        {% csrf_token %}
+                                                        <div class="ms-auto mt-3 mt-md-0">
+                                                            <button
+                                                                    class="btn btn-dark text-white">Update
+                                                            </button>
                                                         </div>
-                                                        <!-- /.modal-content -->
-                                                    </div>
-                                                    <!-- /.modal-dialog -->
-                                                </div>
-
+                                                    </form>
+                                                </th>
                                             </tr>
+                                            </thead>
+                                            <tbody>
 
-                                        {% endfor %}
+
+                                            {% for question in questions %}
+
+                                                <tr data-id="13">
+                                                    <td style="text-align: center">{{ forloop.counter }}</td>
+                                                    <td style="text-align: center">{{ question.sort }}</td>
 
 
-                                        </tbody>
-                                    </table>
+                                                    <td style="text-align: center">{{ question.user }}</td>
+                                                    <td style="text-align: center">{{ question.date|filter_date:19 }}</td>
+                                                    <td style=" text-align: center">
+                                                        {% if question.status == True %}
+                                                            <a style="padding: 5px 9px;"
+                                                               href="#"
+                                                               class="btn btn-success text-white"><i
+                                                                    class="fa fa-check"></i></a>
+                                                        {% else %}
+                                                            <a style="padding: 5px 11px;"
+                                                               href="#"
+                                                               class="btn btn-danger text-white"><i
+                                                                    class="fa fa-times"></i></a>
+                                                        {% endif %}</td>
+                                                    <td style=" text-align: center">
 
+                                                        {% if question.faq == True %}
+                                                            <a style="padding: 5px 9px;"
+                                                               href="#"
+                                                               class="btn btn-success text-white"><i
+                                                                    class="fa fa-check"></i></a>
+                                                        {% else %}
+                                                            <a style="padding: 5px 11px;"
+                                                               href="#"
+                                                               class="btn btn-danger text-white"><i
+                                                                    class="fa fa-times"></i></a>
+                                                        {% endif %}</td>
+                                                    <td style="text-align: center">
+                                                        <input type="hidden" value="{{ question.pk }}" form="myform"
+                                                               name="sort"
+                                                               class="sort">
+
+                                                        <a style="padding: 6px 9px;"
+                                                           href="{% url 'panel_details_question' question.pk %}"
+                                                           class="btn btn-warning text-white"> <i
+                                                                class="fa fa-edit"></i></a>
+                                                        <a style="padding: 6px 11px;" class="btn btn-danger text-white"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#modal-delete-{{ question.pk }}">
+                                                            <i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                    <td></td>
+
+                                                    <!--########################################################### modal delete ######################################################################-->
+                                                    <div id="modal-delete-{{ question.pk }}" class="modal" tabindex="-1"
+                                                         role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="myModalLabel">Delete
+                                                                        FAQ</h4>
+                                                                    <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-hidden="true"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h4>Are you sure!!!</h4>
+                                                                    <p>Are you sure you want to delete the
+                                                                        questions?</p>
+                                                                    <p>Text: {{ question.text }}</p>
+                                                                    <p>Number: {{ forloop.counter }}</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a class="btn btn-danger text-white"
+                                                                       href="{% url 'panel_delete_question' question.pk %}">Delete</a>
+                                                                    <button type="button"
+                                                                            class="btn btn-info text-white"
+                                                                            data-bs-dismiss="modal">Cancel
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.modal-content -->
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+
+                                                </tr>
+
+                                            {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>	
+                        {% endif %} 
+                        
 
                     </div>
 

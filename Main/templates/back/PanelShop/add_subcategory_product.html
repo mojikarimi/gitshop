@@ -46,10 +46,13 @@
                                             <select id="group" name="group"
                                                     class="select2 form-control form-select"
                                                     style="width: 100%; height:36px;">
-                                                {% for group in groups %}
+                                            {% if groups %}
+                                            	{% for group in groups %}
                                                     <option>{{ group.name }}</option>
                                                 {% endfor %}
 
+                                            {% endif %} 
+                                                
                                             </select>
 
 
@@ -62,9 +65,12 @@
                                             <select id="category" name="category"
                                                     class="select2 form-control form-select"
                                                     style="width: 100%; height:36px;">
-                                                {% for categorie in categories %}
+                                            {% if categories %}
+                                            	{% for categorie in categories %}
                                                     <option>{{ categorie.name }}</option>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
 
                                             </select>
 
@@ -91,7 +97,8 @@
 
 
                     </div>
-                    <div class="card">
+                {% if subcategories %}
+                	<div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Sub Category Lists</h4>
                             <h6 class="card-subtitle">Your built-in sub categories</h6>
@@ -148,13 +155,16 @@
                                                                     <select id="group_new" name="group_new"
                                                                             class="select2 form-control form-select"
                                                                             style="width: 100%; height:36px;">
-                                                                        {% for group in groups %}
+                                                                    {% if groups %}
+                                                                    	{% for group in groups %}
                                                                             <option
                                                                                     {% if group.name == subcategorie.group %}
                                                                                         selected
                                                                                     {% endif %}
                                                                             >{{ group.name }}</option>
                                                                         {% endfor %}
+                                                                    {% endif %} 
+                                                                        
 
 
                                                                     </select>
@@ -166,13 +176,16 @@
                                                                     <select id="category_new" name="category_new"
                                                                             class="select2 form-control form-select"
                                                                             style="width: 100%; height:36px;">
-                                                                        {% for categorie in categories %}
+                                                                    {% if categories %}
+                                                                    	{% for categorie in categories %}
                                                                             <option
                                                                                     {% if categorie.name == subcategorie.category %}
                                                                                         selected
                                                                                     {% endif %}
                                                                             >{{ categorie.name }}</option>
                                                                         {% endfor %}
+                                                                    {% endif %} 
+                                                                        
 
 
                                                                     </select>
@@ -265,6 +278,8 @@
                             </div>
                         </div>
                     </div>
+                {% endif %} 
+                    
 
                 </div>
 

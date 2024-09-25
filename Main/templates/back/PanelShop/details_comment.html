@@ -17,7 +17,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-<div class="row page-titles">
+            <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h4 class="text-themecolor">Details</h4>
                 </div>
@@ -26,7 +26,9 @@
                         <ol class="breadcrumb justify-content-end">
                             <li class="breadcrumb-item"><a href="{% url 'panel_index' '' %}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{% url 'panel_list_product' %}">Product List</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'panel_comments_product' panel_comment.pk_product %}">Product List</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{% url 'panel_comments_product' panel_comment.pk_product %}">Product List</a>
+                            </li>
                             <li class="breadcrumb-item active">{{ panel_comment.title }}</li>
                         </ol>
 
@@ -42,50 +44,54 @@
                             <h4 class="card-title">Comment Details</h4>
                             <h6 class="card-subtitle">Details of user comments</h6>
                             <div>
-                            <br>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <h4 class="card-title">Details Comment ==> {{ panel_comment.title }}</h4>
-                                <hr>
-                                <div class="col-lg-6 bt-switch">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <h4 class="card-title">Details Comment
+                                                        ==> {{ panel_comment.title }}</h4>
+                                                    <hr>
+                                                    <div class="col-lg-6 bt-switch">
 
-                                    <label for="exit">
-                                        <h5>Confirmed</h5>
-                                        <input form="update_comment" {% if panel_comment.confirmed %}
-                                            checked {% endif %} id="exit"
-                                            name="confirmed" type="checkbox"
-                                            data-on-color="info"
-                                            data-off-color="primary"
-                                            data-on-text="<i class='fa fa-check'></i>"
-                                            data-off-text="<i class='fa fa-times'></i>">
-                                    </label>
-                                </div>
+                                                        <label for="exit">
+                                                            <h5>Confirmed</h5>
+                                                            <input form="update_comment"
+                                                                    {% if panel_comment.confirmed %}
+                                                                   checked {% endif %} id="exit"
+                                                                   name="confirmed" type="checkbox"
+                                                                   data-on-color="info"
+                                                                   data-off-color="primary"
+                                                                   data-on-text="<i class='fa fa-check'></i>"
+                                                                   data-off-text="<i class='fa fa-times'></i>">
+                                                        </label>
+                                                    </div>
 
-                                <div class="col-lg-6">
+                                                    <div class="col-lg-6">
 
-                                    <h5>Date</h5>
-                                    <p>{{ panel_comment.date |filter_date:19 }}</p>
-                                </div>
-                                <hr style="margin-top: 5px" >
-                                <div class="col-lg-10">
-                                    <h5>Text</h5>
-                                    <p dir="rtl">{{ panel_comment.text }}</p>
-                                </div>
-                                <div class="col-lg-2">
-                                    <form id="update_comment" action="{% url 'panel_details_comments' panel_comment.pk %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-dark">Update</button>
-                                    </form>
-                                </div>
+                                                        <h5>Date</h5>
+                                                        <p>{{ panel_comment.date |filter_date:19 }}</p>
+                                                    </div>
+                                                    <hr style="margin-top: 5px">
+                                                    <div class="col-lg-10">
+                                                        <h5>Text</h5>
+                                                        <p dir="rtl">{{ panel_comment.text }}</p>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <form id="update_comment"
+                                                              action="{% url 'panel_details_comments' panel_comment.pk %}"
+                                                              method="post">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-dark">Update</button>
+                                                        </form>
+                                                    </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
