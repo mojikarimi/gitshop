@@ -112,11 +112,13 @@
 
                         <a href="#"><i class="fal fa-bars ml-1"></i>دسته بندی کالاها</a>
                         <ul>
-                            {% for group in groups %}
+                        {% if groups %}
+                        	{% for group in groups %}
                                 <li>
                                     <a href="{% url 'product_group_category_subcategory' group.name %}">{{ group.name }}</a>
-                                    <ul class="row">
-                                        {% for category in categories %}
+                                    {% if categories %}
+                                    	<ul class="row">
+                                            {% for category in categories %}
                                             {% if group.pk == category.group_id %}
                                                 <li class="sublist--title"><a href="{% url 'product_group_category_subcategory' category.name %}">{{ category.name }}</a></li>
                                                 {% for subcategory in subcategories %}
@@ -125,21 +127,27 @@
                                                     {% endif %}{% endfor %}
                                             {% endif %}
                                         {% endfor %}
-                                    </ul>
+                                        </ul>
+                                    {% endif %} 
+                                    
                                 </li>
                             {% endfor %}
+                        {% endif %} 
+                            
 
                         </ul>
                     </li>
                     <!-- mega menu 3 column -->
 
-
-                    {% for menu in menus %}
+                    {% if menus %}
+                    	{% for menu in menus %}
                         <li class="list-item">
                             <a class="nav-link" href="{{ menu.menu_link }}">{{ menu.menu_name }}</a>
 
                         </li>
                     {% endfor %}
+                    {% endif %} 
+                    
 
                 </ul>
                 <div class="nav mr-auto">
@@ -156,7 +164,8 @@
                             </div>
                             {% if context_processor_carts %}
                                 <ul class="header-basket-list do-nice-scroll">
-                                    {% for product_cart in product_carts %}
+                                {% if product_carts %}
+                                	{% for product_cart in product_carts %}
                                         {% for product in products %}
                                             {% if product.pk == product_cart.product_id %}
                                                 <li class="cart-item">
@@ -196,6 +205,8 @@
 
                                         {% endfor %}
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </ul>
@@ -300,12 +311,15 @@
                                 </li>
                             </ul>
                         </li>
-                        {% for menu in menus %}
+                    {% if menus %}
+                    	{% for menu in menus %}
                             <li class="list-item">
                                 <a class="nav-link" href="{{ menu.menu_link }}">{{ menu.menu_name }}</a>
 
                             </li>
                         {% endfor %}
+                    {% endif %} 
+                        
 
 
                     </ul>

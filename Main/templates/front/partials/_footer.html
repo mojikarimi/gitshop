@@ -42,7 +42,8 @@
         </div>
         <div class="footer-widgets">
             <div class="row">
-                {% for catfooter in catfooters %}
+            {% if catfooters %}
+            	{% for catfooter in catfooters %}
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="widget-menu widget card">
                         <header class="card-header">
@@ -60,6 +61,8 @@
                     </div>
                 </div>
                 {% endfor %}
+            {% endif %} 
+                
 
 
                 <div class="col-12 col-md-6 col-lg-3">
@@ -76,9 +79,12 @@
                         <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
                         <div class="footer-social">
                             <ul class="text-center">
-                                {% for social_network in social_networks %}
+                            {% if social_networks %}
+                            	{% for social_network in social_networks %}
                                 <li><a href="{{ social_network.link }}"><i class="mdi mdi-{{ social_network.icon }}"></i></a></li>
                                 {% endfor %}
+                            {% endif %} 
+                                
 
 
 
@@ -96,9 +102,12 @@
                     {{ footer.text |safe }}
                 </div>
                 <div class="symbol col-12 col-lg-5">
-                    {% for symbol in symbols %}
+                {% if symbols %}
+                	{% for symbol in symbols %}
                     <a href="{{ symbol.link }}" target="_blank"><img src="{{ symbol.image.url }}" alt=""></a>
                     {% endfor %}
+                {% endif %} 
+                    
                 </div>
             </div>
         </div>
@@ -149,7 +158,8 @@
                                 <div id="mojtaba_karimi" class="ah-tab-content-wrapper dt-sl px-res-0">
                                     <div id="div-chat" class="ah-tab-content dt-sl"
                                          data-ah-tab-active="true">
-                                        {% for chat in chats %}
+                                    {% if chats %}
+                                    	{% for chat in chats %}
                                             {% if chat.type == 'admin' %}
                                                 <div class="row admin">
                                                     <div style="height: fit-content"
@@ -180,6 +190,8 @@
 
 
                                         {% endfor %}
+                                    {% endif %} 
+                                        
 
 
                                     </div>
