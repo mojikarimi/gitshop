@@ -84,12 +84,15 @@
                                                 <hr class="m-t-0 m-b-40">
 
                                                 <select multiple id="public-methods" name="new_perms">
-                                                    {% for permission in permissions %}
+                                                {% if permissions %}
+                                                	{% for permission in permissions %}
                                                         <option value="{{ permission.pk }}" {% if permission in perms_grope %}
                                                         selected
                                                         {% endif %} >{{ permission.content_type }}
                                                             | {{ permission.name }}</option>
                                                     {% endfor %}
+                                                {% endif %} 
+                                                    
 
 
                                                 </select>

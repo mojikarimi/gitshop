@@ -35,7 +35,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-        <div class="row page-titles">
+            <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h4 class="text-themecolor">Permissions</h4>
                 </div>
@@ -127,12 +127,15 @@
                                                 <h3 class="box-title">Groups</h3>
                                                 <hr class="m-t-0 m-b-40">
                                                 <select multiple id="public-methods" name="groups">
-                                                    {% for group in groups %}
-                                                        <option value="{{ group.pk }}"
-                                                                {% if group in groups_user %}
-                                                                selected
-                                                                {% endif %} >{{ group.name }}</option>
-                                                    {% endfor %}
+                                                    {% if groups %}
+                                                        {% for group in groups %}
+                                                            <option value="{{ group.pk }}"
+                                                                    {% if group in groups_user %}
+                                                                    selected
+                                                                    {% endif %} >{{ group.name }}</option>
+                                                        {% endfor %}
+                                                    {% endif %}
+
                                                 </select>
                                                 <div class="button-box m-t-20"><a id="select-all"
                                                                                   class="btn btn-danger text-white"
@@ -150,14 +153,15 @@
                                                 <hr class="m-t-0 m-b-40">
 
                                                 <select multiple id="public-methods2" name="perms">
-                                                    {% for permission in permissions %}
+                                                {% if permissions %}
+                                                	{% for permission in permissions %}
                                                         <option value="{{ permission.pk }}"
                                                                 {% if permission in permissions_user %}
                                                                 selected
-                                                                {% endif %} >{{ permission.content_type }} | {{ permission.name }}</option>
+                                                                {% endif %} >{{ permission.content_type }}
+                                                            | {{ permission.name }}</option>
                                                     {% endfor %}
-
-
+                                                {% endif %} 
                                                 </select>
                                                 <div class="button-box m-t-20"><a id="select-all2"
                                                                                   class="btn btn-danger text-white"
