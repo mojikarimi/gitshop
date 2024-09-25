@@ -110,7 +110,8 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            {% for address in addresses %}
+                                        {% if addresses %}
+                                        	 {% for address in addresses %}
                                                 <div class="checkout-address-row">
                                                     <div class="checkout-address-col">
                                                         <div class="checkout-address-box {% if active_address.pk == address.pk %}
@@ -170,6 +171,8 @@
                                                 </div>
 
                                             {% endfor %}
+                                        {% endif %} 
+                                           
 
 
                                         </div>
@@ -672,7 +675,8 @@
                                 <!-- Start Product-Slider -->
                                 <div class="col-12">
                                     <div class="products-compact-slider carousel-md owl-carousel owl-theme">
-                                        {% for product in products %}
+                                    {% if products %}
+                                    	{% for product in products %}
                                             <div class="item">
                                                 <div class="product-card mb-3">
                                                     <a class="product-thumb"
@@ -688,6 +692,8 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
+                                    {% endif %} 
+                                        
 
 
                                     </div>

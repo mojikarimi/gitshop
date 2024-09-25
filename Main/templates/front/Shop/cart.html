@@ -25,7 +25,8 @@
                                         <div class="checkout-header checkout-header--express">
                                             <span class="checkout-header-title">ارسال عادی</span>
                                         </div>
-                                        {% for product_cart in product_carts %}
+                                    {% if product_carts and products %}
+                                    	{% for product_cart in product_carts %}
 
                                             {% for product in products %}
                                                 {% if product.pk == product_cart.product_id %}
@@ -102,6 +103,8 @@
                                                 {% endif %}
                                             {% endfor %}
                                         {% endfor %}
+                                    {% endif %} 
+                                        
 
                                     </div>
                                 </div>

@@ -38,7 +38,8 @@
                                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                                              data-parent="#accordionExample">
                                             <div class="card-body">
-                                                {% for group in groups %}
+                                            {% if groups %}
+                                            	{% for group in groups %}
                                                     <div class="custom-control custom-checkbox">
                                                         <input value="{{ group.name }}" type="checkbox"
                                                                name="group_filter" class="custom-control-input"
@@ -47,6 +48,8 @@
                                                             {{ group.name }}</label>
                                                     </div>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +67,8 @@
                                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                                              data-parent="#accordionExample">
                                             <div class="card-body">
-                                                {% for category in categories %}
+                                            {% if categories %}
+                                            	{% for category in categories %}
                                                     <div class="custom-control custom-checkbox">
                                                         <input value="{{ category.name }}" name="category_filter"
                                                                type="checkbox" class="custom-control-input"
@@ -73,6 +77,8 @@
                                                                for="category_filter-{{ category.pk }}">{{ category.name }}</label>
                                                     </div>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +96,8 @@
                                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                                              data-parent="#accordionExample">
                                             <div class="card-body">
-                                                {% for subcategory in subcategories %}
+                                            {% if subcategories %}
+                                            	{% for subcategory in subcategories %}
                                                     <div class="custom-control custom-checkbox">
                                                         <input value="{{ subcategory.name }}" name="subcategory_filter"
                                                                type="checkbox" class="custom-control-input"
@@ -99,8 +106,7 @@
                                                                for="subcategory_filter-{{ subcategory.pk }}">{{ subcategory.name }}</label>
                                                     </div>
                                                 {% endfor %}
-
-
+                                            {% endif %} 
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +124,8 @@
                                         <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
                                              data-parent="#accordionExample">
                                             <div class="card-body">
-                                                {% for color in colors %}
+                                            {% if colors %}
+                                            	{% for color in colors %}
                                                     <div class="custom-control custom-checkbox">
                                                         <input value="{{ color }}" name="color_filter" type="checkbox"
                                                                class="custom-control-input"
@@ -130,6 +137,8 @@
 
                                                     </div>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
 
 
                                             </div>
@@ -170,7 +179,8 @@
                         <div class="ah-tab-content-wrapper dt-sl px-res-0">
                             <div class="ah-tab-content dt-sl" data-ah-tab-active="true">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    {% for products_new in products_news %}
+                                {% if products_news %}
+                                	{% for products_new in products_news %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
@@ -201,6 +211,8 @@
                                             </div>
                                         </div>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </div>
@@ -208,7 +220,8 @@
 
                             <div class="ah-tab-content dt-sl">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    {% for products_view in products_views %}
+                                {% if products_views %}
+                                	{% for products_view in products_views %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
@@ -238,6 +251,8 @@
                                             </div>
                                         </div>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </div>
@@ -245,7 +260,8 @@
                             </div>
                             <div class="ah-tab-content dt-sl">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    {% for products_sal in products_sales %}
+                                {% if products_sales %}
+                                	{% for products_sal in products_sales %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
@@ -275,6 +291,8 @@
                                             </div>
                                         </div>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </div>
@@ -282,7 +300,8 @@
                             </div>
                             <div class="ah-tab-content dt-sl">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    {% for products_expensive in products_expensives %}
+                                {% if products_expensives %}
+                                	{% for products_expensive in products_expensives %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
@@ -312,6 +331,8 @@
                                             </div>
                                         </div>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </div>
@@ -319,7 +340,8 @@
                             </div>
                             <div class="ah-tab-content dt-sl">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    {% for products_inexpensive in products_inexpensives %}
+                                {% if products_inexpensives %}
+                                	{% for products_inexpensive in products_inexpensives %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                             <div class="product-card mb-2 mx-res-0">
                                                 <div class="product-head">
@@ -349,6 +371,8 @@
                                             </div>
                                         </div>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
 
                                 </div>

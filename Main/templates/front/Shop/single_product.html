@@ -127,7 +127,8 @@
                                                 <h2>انتخاب رنگ:</h2>
                                             </div>
                                             <ul class="product-variants float-right ml-3">
-                                                {% for color in colors %}
+                                            {% if colors %}
+                                            	{% for color in colors %}
                                                     <li class="ui-variant">
                                                         <label class="ui-variant ui-variant--color">
                                                         <span class="ui-variant-shape"
@@ -140,6 +141,8 @@
                                                         </label>
                                                     </li>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
 
 
                                             </ul>
@@ -153,7 +156,8 @@
                                                 <h2>انتخاب رنگ:</h2>
                                             </div>
                                             <ul class="product-variants float-right ml-3">
-                                                {% for size in sizes %}
+                                            {% if sizes %}
+                                            	{% for size in sizes %}
                                                     <li class="ui-variant">
                                                         <label class="ui-variant ui-variant--color">
 
@@ -165,6 +169,8 @@
                                                         </label>
                                                     </li>
                                                 {% endfor %}
+                                            {% endif %} 
+                                                
 
 
                                             </ul>
@@ -172,7 +178,8 @@
                                     {% endif %}
                                     <div class="product-params dt-sl">
                                         <ul data-title="ویژگی‌های محصول">
-                                            {% for attr_title,attr_value in attrs.items %}
+                                        {% if attrs.items %}
+                                        	{% for attr_title,attr_value in attrs.items %}
                                                 {% if forloop.counter <= 5 %}
                                                     <li>
                                                         <span>{{ attr_title }}: </span>
@@ -180,6 +187,8 @@
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}
+                                        {% endif %} 
+                                            
 
 
                                         </ul>
@@ -351,8 +360,10 @@
 
                             <section>
                                 <h3 class="params-title">مشخصات</h3>
+                            
                                 <ul class="params-list">
-                                    {% for attr_title,attr_value in attrs.items %}
+                                {% if attrs.items %}
+                                	{% for attr_title,attr_value in attrs.items %}
 
                                         <li>
                                             <div class="params-list-key">
@@ -365,6 +376,8 @@
                                             </div>
                                         </li>
                                     {% endfor %}
+                                {% endif %} 
+                                    
                                 </ul>
                             </section>
                         </div>
@@ -578,13 +591,16 @@
                                                                         <div class="content-expert-evaluation-positive">
                                                                             <span>نقاط قوت</span>
                                                                             <ul>
-                                                                                {% for pk,product_comments_strength in product_comments_strengths %}
+                                                                            {% if product_comments_strengths %}
+                                                                            	{% for pk,product_comments_strength in product_comments_strengths %}
                                                                                     {% if pk == product_comment.pk %}
                                                                                         {% for product_comments_strengt in product_comments_strength %}
                                                                                             <li>{{ product_comments_strengt }}</li>
                                                                                         {% endfor %}
                                                                                     {% endif %}
                                                                                 {% endfor %}
+                                                                            {% endif %} 
+                                                                                
 
                                                                             </ul>
                                                                         </div>
@@ -593,13 +609,19 @@
                                                                         <div class="content-expert-evaluation-negative">
                                                                             <span>نقاط ضعف</span>
                                                                             <ul>
-                                                                                {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
+                                                                            {% if product_comments_weaknesses %}
+                                                                            	 {% for pk,product_comments_weaknesse in product_comments_weaknesses %}
                                                                                     {% if pk == product_comment.pk %}
-                                                                                        {% for product_comments_weakness in product_comments_weaknesse %}
+                                                                                        {% if product_comments_weaknesse %}
+                                                                                        	{% for product_comments_weakness in product_comments_weaknesse %}
                                                                                             <li>{{ product_comments_weakness }}</li>
                                                                                         {% endfor %}
+                                                                                        {% endif %} 
+                                                                                        
                                                                                     {% endif %}
                                                                                 {% endfor %}
+                                                                            {% endif %} 
+                                                                               
                                                                             </ul>
                                                                         </div>
                                                                     </div>
@@ -642,7 +664,8 @@
 
                                 </div>
                                 <ol class="comment-list">
-                                    {% for question in questions %}
+                                {% if questions %}
+                                	{% for question in questions %}
                                         <li>
                                             <div class="comment-body">
                                                 <div class="comment-author">
@@ -686,6 +709,8 @@
                                             <!-- .children -->
                                         </li>
                                     {% endfor %}
+                                {% endif %} 
+                                    
 
                                     <!-- #comment-## -->
 
