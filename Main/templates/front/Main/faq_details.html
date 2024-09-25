@@ -21,7 +21,8 @@
                                 </div>
                                 <div class="col-12 filter-product mb-3">
                                     <div class="accordion" id="accordionExample">
-                                        {% for faq_detaile_category in faq_details_category %}
+                                    {% if faq_details_category %}
+                                    	{% for faq_detaile_category in faq_details_category %}
                                         <div class="card">
                                             <div class="card-header" id="heading-{{ faq_detaile_category.pk }}">
                                                 <h2 class="mb-0">
@@ -41,9 +42,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
-
-
-
+                                    {% endif %} 
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +58,8 @@
                                 </div>
                                 <div class="col-12 filter-product mb-3">
                                     <div class="accordion" id="accordionExample">
-                                        {% for faq in faqs %}
+                                    {% if faqs %}
+                                    	{% for faq in faqs %}
                                         <div class="card">
                                             <div class="card-header" id="faq-{{ faq.pk }}">
                                                 <h2 class="mb-0">
@@ -79,6 +79,8 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+                                    {% endif %} 
+                                        
 
 
 

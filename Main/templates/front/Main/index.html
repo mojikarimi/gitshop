@@ -21,9 +21,11 @@
                 </aside>
                 <div class="col-xl-10 col-lg-9 col-12 order-1 order-lg-2">
                     <!-- Start main-slider -->
+                {% if sliders %}
                     <section id="main-slider" class="main-slider carousel slide carousel-fade card hidden-sm"
                              data-ride="carousel">
-                        <ol class="carousel-indicators">
+                    
+                    	<ol class="carousel-indicators">
                             {% for slider in sliders %}
                                 {% if forloop.counter == 1 %}
                                     <li data-target="#main-slider" data-slide-to="{{ forloop.counter }}"
@@ -33,6 +35,8 @@
                                 {% endif %}
                             {% endfor %}
                         </ol>
+                    
+                        
                         <div class="carousel-inner">
                             {% for slider in sliders %}
                                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
@@ -49,55 +53,30 @@
                             <i class="mdi mdi-chevron-left"></i>
                         </a>
                     </section>
+                
                     <section id="main-slider-res"
                              class="main-slider carousel slide carousel-fade card d-none show-sm" data-ride="carousel">
                         <ol class="carousel-indicators">
-
-                            <li data-target="#main-slider-res" data-slide-to="0" class="active"></li>
-                            <li data-target="#main-slider-res" data-slide-to="1"></li>
-                            <li data-target="#main-slider-res" data-slide-to="2"></li>
-                            <li data-target="#main-slider-res" data-slide-to="3"></li>
-                            <li data-target="#main-slider-res" data-slide-to="4"></li>
-                            <li data-target="#main-slider-res" data-slide-to="5"></li>
+                            {% for slider in sliders %}
+                                {% if forloop.counter == 1 %}
+                                    <li data-target="#main-slider-res" data-slide-to="{{ forloop.counter }}"
+                                        class="active"></li>
+                                {% else %}
+                                    <li data-target="#main-slider-res" data-slide-to="{{ forloop.counter }}"></li>
+                                {% endif %}
+                            {% endfor %}
                         </ol>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="{% static 'front/assets/img/main-slider/slider-responsive/1.jpg' %}"
+                            {% for slider in sliders %}
+                                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                                    <a class="main-slider-slide"
+                                       href="{{ slider.link }}">
+                                        <img src="{{ slider.image_url }}"
                                          alt=""
                                          class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="./assets/img/main-slider/slider-responsive/2.jpg" alt=""
-                                         class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="./assets/img/main-slider/slider-responsive/3.jpg" alt=""
-                                         class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="./assets/img/main-slider/slider-responsive/4.jpg" alt=""
-                                         class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="./assets/img/main-slider/slider-responsive/5.jpg" alt=""
-                                         class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                                <a class="main-slider-slide" href="#">
-                                    <img src="./assets/img/main-slider/slider-responsive/6.jpg" alt=""
-                                         class="img-fluid">
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
                         <a class="carousel-control-prev" href="#main-slider-res" role="button" data-slide="prev">
                             <i class="mdi mdi-chevron-right"></i>
@@ -106,6 +85,7 @@
                             <i class="mdi mdi-chevron-left"></i>
                         </a>
                     </section>
+                {% endif %} 
                     <!-- End main-slider -->
                 </div>
             </div>
@@ -123,7 +103,8 @@
                             </div>
 
                             <!-- Start Product-Slider -->
-                            <div class="col-12 px-res-0">
+                        {% if best_sellers %}
+                        	<div class="col-12 px-res-0">
                                 <div class="product-carousel carousel-md owl-carousel owl-theme">
                                     {% for best_seller in best_sellers %}
                                         <div class="item">
@@ -166,6 +147,8 @@
 
                                 </div>
                             </div>
+                        {% endif %} 
+                            
                             <!-- End Product-Slider -->
 
                         </div>
@@ -179,7 +162,8 @@
                         <div id="progressBar">
                             <div class="slide-progress"></div>
                         </div>
-                        <div id="suggestion-slider" class="owl-carousel owl-theme">
+                    {% if instant_sales %}
+                    	<div id="suggestion-slider" class="owl-carousel owl-theme">
                             {% for instant_sale in instant_sales %}
                                 <div class="item">
                                 <div class="product-head">
@@ -220,6 +204,8 @@
 
 
                         </div>
+                    {% endif %} 
+                        
                     </div>
                 </div>
             </div>
@@ -233,7 +219,8 @@
                         </div>
                         <div class="category-section-slider dt-sl">
                             <div class="category-slider owl-carousel">
-                                {% for group in groups %}
+                            {% if groups %}
+                            	{% for group in groups %}
                                     <div class="item">
                                         <a href="{% url 'product_group_category_subcategory' group.name %}" class="promotion-category">
                                             <img src="{{ group.image.url }}" alt="">
@@ -241,6 +228,8 @@
                                         </a>
                                     </div>
                                 {% endfor %}
+                            {% endif %} 
+                                
 
 
                             </div>
@@ -260,7 +249,8 @@
                     </div>
 
                     <!-- Start Product-Slider -->
-                    <div class="col-12">
+                {% if best_sellers_reverse %}
+                	<div class="col-12">
                         <div class="product-carousel carousel-lg owl-carousel owl-theme">
                             {% for best_sellers_revers in best_sellers_reverse %}
                                 <div class="item">
@@ -301,6 +291,8 @@
                             {% endfor %}
                         </div>
                     </div>
+                {% endif %} 
+                    
                     <!-- End Product-Slider -->
 
                 </div>
@@ -315,7 +307,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
+            {% if our_suggestions %}
+            	<div class="row mb-3">
                     <div class="col-lg-12 col-md-6 col-sm-12 col-12 pt-4">
                         <div class="row">
                             {% for our_suggestion in our_suggestions %}
@@ -350,6 +343,8 @@
                     </div>
 
                 </div>
+            {% endif %} 
+                
             </section>
             <!-- End Feature-Product -->
         </div>
