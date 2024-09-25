@@ -18,7 +18,8 @@
                                     class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
                                 <h2>همه سفارش‌ها</h2>
                             </div>
-                            <div class="dt-sl">
+                        {% if carts %}
+                        	 <div class="dt-sl">
                                 <div class="table-responsive">
                                     <table class="table table-order">
                                         <thead>
@@ -60,6 +61,8 @@
                                     </table>
                                 </div>
                             </div>
+                        {% endif %} 
+                           
                         </div>
                     </div>
                 </div>

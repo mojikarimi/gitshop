@@ -24,7 +24,8 @@
                                     <h2>پرسش ها و پاسخ ها</h2>
                                     <p class="count-comment">{{ number }} پرسش و پاسخ</p>
                                 </div>
-                                <ol class="comment-list">
+                            {% if answertickets %}
+                            	 <ol class="comment-list">
                                     {% for answerticket in answertickets %}
                                         <li>
                                             <div class="comment-body">
@@ -58,6 +59,8 @@
 
                                     <!-- #comment-## -->
                                 </ol>
+                            {% endif %} 
+                               
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12">

@@ -52,11 +52,14 @@
                                             <div class="form-row">
                                                 <div class="custom-select-ui">
                                                     <select name="part" class="right">
-                                                        {% for part in parts %}
+                                                    {% if parts %}
+                                                    	{% for part in parts %}
                                                             <option value="{{ part.pk }}">
                                                                 {{ part.name }}
                                                             </option>
                                                         {% endfor %}
+                                                    {% endif %} 
+                                                        
 
 
                                                     </select>
@@ -78,7 +81,8 @@
                                     class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
                                 <h2>تاریخچه تیکت ها</h2>
                             </div>
-                            <div class="dt-sl dt-sn border">
+                        {% if tickets %}
+                        	<div class="dt-sl dt-sn border">
                                 <div class="table-responsive">
                                     <table class="table table-order">
                                         <thead>
@@ -112,6 +116,8 @@
                                     </table>
                                 </div>
                             </div>
+                        {% endif %} 
+                            
                         </div>
 
                     </div>

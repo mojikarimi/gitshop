@@ -19,7 +19,8 @@
                                 </div>
                                 <div class="dt-sl">
                                     <div class="row">
-                                        {% for comment in comments %}
+                                    {% if comments and products_comment %}
+                                    	 {% for comment in comments %}
                                             {% for product_comment in products_comment %}
                                                 {% if product_comment.pk == comment.pk_product %}
                                                 <div class="col-lg-6 col-md-12">
@@ -28,7 +29,8 @@
                                                     <a href="{% url 'single_product' product_comment.slug_name_product %}">
                                                         <img src="{{ product_comment.image1.url }}" alt="">
                                                     </a>
-                                                    <small class="font-weight-bold">امتیاز من به محصول</small>
+                                                {% if my_stars %}
+                                                	<small class="font-weight-bold">امتیاز من به محصول</small>
                                                     <div class="rating-stars">
                                                         {% for my_star in my_stars %}
                                                             {% if my_star.product_id == product_comment.pk %}
@@ -42,6 +44,8 @@
                                                             {% endif %}
                                                         {% endfor %}
                                                     </div>
+                                                {% endif %} 
+                                                    
                                                 </div>
                                                 <div class="card-horizontal-product-content">
                                                     {% if comment.confirmed %}
@@ -68,6 +72,8 @@
 
 
                                         {% endfor %}
+                                    {% endif %} 
+                                       
 
 
 
