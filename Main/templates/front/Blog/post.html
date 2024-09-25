@@ -205,7 +205,8 @@
                                 <p class="count-comment">{{ counts }} نظر</p>
                             </div>
                             <ol class="comment-list">
-                                {% for comment in comments %}
+                            {% if comments %}
+                            	 {% for comment in comments %}
                                     <li>
                                         <div class="comment-body mt-3">
                                             <div class="row">
@@ -236,13 +237,16 @@
                                     </li>
                                 {% endfor %}
                                 <!-- #comment-## -->
+                            {% endif %} 
+                               
 
 
                             </ol>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-12 col-12 mb-3 sidebar sticky-sidebar">
-                        <div class="widget-posts dt-sn dt-sl rounded-0 border-bottom mb-3">
+                    {% if related_posts %}
+                    	<div class="widget-posts dt-sn dt-sl rounded-0 border-bottom mb-3">
                             <div class="title-sidebar dt-sl mb-3">
                                 <h3>پست های مشابه</h3>
                             </div>
@@ -270,6 +274,8 @@
 
                             </div>
                         </div>
+                    {% endif %} 
+                        
                         <div class="dt-sn dt-sl rounded-0 border-bottom mb-3">
                             <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
                                 <h2>{{ دسته }}</h2>
@@ -277,15 +283,19 @@
                             <ul class="category-list">
 
                                 <li><a href="{% url 'post_cat_subcat' my_post.title %}">{{ my_post.category }}</a>
-                                    <ul>
+                                {% if sub_cats %}
+                                	<ul>
                                         {% for sub_cat in sub_cats %}
                                             <li><a href="{% url 'post_cat_subcat' sub_cat.title %}">{{ sub_cat.title }}</a></li>
                                         {% endfor %}
                                     </ul>
+                                {% endif %} 
+                                    
 
                             </ul>
                         </div>
-                        <div class="dt-sn dt-sl rounded-0 border-bottom">
+                    {% if post_tags %}
+                    	<div class="dt-sn dt-sl rounded-0 border-bottom">
                             <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
                                 <h2>برچسبها</h2>
                             </div>
@@ -295,6 +305,8 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                    {% endif %} 
+                        
                     </div>
                 </div>
             </div>

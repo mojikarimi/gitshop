@@ -6,7 +6,8 @@
             <div class="row mt-5 pt-5">
                 <div class="col-lg-9 col-md-8 col-sm-12 col-12 mb-3">
                     <div class="row">
-                        {% for post in posts %}
+                    {% if posts %}
+                    	{% for post in posts %}
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="post-card">
                                     <div class="post-thumbnail">
@@ -28,12 +29,15 @@
                             </div>
 
                         {% endfor %}
+                    {% endif %} 
+                        
 
 
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-12 col-12 mb-3 sidebar sticky-sidebar">
-                    <div class="widget-posts dt-sn dt-sl mb-3 border-bottom">
+                {% if visit_posts %}
+                	<div class="widget-posts dt-sn dt-sl mb-3 border-bottom">
                         <div class="title-sidebar dt-sl mb-3">
                             <h3>پر بازدید ترین ها</h3>
                         </div>
@@ -58,6 +62,8 @@
 
                         </div>
                     </div>
+                {% endif %} 
+                    {% if cats %}
                     <div class="dt-sn dt-sl border-bottom mb-3">
                         <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
                             <h2>دسته ها</h2>
@@ -65,13 +71,16 @@
                         <ul class="category-list">
                             {% for cat in cats %}
                                 <li><a href="{% url 'post_cat_subcat' cat.title %}">{{ cat.title }}</a>
+                                {% if sub_cats %}
                                 {% for sub_cat in sub_cats %}
                                     {% if cat.title == sub_cat.category %}
                                         <ul>
                                             <li><a href="{% url 'post_cat_subcat' sub_cat.title %}">{{ sub_cat.title }}</a></li>
                                         </ul>
                                     {% endif %}
-                                {% endfor %}
+                                {% endfor %}	
+                                {% endif %} 
+                                
                             {% endfor %}
 
 
@@ -81,7 +90,9 @@
 
 
                         </ul>
-                    </div>
+                    </div>	
+                    {% endif %} 
+                    {% if post_tags %}
                     <div class="dt-sn dt-sl border-bottom">
                         <div class="section-title text-sm-title title-wide no-after-title-wide mb-1">
                             <h2>برچسبها</h2>
@@ -94,7 +105,9 @@
 
 
                         </ul>
-                    </div>
+                    </div>	
+                    {% endif %} 
+                    
                 </div>
             </div>
         </div>
