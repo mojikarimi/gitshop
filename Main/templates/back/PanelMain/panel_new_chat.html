@@ -36,11 +36,11 @@
                             <div style="width: 100%" class="chat-left-aside">
                                 <div class="open-panel"><i class="ti-angle-right"></i></div>
                                 <div class="chat-left-inner">
-
-                                    <ul class="chatonline style-none ">
+                                {% if chatrooms %}
+                                	<ul class="chatonline style-none ">
                                         {% for chatroom in chatrooms %}
-
-                                            {% for user in users %}
+                                            {% if users %}
+                                                {% for user in users %}
                                                 {% if user.username == chatroom.user %}
                                                     <li>
                                                         <a href="{% url 'panel_massages' chatroom.pk %}"><img
@@ -52,6 +52,8 @@
                                                 {% endif %}
 
                                             {% endfor %}
+                                            {% endif %}
+                                            
                                             {% if chatroom.user == 'AnonymousUser' %}
 
                                                     <li>
@@ -66,6 +68,8 @@
 
 
                                     </ul>
+                                {% endif %} 
+                                    
                                 </div>
                             </div>
                             <!-- .chat-left-panel -->

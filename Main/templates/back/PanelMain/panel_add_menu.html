@@ -131,7 +131,8 @@
 
 
                     </div>
-                    <div class="card">
+                {% if menus %}
+                	<div class="card">
                         <div class="card-body">
 
                             <h4 class="card-title">Category Lists</h4>
@@ -159,7 +160,7 @@
                                     </thead>
                                     <tbody>
 
-
+                                    
                                     {% for menu in menus %}
 
                                         <tr data-id="13">
@@ -280,6 +281,8 @@
                             </div>
                         </div>
                     </div>
+                {% endif %} 
+                    
 
                 </div>
 

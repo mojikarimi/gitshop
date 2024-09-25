@@ -42,31 +42,35 @@
                                 <div class="chat-left-inner">
 
                                     <ul class="chatonline style-none ">
-                                        {% for chatroom in chatrooms %}
+                                        {% if chatrooms %}
+                                            {% for chatroom in chatrooms %}
+                                                {% if users %}
+                                                    {% for user in users %}
+                                                        {% if user.username == chatroom.user %}
+                                                            <li>
+                                                                <a href="{% url 'panel_massages' chatroom.pk %}"><img
+                                                                        src="{{ user.image.url }}"
+                                                                        alt="user-img"
+                                                                        class="img-circle">
+                                                                    <span> {{ user.first_name }} {{ user.last_name }}</span></a>
+                                                            </li>
+                                                        {% endif %}
 
-                                            {% for user in users %}
-                                                {% if user.username == chatroom.user %}
-                                                    <li>
-                                                        <a href="{% url 'panel_massages' chatroom.pk %}"><img
-                                                                src="{{ user.image.url }}"
-                                                                alt="user-img"
-                                                                class="img-circle">
-                                                            <span> {{ user.first_name }} {{ user.last_name }}</span></a>
-                                                    </li>
+                                                    {% endfor %}
                                                 {% endif %}
 
-                                            {% endfor %}
-                                            {% if chatroom.user == 'AnonymousUser' %}
+                                                {% if chatroom.user == 'AnonymousUser' %}
 
-                                                <li>
-                                                    <a href="{% url 'panel_massages' chatroom.pk %}"><img
-                                                            src="{% static 'back/assets/images/users/2.jpg' %}"
-                                                            alt="user-img"
-                                                            class="img-circle">
-                                                        <span> این یوزر ناشناس است </span></a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
+                                                    <li>
+                                                        <a href="{% url 'panel_massages' chatroom.pk %}"><img
+                                                                src="{% static 'back/assets/images/users/2.jpg' %}"
+                                                                alt="user-img"
+                                                                class="img-circle">
+                                                            <span> این یوزر ناشناس است </span></a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
 
 
                                     </ul>
@@ -81,51 +85,60 @@
                                         <hr>
                                         <div class="row">
                                             <h4 class="col-md-4">status: </h4>
-                                            <select style="width: 50%;" class="col-md-7 form-control" id="status_change">
+                                            <select style="width: 50%;" class="col-md-7 form-control"
+                                                    id="status_change">
                                                 <option {% if status == 'فعال' %}
-                                                selected
-                                                {% endif %}  >فعال</option>
+                                                    selected
+                                                {% endif %}  >فعال
+                                                </option>
                                                 <option {% if status == 'غیر فعال' %}
-                                                selected
-                                                {% endif %}>غیر فعال</option>
+                                                    selected
+                                                {% endif %}>غیر فعال
+                                                </option>
                                                 <option{% if status == 'اعلام نشده' %}
-                                                selected
-                                                {% endif %}>اعلام نشده</option>
+                                                    selected
+                                                {% endif %}>اعلام نشده
+                                                </option>
                                             </select>
-                                            <button onclick="status()" class="btn btn-info btn-circle btn-lg text-white "><i class="fas fa-check"></i></button>
+                                            <button onclick="status()"
+                                                    class="btn btn-info btn-circle btn-lg text-white "><i
+                                                    class="fas fa-check"></i></button>
                                         </div>
 
                                     </div>
                                 </div>
-                            <hr>
+                                <hr>
                                 <div class="chat-rbox">
                                     <ul id="ul-chat" class="chat-list p-3">
-                                        <!--chat Row -->
-                                        {% for chat in chats %}
+                                        {% if chats %}
+                                            {% for chat in chats %}
 
-                                            {% if chat.type == 'admin' %}
-                                                <li class="reverse">
-                                                    <div class="chat-content">
-                                                        <h5>{{ chat.user }}</h5>
-                                                        <div style="color: #ffffff"
-                                                             class="box bg-info">{{ chat.text |safe }}
+                                                {% if chat.type == 'admin' %}
+                                                    <li class="reverse">
+                                                        <div class="chat-content">
+                                                            <h5>{{ chat.user }}</h5>
+                                                            <div style="color: #ffffff"
+                                                                 class="box bg-info">{{ chat.text |safe }}
+                                                            </div>
+                                                            <div class="chat-time">{{ chat.date | filter_date:10 }}</div>
                                                         </div>
-                                                        <div class="chat-time">{{ chat.date | filter_date:10 }}</div>
-                                                    </div>
-                                                </li>
-                                            {% elif chat.type == 'client' %}
-                                                <li>
-                                                    <div class="chat-content">
-                                                        <h5>{{ chat.user }} {{ chat.user_ip }}</h5>
-                                                        <div class="box bg-danger"
-                                                             style="color: #ffffff">{{ chat.text }}
+                                                    </li>
+                                                {% elif chat.type == 'client' %}
+                                                    <li>
+                                                        <div class="chat-content">
+                                                            <h5>{{ chat.user }} {{ chat.user_ip }}</h5>
+                                                            <div class="box bg-danger"
+                                                                 style="color: #ffffff">{{ chat.text }}
+                                                            </div>
+                                                            <div style="margin: 5px 0px 15px 0px "
+                                                                 class="chat-time">{{ chat.date | filter_date:10 }}</div>
                                                         </div>
-                                                        <div style="margin: 5px 0px 15px 0px "
-                                                             class="chat-time">{{ chat.date | filter_date:10 }}</div>
-                                                    </div>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <!--chat Row -->
+
 
                                         <!--chat Row -->
 
@@ -172,7 +185,7 @@
                 type: 'POST',
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'chatroom_pk':{{ chatroom.pk }},
+                    'chatroom_pk': {{ chatroom.pk }},
                     'messages': '',
                 },
                 success: function (data) {
@@ -197,7 +210,7 @@
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
                     'message': message,
-                    'chatroom_pk':{{ chatroom.pk }},
+                    'chatroom_pk': {{ chatroom.pk }},
                 },
                 success: function (data) {
                     const message = JSON.parse(data.message)
@@ -215,7 +228,7 @@
                 type: 'POST',
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'chatroom_pk':{{ chatroom.pk }},
+                    'chatroom_pk': {{ chatroom.pk }},
                     'status': status_value,
                 },
                 success: function (data) {
