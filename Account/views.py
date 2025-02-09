@@ -28,8 +28,8 @@ def signin(request):  # User login function
                 messages.error(request, 'user not exist')
                 return redirect('signin')
             # Encrypting the user's pk and transferring it to the site's cache
-            data = Signer(key='drv%&8nl$#%v*)_1n*g+!0k4k3ru&nb!&pfm3-h3mb%@&=yvo&')
-            caches['mycache'].set('my_site', data.sign_object(request.user.pk))
+            # data = Signer(key='drv%&8nl$#%v*)_1n*g+!0k4k3ru&nb!&pfm3-h3mb%@&=yvo&')
+            # caches['mycache'].set('my_site', data.sign_object(request.user.pk))
             if not user.is_active:  # Account activation notification
                 messages.warning(request, 'Please activate your account')
             else:
@@ -98,7 +98,7 @@ def signup(request):  # User registration function
 def signout(request):  # User exit function
     logout(request)
     messages.success(request, 'شما با موفقیت خارج شدید')
-    caches['mycache'].clear()
+    # caches['mycache'].clear()
     return redirect('index')
 
 
