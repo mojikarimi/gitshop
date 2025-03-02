@@ -5,16 +5,20 @@
         <!-- ============================================================== -->
         <!-- Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-header">
-            <a class="navbar-brand" target="_blank" href="{% url 'index' %}">
-                <!-- Logo icon --><b>
-                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                <!-- Light Logo icon -->
-            </b>
-                <!--End Logo icon -->
+        
+        <div class="navbar-header" style="padding-left: 0">
+            <a class="navbar-brand " target="_blank" href="{% url 'index' %}">
+             <div class="user-profile">
+            <div class="user-pro-body">
+                <div>
+                <img src="{{ main.logo.url }}" width="50px" height="50px" class="img-circle" alt="homepage"/>
+                </div>
 
-                <!-- Light Logo text -->
-						 <img src="{{ main.logo.url }}" class="light-logo" alt="homepage"/></span> </a>
+            </div>
+        </div>
+            </a>
+            
+
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
