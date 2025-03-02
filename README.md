@@ -1,4 +1,4 @@
-![GitShop Wall](https://github.com/mojikarimi/gitshop/tree/master/Media/ImageApp/Wallpaper/image1.png)
+![GitShop Wall](https://github.com/mojikarimi/gitshop/blob/master/Media/ImagesApp/Wallpaper/image1.jpg)
 # Git Shop
 
 
