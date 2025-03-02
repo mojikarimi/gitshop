@@ -23,7 +23,7 @@ This project simulates the implementation of an online store using Django and us
 
 ## App details:
 
-**Account APP :** 
+**Account APP** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Account) to view images.):  
 * Panel:
   1. Users List
   2. Users Permissions
@@ -35,7 +35,7 @@ This project simulates the implementation of an online store using Django and us
   4. Change Password
   5. Logout
 
-**Blog App :** 
+**Blog App** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Blog) to view images.): 
 * Panel:
   1. Add Post
   2. Delete Post
@@ -51,7 +51,7 @@ This project simulates the implementation of an online store using Django and us
   3. Add Comments
   4. Like System
 
-**Main App :** 
+**Main App** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Main) to view images.): 
 * Panel:
   1. Ticketing System
   2. Add Slider
@@ -65,7 +65,7 @@ This project simulates the implementation of an online store using Django and us
   2. Main Page
   3. Chat App
 
-**Profile APP :**
+**Profile APP** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Profile) to view images.):
 * Front:
   1. Profile Dashboard
   2. User History
@@ -76,7 +76,7 @@ This project simulates the implementation of an online store using Django and us
   7. User Orders
   8. User's Favorites
 
-**Shop APP :** 
+**Shop APP** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Shop) to view images.):
 * Panel:
   1. Add Product
   2. Update Product
