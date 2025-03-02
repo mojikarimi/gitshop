@@ -25,9 +25,9 @@ This project simulates the implementation of an online store using Django and us
 
 **Account APP :** 
 * Panel:
-  * Users List
-* #### Users Permissions
-* Users Groups
+  1. Users List
+  2. Users Permissions
+  3. Users Groups
 * Front:
   1. Login
   2. Register
