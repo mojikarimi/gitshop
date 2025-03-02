@@ -1,35 +1,107 @@
 
-# Git Shop Project
+# Git Shop
 
 
-This project is a store site that uses a variety of back-end technologies, including the admin panel and the site.
+This project simulates the implementation of an online store using Django and uses it to sell a variety of products such as digital, clothing, etc.
 
 
 
 
-
-## Panel included:
+## Components:
   
-**Blog Panel :** This section includes items such as post editing, adding posts, adding and editing categories, etc. 
+**Account APP :** This app is used for things like user registration and login.
+
+**Blog APP :** This app includes sections related to blogging and content production.
+
+**Main APP :** This app includes the main sections of the site, including the main site items such as the site title, adding a slider and site footer, etc.
+
+**Profile APP :** This app includes items related to the user panel such as orders, views, likes, etc.
+
+**Shop APP :** This app includes shopping-related items such as the user's shopping cart, products, etc.
+
+**Panel APP :** This app includes paths related to the panel section.
+
+## App details:
+
+**Account APP :** 
+* Panel:
+  * Users List
+* #### Users Permissions
+* Users Groups
+* Front:
+  1. Login
+  2. Register
+  3. Verify Email
+  4. Change Password
+  5. Logout
+
+**Blog App :** 
+* Panel:
+  1. Add Post
+  2. Delete Post
+  3. Update Post
+  4. Posts Lists
+  5. Tags Post
+  6. Dynamic Category
+  7. Add Comments
+  8. View Comments & Edit Status
+* Front:
+  1. Posts Search
+  2. View Posts
+  3. Add Comments
+  4. Like System
+
+**Main App :** 
+* Panel:
+  1. Ticketing System
+  2. Add Slider
+  3. Main Details (Title Site, Tile Panel etc.)
+  4. Dynamic Menu
+  5. App Chat
+  6. Add FAQ
+  7. FAQ Category
+* Front:
+  1. FAQ
+  2. Main Page
+  3. Chat App
+
+**Profile APP :**
+* Front:
+  1. Profile Dashboard
+  2. User History
+  3. User Comments
+  4. User Information
+  5. User Address
+  6. User Tickets
+  7. User Orders
+  8. User's Favorites
+
+**Shop APP :** 
+* Panel:
+  1. Add Product
+  2. Update Product
+  3. Delete Product
+  4. List Product
+  5. Comments Lists
+  6. Detail Comment
+  7. View Carts
+  8. View Orders
+  9. dynamic Group
+  10. Dynamic Category
+  11. Dynamic Sub Category
+* Front:
+  1. Product Page
+  2. Star Rating
+  3. Add Favorite Product
+  4. View Products
+  5. Products Search
+  6. Search Filters
+  7. Add Comments
+  8. User Shopping Cart
+  9. Payment steps
 
 
-**Main Panel :** This section includes the main items of the site, such as the name of the site, the name of the panel, icons, sliders and different sections of the footer, etc.
 
-**Shop Panel :** This section is related to shop sections such as adding products, editing products, orders and...
-
-**User Panel :** This section is related to users and their management, for example adding access and...
-
-## Site included:
-
-**Blog :** This section is about displaying posts, searching for posts, etc.
-
-**Main :** This section is related to the main sections of the site, such as questions and answers and the main page, etc.
-
-**Profile :** This section is related to the user's profile, such as addresses, personal information, orders, etc.
-
-**Shop :** This section is related to products and their search, shopping cart, etc
-
-**User :** This section is related to the user and his activities such as login and registration.
 ## Items made in the project
 - Chat Real Time
 - Using FileSystemStorage
@@ -49,44 +121,6 @@ This project is a store site that uses a variety of back-end technologies, inclu
 - Creating a dynamic menu
 
 
-
-## Number of Pages
-Tickets Image
-![Tickets Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/tickets.png)
-
-
-Ticket Chat Image
-![Ticket Chat Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/ticketschat.png)
-
-Edit Product Image
-![Edit Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/panelEditProduct.png)
-
-Product List Image
-![TProduct List Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/productlist.png)
-
-Cart List Image
-![Cart List Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/CartList.png)
-
-Details List Image
-![Details List Imagee](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/detailscart.png)
-
-User Add Permissions and Group Image
-![User Add Permissions and Group Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/userperms.png)
-
-Single Product Image
-![Single Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/singleproductpage.png)
-
-Single Product Image
-![Single Product Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/singleproductpage.png)
-
-Blog Page Image
-![Blog Page Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/blogpage.png)
-
-Add Menu and Sort Image 
-![Add Menu and Sort Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/addMenu%20andSortMenu.png)
-
-Panel Main Image
-![Panel Main Image](https://github.com/mojikarimi/gitshop_project_django/blob/master/Media/ImageForGit/PanelMainPage.png)
 
 # Site implementation steps
 ### Creating a virtual environment
@@ -148,7 +182,7 @@ Set an email to send email verification code
 ```python
 
 EMAIL_HOST_USER = email_host_user
- # ecample@2gmail.com
+ # example@example.com
 
 EMAIL_HOST_PASSWORD = email_host_password
  # *******
