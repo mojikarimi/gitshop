@@ -3,3 +3,4 @@ SecureSettings.py
 .idea
 venv
 .venv
+__pycache__
