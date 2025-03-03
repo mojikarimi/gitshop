@@ -64,6 +64,7 @@ This project simulates the implementation of an online store using Django and us
   1. FAQ
   2. Main Page
   3. Chat App
+  4. User Ticket
 
 **Profile APP** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Profile) to view images.):
 * Front:
