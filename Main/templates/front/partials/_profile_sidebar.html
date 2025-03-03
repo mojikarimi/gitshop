@@ -108,6 +108,14 @@
                                 اطلاعات شخصی
                             </a>
                         </li>
+                    <li>
+                            <a href="{% url 'profile_change_password' %}" {% if 'profile_change_password' in request.path %}
+                            class="active"
+                            {% endif %}>
+                                <i class="mdi mdi-account-edit-outline"></i>
+                                تغییر رمز عبور
+                            </a>
+                        </li>
                         <li>
                             <a href="{% url 'profile_tickets' %}" {% if 'profile_tickets' in request.path %}
                             class="active"

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
 import random
@@ -248,3 +249,21 @@ def profile_delete_my_favorite(request, pk):
                                                                  product_id=pk)
         my_favorites.delete(using='shop')
         return redirect('profile_dashboard')
+
+@login_required
+def profile_change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        new_password2 = request.POST.get('new_password2')
+        my_user=authenticate(username=request.user.username,password=old_password)
+        if my_user is None:
+            messages.error(request, 'لطفا رمز عبور صحیح را وارد کنید!')
+            return redirect('profile_change_password')
+        if new_password2 == new_password:
+            messages.success(request,'رمز عبور با موفقیت تغییر کرد!')
+            # my_user=CustomUser.objects.get(pk=request.user.pk)
+            my_user.set_password(new_password)
+            my_user.save()
+        return redirect('profile_dashboard')
+    return render(request, 'front/Profile/profile_change_password.html',)
