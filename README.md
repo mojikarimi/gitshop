@@ -55,7 +55,7 @@ This project simulates the implementation of an online store using Django and us
 * Panel:
   1. Ticketing System
   2. Add Slider
-  3. Main Details (Title Site, Tile Panel etc.)
+  3. Main Details (Title Site, Title Panel etc.)
   4. Dynamic Menu
   5. App Chat
   6. Add FAQ
@@ -69,7 +69,7 @@ This project simulates the implementation of an online store using Django and us
 **Profile APP** (Click [here](https://github.com/mojikarimi/gitshop/tree/master/Media/ImagesApp/Profile) to view images.):
 * Front:
   1. Profile Dashboard
-  2. User History
+  2. User Views
   3. User Comments
   4. User Information
   5. User Address
